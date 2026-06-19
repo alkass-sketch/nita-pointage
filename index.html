@@ -823,10 +823,13 @@ function openModal(type) {
   document.getElementById('modal-pointage').classList.add('open');
 }
 
-function confirmerPointage(type, timeStr) {
+const API_URL = "https://script.google.com/macros/s/AKfycbyEGYOboIEvJOy7J-j8hQM7mHt8NzlQxmFwZDbR5xyCpGKcyxGrmymKOV7AKqe-cTtW/exec";
+
+async function confirmerPointage(type, timeStr) {
   closeModal('modal-pointage');
   state[type] = timeStr;
 
+  // Mise à jour UI immédiate
   if (type === 'entree') {
     const banner = document.getElementById('status-banner');
     banner.className = 'status-banner done';
@@ -841,8 +844,58 @@ function confirmerPointage(type, timeStr) {
     document.getElementById('btn-sortie').style.display = 'none';
   }
 
+  // Envoi vers Google Sheets
+  const now = new Date();
+  const payload = {
+    date: now.toLocaleDateString('fr-FR'),
+    agent: document.getElementById('agent-name').textContent,
+    agence: document.getElementById('agent-agency').textContent,
+    type: type === 'entree' ? 'Entrée' : 'Sortie',
+    heure: timeStr,
+    lat: state.gpsLat || '6.13748',
+    lng: state.gpsLng || '1.21227',
+    precision: state.gpsAccuracy || 8,
+    statut: type === 'entree'
+      ? (now.getHours() >= 8 && now.getMinutes() > 0 ? 'Retard' : 'À l\'heure')
+      : 'Sortie normale'
+  };
+
+  try {
+    await fetch(API_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    showToast('✓ Pointage synchronisé avec Google Sheets');
+  } catch (err) {
+    // Sauvegarde locale si hors ligne
+    const queue = JSON.parse(localStorage.getItem('nita_queue') || '[]');
+    queue.push(payload);
+    localStorage.setItem('nita_queue', JSON.stringify(queue));
+    showToast('Hors ligne — pointage mis en file d\'attente');
+  }
+
   showSuccess(type, timeStr);
 }
+
+// Synchroniser les pointages en attente au retour du réseau
+window.addEventListener('online', async () => {
+  const queue = JSON.parse(localStorage.getItem('nita_queue') || '[]');
+  if (queue.length === 0) return;
+  for (const payload of queue) {
+    try {
+      await fetch(API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) { return; }
+  }
+  localStorage.removeItem('nita_queue');
+  showToast(`✓ ${queue.length} pointage(s) synchronisé(s)`);
+});
 
 function showSuccess(type, timeStr) {
   const label = type === 'entree' ? 'Entrée' : 'Sortie';
