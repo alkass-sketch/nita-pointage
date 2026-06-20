@@ -459,6 +459,76 @@
       padding: 6px 12px; font-size: 12px; font-weight: 600;
       cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0;
     }
+
+    /* ── LOGIN SCREEN ── */
+    #page-login {
+      min-height: 100vh; display: flex; flex-direction: column;
+      background: var(--blue-700);
+    }
+    .login-hero {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 24px 24px;
+    }
+    .login-logo {
+      width: 72px; height: 72px; border-radius: 20px;
+      background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .login-logo svg { width: 38px; height: 38px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+    .login-brand { color: #fff; font-size: 24px; font-weight: 700; letter-spacing: .5px; }
+    .login-sub { color: rgba(255,255,255,.65); font-size: 13px; margin-top: 4px; margin-bottom: 32px; }
+    .login-card {
+      background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      padding: 28px 24px calc(32px + env(safe-area-inset-bottom, 0));
+    }
+    .login-title { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .login-desc { font-size: 13px; color: var(--gray-400); margin-bottom: 24px; }
+    .input-group { margin-bottom: 16px; }
+    .input-label { font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: .4px; }
+    .input-field {
+      width: 100%; padding: 13px 14px;
+      background: var(--gray-50); border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius-md); font-size: 15px; font-family: inherit;
+      color: var(--gray-900); outline: none; transition: border-color .15s;
+    }
+    .input-field:focus { border-color: var(--blue-400); background: var(--white); }
+    .pin-row { display: flex; gap: 10px; justify-content: center; margin: 8px 0 20px; }
+    .pin-dot {
+      width: 48px; height: 56px;
+      background: var(--gray-50); border: 1.5px solid var(--gray-100);
+      border-radius: var(--radius-md); font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue-700); transition: all .15s;
+    }
+    .pin-dot.filled { background: var(--blue-50); border-color: var(--blue-400); }
+    .pin-dot.active { border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(56,138,221,.2); }
+    .numpad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+    .numpad-btn {
+      background: var(--gray-50); border: 1px solid var(--gray-100);
+      border-radius: var(--radius-md); padding: 16px 8px;
+      font-size: 20px; font-weight: 600; color: var(--gray-900);
+      cursor: pointer; font-family: inherit; transition: background .1s;
+      display: flex; flex-direction: column; align-items: center; gap: 1px;
+    }
+    .numpad-btn:active { background: var(--blue-50); border-color: var(--blue-200); }
+    .numpad-btn .sub { font-size: 9px; color: var(--gray-400); font-weight: 400; letter-spacing: .5px; }
+    .numpad-btn.del { background: var(--gray-100); }
+    .numpad-btn.del svg { width: 20px; height: 20px; fill: none; stroke: var(--gray-600); stroke-width: 2; stroke-linecap: round; }
+    .login-error {
+      background: var(--red-50); color: var(--red-800);
+      border: 1px solid var(--red-200); border-radius: var(--radius-md);
+      padding: 10px 14px; font-size: 13px; margin-bottom: 14px; display: none;
+    }
+    .btn-login {
+      width: 100%; padding: 15px; background: var(--blue-700); color: #fff;
+      border: none; border-radius: var(--radius-lg);
+      font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-login:disabled { background: var(--gray-200); cursor: default; }
+
     .toast {
       position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--gray-900); color: #fff;
@@ -469,6 +539,59 @@
   </style>
 </head>
 <body>
+
+
+<!-- ══ PAGE: LOGIN ══ -->
+<div id="page-login" style="position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;background:var(--blue-700);">
+  <div class="login-hero">
+    <div class="login-logo">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+    </div>
+    <div class="login-brand">NITA Pointage</div>
+    <div class="login-sub">Transfert d'Argent · Togo</div>
+  </div>
+  <div class="login-card">
+    <div id="login-step-id">
+      <div class="login-title">Connexion agent</div>
+      <div class="login-desc">Entrez votre identifiant NITA</div>
+      <div class="input-group">
+        <label class="input-label">ID Agent</label>
+        <input class="input-field" id="input-id" type="text" placeholder="Ex: NTG001"
+          oninput="this.value=this.value.toUpperCase()" maxlength="6"
+          onkeydown="if(event.key==='Enter') validerID()">
+      </div>
+      <div class="login-error" id="error-id">Identifiant non reconnu. Vérifiez votre ID.</div>
+      <button class="btn-login" onclick="validerID()">Continuer →</button>
+    </div>
+    <div id="login-step-pin" style="display:none">
+      <div class="login-title">Bonjour, <span id="login-prenom"></span> 👋</div>
+      <div class="login-desc">Entrez votre code PIN à 4 chiffres</div>
+      <div class="pin-row">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="login-error" id="error-pin">Code PIN incorrect. Réessayez.</div>
+      <div class="numpad">
+        <button class="numpad-btn" onclick="pinInput('1')">1<span class="sub"></span></button>
+        <button class="numpad-btn" onclick="pinInput('2')">2<span class="sub">ABC</span></button>
+        <button class="numpad-btn" onclick="pinInput('3')">3<span class="sub">DEF</span></button>
+        <button class="numpad-btn" onclick="pinInput('4')">4<span class="sub">GHI</span></button>
+        <button class="numpad-btn" onclick="pinInput('5')">5<span class="sub">JKL</span></button>
+        <button class="numpad-btn" onclick="pinInput('6')">6<span class="sub">MNO</span></button>
+        <button class="numpad-btn" onclick="pinInput('7')">7<span class="sub">PQRS</span></button>
+        <button class="numpad-btn" onclick="pinInput('8')">8<span class="sub">TUV</span></button>
+        <button class="numpad-btn" onclick="pinInput('9')">9<span class="sub">WXYZ</span></button>
+        <button class="numpad-btn" onclick="retourID()" style="font-size:12px;color:var(--blue-700)">←<br>Retour</button>
+        <button class="numpad-btn" onclick="pinInput('0')">0</button>
+        <button class="numpad-btn del" onclick="pinSuppr()">
+          <svg viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -687,7 +810,7 @@
   </div>
 
   <div class="profile-section">
-    <button class="btn-logout" onclick="showToast('Déconnexion…')">
+    <button class="btn-logout" onclick="localStorage.removeItem('nita_session'); document.getElementById('page-login').style.display='flex'; document.getElementById('input-id').value=''; document.getElementById('login-step-id').style.display='block'; document.getElementById('login-step-pin').style.display='none'; showToast('Déconnexion effectuée')">
       <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Se déconnecter
     </button>
@@ -730,6 +853,45 @@
 <div class="toast" id="toast"></div>
 
 <script>
+
+// ── BASE DE DONNÉES AGENTS NITA TOGO ──
+const AGENTS_DB = {
+  'NTG001': { nom: 'Seyni Hamza',                  agence: 'Agence RTV',          tel: '+22871642814',   poste: 'Agent',          pin: '1234', initiales: 'SH' },
+  'NTG002': { nom: 'Moussa Moumouni Aminou',        agence: 'Agence RTV',          tel: '+22879097573',   poste: 'Agent',          pin: '1234', initiales: 'MM' },
+  'NTG003': { nom: 'Kamalou Adamou',                agence: 'Agence RTV',          tel: '+22890006014',   poste: 'Chef d\'agence', pin: '1234', initiales: 'KA' },
+  'NTG004': { nom: 'Hannatou',                      agence: 'Agence Plage',        tel: '+22892024302',   poste: 'Agent',          pin: '1234', initiales: 'HN' },
+  'NTG005': { nom: 'Hassana',                       agence: 'Agence Plage',        tel: '+22893619246',   poste: 'Agent',          pin: '1234', initiales: 'HS' },
+  'NTG006': { nom: 'Moubarak',                      agence: 'Agence Plage',        tel: '+22792737403',   poste: 'Agent',          pin: '1234', initiales: 'MB' },
+  'NTG007': { nom: 'Aziz',                          agence: 'Agence Plage',        tel: '+22891137299',   poste: 'Chef d\'agence', pin: '1234', initiales: 'AZ' },
+  'NTG008': { nom: 'Boubacar',                      agence: 'Agence EMA',          tel: '+22892117725',   poste: 'Agent',          pin: '1234', initiales: 'BB' },
+  'NTG009': { nom: 'Fourera',                       agence: 'Agence EMA',          tel: '+22870741664',   poste: 'Agent',          pin: '1234', initiales: 'FR' },
+  'NTG010': { nom: 'Ahmed',                         agence: 'Agence STM',          tel: '+22893431021',   poste: 'Agent',          pin: '1234', initiales: 'AH' },
+  'NTG011': { nom: 'Azim',                          agence: 'Agence STM',          tel: '+22891080371',   poste: 'Agent',          pin: '1234', initiales: 'AI' },
+  'NTG012': { nom: 'Tidjani Oumarou',               agence: 'Agence Hollando',     tel: '+22870474098',   poste: 'Chef d\'agence', pin: '1234', initiales: 'TO' },
+  'NTG013': { nom: 'Adamou Kouboura',               agence: 'Agence Hollando',     tel: '+22891374386',   poste: 'Agent',          pin: '1234', initiales: 'AK' },
+  'NTG014': { nom: 'Saidou Hamza',                  agence: 'Agence Nikafou',      tel: '+22892703282',   poste: 'Agent',          pin: '1234', initiales: 'SA' },
+  'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',      tel: '+22891842445',   poste: 'Agent',          pin: '1234', initiales: 'SJ' },
+  'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',     tel: '+22871479159',   poste: 'Agent',          pin: '1234', initiales: 'MF' },
+  'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',     tel: '+22890268403',   poste: 'Chef d\'agence', pin: '1234', initiales: 'AM' },
+  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marche', tel: '+22870671498',   poste: 'Agent',          pin: '1234', initiales: 'AS' },
+  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marche', tel: '+22893187601',   poste: 'Agent',          pin: '1234', initiales: 'AA' },
+  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marche', tel: '+22890820012',   poste: 'Chef d\'agence', pin: '1234', initiales: 'TA' },
+  'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',        tel: '+22892083942',   poste: 'Agent',          pin: '1234', initiales: 'AL' },
+  'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa 2', tel: '+22892337057',   poste: 'Chef d\'agence', pin: '1234', initiales: 'HP' },
+  'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa 2', tel: '',               poste: 'Agent',          pin: '1234', initiales: 'RC' },
+  'NTG024': { nom: 'Alhousseini',                   agence: 'Agence Zoro Bar',     tel: '+22891591276',   poste: 'Agent',          pin: '1234', initiales: 'AL' },
+  'NTG025': { nom: 'Saddam Moubarak',               agence: 'Agence Hedzranawoe',  tel: '+22893141050',   poste: 'Agent',          pin: '1234', initiales: 'SM' },
+  'NTG026': { nom: 'Hawa',                          agence: 'Agence Hedzranawoe',  tel: '+22890587372',   poste: 'Agent',          pin: '1234', initiales: 'HW' },
+  'NTG027': { nom: 'Chebou Yacouba',                agence: 'Agence Zongo',        tel: '+22890560308',   poste: 'Chef d\'agence', pin: '1234', initiales: 'CY' },
+  'NTG028': { nom: 'Bilali',                        agence: 'Agence Zongo',        tel: '+2287055075',    poste: 'Agent',          pin: '1234', initiales: 'BL' },
+  'NTG029': { nom: 'Ikpindi',                       agence: 'Agence Zongo',        tel: '+22890004428',   poste: 'Agent',          pin: '1234', initiales: 'IK' },
+  'NTG030': { nom: 'Garba Hassana',                 agence: 'Agence Zongo 2',      tel: '+22892635400',   poste: 'Agent',          pin: '1234', initiales: 'GH' },
+  'NTG031': { nom: 'Bolmiati',                      agence: 'Agence Adetikope',    tel: '+22892853209',   poste: 'Agent',          pin: '1234', initiales: 'BO' },
+  'NTG032': { nom: 'Arouna Djamaloudine',           agence: 'Agence Adidogome',    tel: '+22893910169',   poste: 'Agent',          pin: '1234', initiales: 'AD' },
+  'NTG033': { nom: 'Oumarou Adamou Barkire',        agence: 'Agence Ganame',       tel: '+22893803683',   poste: 'Agent',          pin: '1234', initiales: 'OA' },
+  'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',        tel: '+22782423215',   poste: 'Agent',          pin: '1234', initiales: 'AW' },
+};
+
 // ── AGENCES NITA TOGO ──
 const AGENCES = {
   'Agence RTV':          { lat: 6.12857, lng: 1.23636, rayon: 150 },
@@ -751,6 +913,8 @@ const AGENCES = {
   'Agence Ganame':       { lat: 6.15988, lng: 1.19567, rayon: 150 },
   'Agence STM':          { lat: 6.13272, lng: 1.24578, rayon: 150 },
   'Agence Assigame':     { lat: 6.12577, lng: 1.22369, rayon: 150 },
+  'Agence Ramco':        { lat: 6.15183, lng: 1.21790, rayon: 150 },
+  'Agence Adidogome':    { lat: 6.20053, lng: 1.14836, rayon: 150 },
 };
 
 // ── AGENTS PAR AGENCE ──
@@ -836,9 +1000,119 @@ const state = {
   forcerHorsZone: false,
 };
 
+
+// ── LOGIN ──
+let pinCurrent = '';
+let loginAgent = null;
+
+function validerID() {
+  const id = document.getElementById('input-id').value.trim().toUpperCase();
+  const agent = AGENTS_DB[id];
+  if (!agent) {
+    document.getElementById('error-id').style.display = 'block';
+    return;
+  }
+  document.getElementById('error-id').style.display = 'none';
+  loginAgent = { id, ...agent };
+  const prenom = agent.nom.split(' ')[0];
+  document.getElementById('login-prenom').textContent = prenom;
+  document.getElementById('login-step-id').style.display = 'none';
+  document.getElementById('login-step-pin').style.display = 'block';
+  pinCurrent = '';
+  updatePinDots();
+}
+
+function pinInput(digit) {
+  if (pinCurrent.length >= 4) return;
+  pinCurrent += digit;
+  updatePinDots();
+  if (pinCurrent.length === 4) setTimeout(validerPIN, 200);
+}
+
+function pinSuppr() {
+  pinCurrent = pinCurrent.slice(0, -1);
+  updatePinDots();
+}
+
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('pd' + i);
+    if (i < pinCurrent.length) {
+      dot.textContent = '●';
+      dot.classList.add('filled');
+      dot.classList.remove('active');
+    } else {
+      dot.textContent = '';
+      dot.classList.remove('filled');
+      dot.classList.toggle('active', i === pinCurrent.length);
+    }
+  }
+}
+
+function validerPIN() {
+  if (pinCurrent !== loginAgent.pin) {
+    document.getElementById('error-pin').style.display = 'block';
+    pinCurrent = '';
+    updatePinDots();
+    setTimeout(() => document.getElementById('error-pin').style.display = 'none', 2500);
+    return;
+  }
+  // Connexion réussie
+  state.agentNom = loginAgent.nom;
+  state.agenceNom = loginAgent.agence;
+  // Mettre à jour l'UI profil
+  const initiales = loginAgent.initiales;
+  const agence = loginAgent.agence;
+  ['agent-avatar','profile-avatar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = initiales;
+  });
+  ['agent-name','profile-name'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = loginAgent.nom;
+  });
+  const roleStr = loginAgent.poste + ' · NITA';
+  ['agent-role'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = roleStr;
+  });
+  document.getElementById('agent-agency').textContent = agence;
+  document.getElementById('profile-role').textContent = loginAgent.poste + ' · ' + agence;
+  // Sauvegarder session
+  localStorage.setItem('nita_session', JSON.stringify({ id: loginAgent.id, nom: loginAgent.nom, agence, initiales, poste: loginAgent.poste }));
+  // Fermer login
+  document.getElementById('page-login').style.display = 'none';
+  showToast('Bienvenue, ' + loginAgent.nom.split(' ')[0] + ' !');
+}
+
+function retourID() {
+  document.getElementById('login-step-pin').style.display = 'none';
+  document.getElementById('login-step-id').style.display = 'block';
+  pinCurrent = '';
+}
+
+// Vérifier session existante au lancement
+function checkSession() {
+  const session = localStorage.getItem('nita_session');
+  if (session) {
+    try {
+      const s = JSON.parse(session);
+      state.agentNom = s.nom;
+      state.agenceNom = s.agence;
+      ['agent-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.initiales; });
+      ['agent-name','profile-name'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.nom; });
+      document.getElementById('agent-role').textContent = s.poste + ' · NITA';
+      document.getElementById('agent-agency').textContent = s.agence;
+      document.getElementById('profile-role').textContent = s.poste + ' · ' + s.agence;
+      document.getElementById('page-login').style.display = 'none';
+    } catch(e) { localStorage.removeItem('nita_session'); }
+  }
+}
+
 // ── INIT ──
 setTimeout(() => {
   document.getElementById('splash').classList.add('hidden');
+  checkSession();
   initGPS();
   renderDate();
   renderCalendar();
