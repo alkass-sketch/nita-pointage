@@ -434,6 +434,31 @@
     .success-row .key { color: var(--gray-400); }
     .success-row .val { font-weight: 600; color: var(--green-800); }
 
+    .distance-banner {
+      margin: 0 16px 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px; line-height: 1.5;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .distance-banner.dans-perimetre {
+      background: var(--green-50); color: var(--green-800);
+      border: 1px solid var(--green-200);
+    }
+    .distance-banner.hors-perimetre {
+      background: var(--amber-50); color: var(--amber-800);
+      border: 1px solid var(--amber-200);
+    }
+    .distance-banner.hors-perimetre-force {
+      background: var(--red-50); color: var(--red-800);
+      border: 1px solid var(--red-200);
+    }
+    .btn-forcer {
+      background: var(--amber-600); color: #fff;
+      border: none; border-radius: var(--radius-sm);
+      padding: 6px 12px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0;
+    }
     .toast {
       position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--gray-900); color: #fff;
@@ -510,6 +535,8 @@
       </div>
     </div>
   </div>
+
+  <div id="distance-banner" class="distance-banner hors-perimetre"><span>📡 Localisation en cours…</span></div>
 
   <div id="status-banner" class="status-banner not-done">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -703,6 +730,98 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ── AGENCES NITA TOGO ──
+const AGENCES = {
+  'Agence RTV':          { lat: 6.12857, lng: 1.23636, rayon: 150 },
+  'Agence Plage':        { lat: 6.12790, lng: 1.23627, rayon: 150 },
+  'Agence Nikafou':      { lat: 6.15982, lng: 1.23389, rayon: 150 },
+  'Agence Zongo 2':      { lat: 6.25389, lng: 1.21175, rayon: 150 },
+  'Agence Agoe Nyive':   { lat: 6.22585, lng: 1.20443, rayon: 150 },
+  'Agence Adetikope':    { lat: 6.32092, lng: 1.21753, rayon: 150 },
+  'Agence EMA':          { lat: 6.13281, lng: 1.23396, rayon: 150 },
+  'Agence Aflao':        { lat: 6.11314, lng: 1.19662, rayon: 150 },
+  'Agence Hedzranawoe':  { lat: 6.18519, lng: 1.24163, rayon: 150 },
+  'Agence 3STV':         { lat: 6.13385, lng: 1.22448, rayon: 150 },
+  'Agence Hollando':     { lat: 6.12541, lng: 1.22938, rayon: 150 },
+  'Agence Atakpame':     { lat: 7.52605, lng: 1.12851, rayon: 200 },
+  'Agence Zongo':        { lat: 6.25281, lng: 1.20871, rayon: 150 },
+  'Agence Grand Marche': { lat: 6.12577, lng: 1.22369, rayon: 150 },
+  'Agence Akodessewa 2': { lat: 6.15464, lng: 1.26737, rayon: 150 },
+  'Agence Zoro Bar':     { lat: 6.16218, lng: 1.28402, rayon: 150 },
+  'Agence Ganame':       { lat: 6.15988, lng: 1.19567, rayon: 150 },
+  'Agence STM':          { lat: 6.13272, lng: 1.24578, rayon: 150 },
+  'Agence Assigame':     { lat: 6.12577, lng: 1.22369, rayon: 150 },
+};
+
+// ── AGENTS PAR AGENCE ──
+const AGENTS = {
+  'Ibrahim Guero':     'Agence Adetikope',
+  'Hassan Boubacar':   'Agence Zongo',
+  'Moussa Issa':       'Agence Grand Marche',
+  'Fatima Alassane':   'Agence Hedzranawoe',
+  'Kofi Agbeko':       'Agence 3STV',
+  'Awa Traore':        'Agence Ganame',
+  'Djamal Ouedraogo':  'Agence Agoe Nyive',
+  'Aminata Sow':       'Agence RTV',
+  'Yacouba Coulibaly': 'Agence EMA',
+  'Mariam Keita':      'Agence Nikafou',
+  'Boureima Sawadogo': 'Agence Aflao',
+  'Ramatou Diallo':    'Agence Zoro Bar',
+  'Issaka Zongo':      'Agence Hollando',
+  'Nana Ouattara':     'Agence Akodessewa 2',
+  'Seydou Compaore':   'Agence Zongo 2',
+  'Fanta Diabate':     'Agence STM',
+};
+
+// ── CALCUL DISTANCE (Haversine) ──
+function calculerDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+            Math.sin(dLng/2) * Math.sin(dLng/2);
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
+function getStatutPerimetre() {
+  const agence = AGENCES[state.agenceNom];
+  if (!agence || !state.gpsLat) return null;
+  const dist = calculerDistance(
+    parseFloat(state.gpsLat), parseFloat(state.gpsLng),
+    agence.lat, agence.lng
+  );
+  return { distance: dist, dansPerimetre: dist <= agence.rayon, rayon: agence.rayon };
+}
+
+function updateDistanceBanner() {
+  const statut = getStatutPerimetre();
+  if (!statut) return;
+  state.distanceAgence = statut.distance;
+  const banner = document.getElementById('distance-banner');
+  if (!banner) return;
+  if (statut.dansPerimetre) {
+    banner.className = 'distance-banner dans-perimetre';
+    banner.innerHTML = '<span>📍 Dans le périmètre de votre agence (' + statut.distance + ' m)</span>';
+    document.getElementById('btn-entree').disabled = false;
+  } else {
+    banner.className = 'distance-banner hors-perimetre';
+    banner.innerHTML =
+      '<span>⚠ Vous êtes à <strong>' + statut.distance + ' m</strong> de votre agence.<br>Rapprochez-vous ou forcez le pointage hors zone.</span>' +
+      '<button class="btn-forcer" onclick="forcerPointage()">Forcer</button>';
+  }
+}
+
+function forcerPointage() {
+  showToast('Pointage hors périmètre autorisé');
+  document.getElementById('btn-entree').disabled = false;
+  const banner = document.getElementById('distance-banner');
+  if (banner) {
+    banner.className = 'distance-banner hors-perimetre-force';
+    banner.innerHTML = '<span>⚠ Pointage hors zone autorisé — ' + state.distanceAgence + ' m de l'agence</span>';
+  }
+}
+
 // ── STATE ──
 const state = {
   entree: null,
@@ -710,7 +829,11 @@ const state = {
   gpsLat: null,
   gpsLng: null,
   gpsAccuracy: null,
-  currentModal: null
+  currentModal: null,
+  agentNom: 'Ibrahim Guero',
+  agenceNom: 'Agence Adetikope',
+  distanceAgence: null,
+  forcerHorsZone: false,
 };
 
 // ── INIT ──
@@ -747,6 +870,7 @@ function initGPS() {
       state.gpsLng = pos.coords.longitude.toFixed(5);
       state.gpsAccuracy = Math.round(pos.coords.accuracy);
       setGPS('ok', `${state.gpsLat}°N, ${state.gpsLng}°E`, `Précision : ±${state.gpsAccuracy} m`);
+      updateDistanceBanner();
     },
     () => setGPS('error', 'Accès GPS refusé', 'Autoriser la localisation'),
     { enableHighAccuracy: true, timeout: 10000 }
@@ -856,8 +980,10 @@ async function confirmerPointage(type, timeStr) {
     lng: state.gpsLng || '1.21227',
     precision: state.gpsAccuracy || 8,
     statut: type === 'entree'
-      ? (now.getHours() >= 8 && now.getMinutes() > 0 ? 'Retard' : 'À l\'heure')
-      : 'Sortie normale'
+      ? (now.getHours() >= 8 && now.getMinutes() > 0 ? 'Retard' : 'A l\'heure')
+      : 'Sortie normale',
+    distance_agence: state.distanceAgence ? state.distanceAgence + ' m' : 'N/A',
+    dans_perimetre: getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A'
   };
 
   try {
