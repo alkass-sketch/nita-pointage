@@ -374,7 +374,7 @@
         <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-label">Heure d'ouverture</div>
-          <div class="info-value">08h00 – 18h00</div>
+          <div class="info-value" id="agent-horaire">07h00 – 17h30</div>
         </div>
       </div>
     </div>
@@ -472,7 +472,7 @@
         </div>
         <div>
           <div class="profile-row-label">Horaires</div>
-          <div class="profile-row-value">08h00 – 18h00</div>
+          <div class="profile-row-value" id="profile-horaire">07h00 – 17h30</div>
         </div>
       </div>
       <div class="profile-row">
@@ -580,27 +580,28 @@ const AGENTS_DB = {
 
 // ── AGENCES ──
 const AGENCES = {
-  'Agence RTV':                    { lat: 6.12857, lng: 1.23636, rayon: 150 },
-  'Agence Plage':                  { lat: 6.12790, lng: 1.23627, rayon: 150 },
-  'Agence Nikafou':                { lat: 6.15982, lng: 1.23389, rayon: 150 },
-  'Agence Zongo 2':                { lat: 6.25389, lng: 1.21175, rayon: 150 },
-  'Agence Agoe Nyive':             { lat: 6.22585, lng: 1.20443, rayon: 150 },
-  'Agence Adetikope':              { lat: 6.32092, lng: 1.21753, rayon: 150 },
-  'Agence EMA':                    { lat: 6.13281, lng: 1.23396, rayon: 150 },
-  'Agence Aflao':                  { lat: 6.11314, lng: 1.19662, rayon: 150 },
-  'Agence Hedzranawoe':            { lat: 6.18519, lng: 1.24163, rayon: 150 },
-  'Agence 3STV':                   { lat: 6.13385, lng: 1.22448, rayon: 150 },
-  'Agence Hollando':               { lat: 6.12541, lng: 1.22938, rayon: 150 },
-  'Agence Zongo 1':                { lat: 6.25281, lng: 1.20871, rayon: 150 },
-  'Agence Grand Marché (Assigamé)':{ lat: 6.12577, lng: 1.22369, rayon: 150 },
-  'Agence Akodessewa':             { lat: 6.15464, lng: 1.26737, rayon: 150 },
-  'Agence Zoro Bar':               { lat: 6.16218, lng: 1.28402, rayon: 150 },
-  'Agence Ganame':                 { lat: 6.15988, lng: 1.19567, rayon: 150 },
-  'Agence STM':                    { lat: 6.13272, lng: 1.24578, rayon: 150 },
-  'Agence Ramco':                  { lat: 6.15183, lng: 1.21790, rayon: 150 },
-  'Agence Adidogome':              { lat: 6.20053, lng: 1.14836, rayon: 150 },
-  'Agence Dekon 1':                { lat: 6.14200, lng: 1.22100, rayon: 150 },
-  'Agence Dekon 2':                { lat: 6.14500, lng: 1.22300, rayon: 150 },
+  'Agence RTV':                    { lat: 6.12857, lng: 1.23636, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Plage':                  { lat: 6.12790, lng: 1.23627, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Nikafou':                { lat: 6.15982, lng: 1.23389, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Zongo 2':                { lat: 6.25389, lng: 1.21175, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Agoe Nyive':             { lat: 6.22585, lng: 1.20443, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Adetikope':              { lat: 6.32092, lng: 1.21753, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence EMA':                    { lat: 6.13281, lng: 1.23396, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Aflao':                  { lat: 6.11314, lng: 1.19662, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Hedzranawoe':            { lat: 6.18519, lng: 1.24163, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence 3STV':                   { lat: 6.13385, lng: 1.22448, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Hollando':               { lat: 6.12541, lng: 1.22938, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Atakpame':               { lat: 7.52605, lng: 1.12851, rayon: 200, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Zongo 1':                { lat: 6.25281, lng: 1.20871, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Dim (7j/7)' },
+  'Agence Grand Marché (Assigamé)':{ lat: 6.12577, lng: 1.22369, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Akodessewa':             { lat: 6.15464, lng: 1.26737, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Zoro Bar':               { lat: 6.16218, lng: 1.28402, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Ganame':                 { lat: 6.15988, lng: 1.19567, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence STM':                    { lat: 6.13272, lng: 1.24578, rayon: 150, horaire: '24h/24 (rotation 07h–17h30 / 17h30–07h30)', jours: 'Lun – Dim (7j/7)' },
+  'Agence Ramco':                  { lat: 6.15183, lng: 1.21790, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Adidogome':              { lat: 6.20053, lng: 1.14836, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Dekon 1':                { lat: 6.14200, lng: 1.22100, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence Dekon 2':                { lat: 6.14500, lng: 1.22300, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
 };
 
 // ── ÉTAT ──
@@ -742,6 +743,14 @@ function appliquerSession(s) {
   // Topbar sous-titre
   const ts = document.getElementById('topbar-sub');
   if (ts) ts.textContent = s.agence;
+  // Horaire dynamique selon agence
+  const agenceData = AGENCES[s.agence];
+  const horaireStr = agenceData ? agenceData.horaire : '07h00 – 17h30';
+  const joursStr = agenceData ? agenceData.jours : 'Lun – Sam';
+  const elHoraire = document.getElementById('agent-horaire');
+  if (elHoraire) elHoraire.textContent = horaireStr;
+  const elProfHoraire = document.getElementById('profile-horaire');
+  if (elProfHoraire) elProfHoraire.textContent = horaireStr;
   // Mettre à jour bannière distance
   updateDistanceBanner();
 }
@@ -838,7 +847,8 @@ function openModal(type) {
   state.currentModal = type;
   const now = new Date();
   const timeStr = now.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-  const isLate = type === 'entree' && (now.getHours() > 8 || (now.getHours() === 8 && now.getMinutes() > 0));
+  const agenceInfo = AGENCES[state.agenceNom];
+  const isLate = type === 'entree' && (now.getHours() > 7 || (now.getHours() === 7 && now.getMinutes() > 0));
   const label = type === 'entree' ? 'Entrée' : 'Sortie';
   const coords = state.gpsLat ? state.gpsLat+'°N, '+state.gpsLng+'°E' : 'GPS non disponible';
   const agenceLabel = state.agenceNom || '—';
@@ -900,7 +910,7 @@ async function confirmerPointage(type, timeStr) {
     lat: state.gpsLat || '',
     lng: state.gpsLng || '',
     precision: state.gpsAccuracy || '',
-    statut: type === 'entree' ? (now.getHours() > 8 || (now.getHours()===8 && now.getMinutes()>0) ? 'Retard' : 'A l\'heure') : 'Sortie normale',
+    statut: type === 'entree' ? (now.getHours() > 7 || (now.getHours()===7 && now.getMinutes()>0) ? 'Retard' : 'A l\'heure') : 'Sortie normale',
     distance_agence: state.distanceAgence ? state.distanceAgence + ' m' : 'N/A',
     dans_perimetre: getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A'
   };
