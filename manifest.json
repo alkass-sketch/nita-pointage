@@ -1,36 +1,17 @@
 {
   "name": "NITA Pointage",
-  "short_name": "Pointage",
+  "short_name": "NITA",
   "description": "Application de pointage géolocalisé des agents NITA Transfert d'Argent",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0F4C81",
   "theme_color": "#0F4C81",
   "orientation": "portrait",
   "lang": "fr",
-  "categories": ["business", "productivity"],
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [],
-  "shortcuts": [
-    {
-      "name": "Pointer l'entrée",
-      "short_name": "Entrée",
-      "description": "Enregistrer mon pointage d'entrée",
-      "url": "/?action=entree",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
-    }
+    { "src": "icons/icon-72.png",  "sizes": "72x72",   "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }

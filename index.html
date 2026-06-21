@@ -840,6 +840,7 @@ function goPage(name, btn) {
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  if (name === 'history') chargerHistorique();
 }
 
 // ── MODAL POINTAGE ──
@@ -964,11 +965,7 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 // ── CALENDRIER ──
 const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 let viewMonth = 5; let viewYear = 2026;
-const mockData = {
-  '2026-06-01':'present','2026-06-02':'present','2026-06-03':'present','2026-06-04':'present','2026-06-05':'present',
-  '2026-06-08':'present','2026-06-09':'retard','2026-06-10':'present','2026-06-11':'present','2026-06-12':'absent',
-  '2026-06-15':'present','2026-06-16':'present','2026-06-17':'retard','2026-06-18':'present'
-};
+// mockData supprimé — données réelles depuis Google Sheets
 function renderCalendar() {
   document.getElementById('month-label').textContent = months[viewMonth] + ' ' + viewYear;
   const grid = document.getElementById('cal-grid');
@@ -983,7 +980,8 @@ function renderCalendar() {
     const key = viewYear+'-'+String(viewMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const isToday = d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
     const isFuture = new Date(viewYear, viewMonth, d) > today;
-    const status = mockData[key];
+    const calSource = window._calDataReel || {};
+    const status = calSource[key];
     cell.className = 'cal-cell'+(status?' '+status:'')+(isToday?' today':'')+(isFuture?' future':'');
     cell.textContent = d;
     grid.appendChild(cell);
@@ -996,25 +994,119 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
-// ── HISTORIQUE ──
-const historyData = [
-  {day:'18',month:'Juin',agency:'Agence Adetikopé',entree:'07h48',sortie:'18h02',status:'present'},
-  {day:'17',month:'Juin',agency:'Agence Adetikopé',entree:'08h22',sortie:'18h05',status:'retard'},
-  {day:'16',month:'Juin',agency:'Agence Adetikopé',entree:'07h51',sortie:'17h58',status:'present'},
-  {day:'15',month:'Juin',agency:'Agence Adetikopé',entree:'07h44',sortie:'18h10',status:'present'},
-  {day:'12',month:'Juin',agency:'Agence Adetikopé',entree:'—',sortie:'—',status:'absent'},
-  {day:'11',month:'Juin',agency:'Agence Adetikopé',entree:'07h55',sortie:'18h00',status:'present'},
-];
-const badgeTxt = {present:'Présent',retard:'En retard',absent:'Absent'};
-const badgeCls = {present:'badge-ok',retard:'badge-late',absent:'badge-absent'};
+// ── HISTORIQUE RÉEL DEPUIS GOOGLE SHEETS ──
+const badgeTxt = {present:'Présent', retard:'En retard', absent:'Absent'};
+const badgeCls  = {present:'badge-ok', retard:'badge-late', absent:'badge-absent'};
+const SHEET_ID  = '1wLoG54kth5RtJvgL7aXmjHU7F6smAR-r-OvGgucUZOw';
+const MONTHS_FR = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+
+async function chargerHistorique() {
+  const list = document.getElementById('history-list');
+  list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">⏳ Chargement…</div>';
+
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Feuille%201`;
+    const res  = await fetch(url);
+    const txt  = await res.text();
+    const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\((.*?)\);/s)[1]);
+    const rows = json.table.rows;
+
+    // Filtrer par agent connecté
+    const agentRows = rows.filter(r => {
+      const nom = r.c[1]?.v || '';
+      return nom.toLowerCase().trim() === state.agentNom.toLowerCase().trim();
+    });
+
+    if (!agentRows.length) {
+      list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">Aucun pointage trouvé pour votre compte.</div>';
+      updateCalendrierReel({});
+      return;
+    }
+
+    // Grouper par date (entrée + sortie)
+    const byDate = {};
+    agentRows.forEach(r => {
+      const dateRaw = r.c[0]?.v || '';
+      const type    = r.c[3]?.v || '';
+      const heure   = r.c[4]?.v || '—';
+      const statut  = r.c[8]?.v || '';
+      // Normaliser la date
+      let dateKey = dateRaw;
+      if (dateRaw.match(/^Date\(/)) {
+        const parts = dateRaw.match(/Date\((\d+),(\d+),(\d+)\)/);
+        if (parts) {
+          const d = new Date(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]));
+          dateKey = d.toLocaleDateString('fr-FR');
+        }
+      }
+      if (!byDate[dateKey]) byDate[dateKey] = { date: dateKey, entree: '—', sortie: '—', statut: '' };
+      if (type === 'Entrée') { byDate[dateKey].entree = heure; byDate[dateKey].statut = statut; }
+      if (type === 'Sortie') byDate[dateKey].sortie = heure;
+    });
+
+    // Trier par date décroissante
+    const sorted = Object.values(byDate).sort((a, b) => {
+      const parse = s => { const p=s.split('/'); return new Date(p[2],p[1]-1,p[0]); };
+      return parse(b.date) - parse(a.date);
+    }).slice(0, 10);
+
+    // Construire le calendrier
+    const calData = {};
+    sorted.forEach(item => {
+      const p = item.date.split('/');
+      if (p.length === 3) {
+        const key = p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');
+        const s = item.statut.toLowerCase();
+        calData[key] = s.includes('retard') ? 'retard' : s.includes('absent') ? 'absent' : 'present';
+      }
+    });
+    updateCalendrierReel(calData);
+
+    // Afficher la liste
+    list.innerHTML = sorted.map(item => {
+      const p = item.date.split('/');
+      const day = p[0] || '—';
+      const mon = p[1] ? MONTHS_FR[parseInt(p[1])-1] : '—';
+      const s = item.statut.toLowerCase();
+      const statusKey = s.includes('retard') ? 'retard' : s.includes('absent') ? 'absent' : 'present';
+      return `
+        <div class="history-item">
+          <div class="history-date-box">
+            <div class="date-day">${day}</div>
+            <div class="date-month">${mon}</div>
+          </div>
+          <div class="history-detail">
+            <div class="history-agency">${state.agenceNom}</div>
+            <div class="history-times">Entrée ${item.entree} · Sortie ${item.sortie}</div>
+          </div>
+          <span class="badge ${badgeCls[statusKey]}">${badgeTxt[statusKey]}</span>
+        </div>`;
+    }).join('');
+
+    // Mettre à jour les stats
+    const total   = sorted.length;
+    const retards = sorted.filter(i => i.statut.toLowerCase().includes('retard')).length;
+    const absents = sorted.filter(i => i.statut.toLowerCase().includes('absent')).length;
+    const presents = total - retards - absents;
+    const statVals = document.querySelectorAll('.stat-mini-val');
+    if (statVals[0]) statVals[0].textContent = presents;
+    if (statVals[1]) statVals[1].textContent = retards;
+    if (statVals[2]) statVals[2].textContent = absents;
+
+  } catch(err) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>';
+    console.error('Historique:', err);
+  }
+}
+
+// Calendrier mis à jour avec données réelles
+function updateCalendrierReel(calData) {
+  window._calDataReel = calData;
+  renderCalendar();
+}
+
 function renderHistory() {
-  document.getElementById('history-list').innerHTML = historyData.map(h => `
-    <div class="history-item">
-      <div class="history-date-box"><div class="date-day">${h.day}</div><div class="date-month">${h.month}</div></div>
-      <div class="history-detail"><div class="history-agency">${h.agency}</div><div class="history-times">Entrée ${h.entree} · Sortie ${h.sortie}</div></div>
-      <span class="badge ${badgeCls[h.status]}">${badgeTxt[h.status]}</span>
-    </div>
-  `).join('');
+  chargerHistorique();
 }
 
 // ── TOAST ──
