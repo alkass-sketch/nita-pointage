@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0F4C81">
   <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="NITA Pointage">
   <meta name="description" content="Application de pointage géolocalisé des agents NITA Transfert d'Argent">
@@ -60,7 +60,7 @@
       overflow-x: hidden;
     }
 
-    /* ── SPLASH SCREEN ── */
+    /* SPLASH */
     #splash {
       position: fixed; inset: 0; z-index: 999;
       background: var(--blue-700);
@@ -68,151 +68,65 @@
       align-items: center; justify-content: center; gap: 16px;
     }
     #splash.hidden { display: none; }
-    .splash-logo {
-      width: 80px; height: 80px;
-      background: rgba(255,255,255,.15);
-      border-radius: var(--radius-xl);
-      display: flex; align-items: center; justify-content: center;
-    }
+    .splash-logo { width: 80px; height: 80px; background: rgba(255,255,255,.15); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; }
     .splash-logo svg { width: 44px; height: 44px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
     .splash-name { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: .5px; }
     .splash-sub { color: rgba(255,255,255,.65); font-size: 13px; }
-    .splash-spinner {
-      width: 28px; height: 28px; border: 2.5px solid rgba(255,255,255,.25);
-      border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite;
-      margin-top: 24px;
-    }
+    .splash-spinner { width: 28px; height: 28px; border: 2.5px solid rgba(255,255,255,.25); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; margin-top: 24px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── TOP BAR ── */
-    .topbar {
-      background: var(--blue-700);
-      padding: env(safe-area-inset-top, 44px) 16px 12px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-    }
+    /* TOP BAR */
+    .topbar { background: var(--blue-700); padding: env(safe-area-inset-top, 44px) 16px 12px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .topbar-left { display: flex; align-items: center; gap: 10px; }
-    .topbar-logo {
-      width: 34px; height: 34px;
-      background: rgba(255,255,255,.18);
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-    }
+    .topbar-logo { width: 34px; height: 34px; background: rgba(255,255,255,.18); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
     .topbar-logo svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; }
     .topbar-title { color: #fff; font-size: 16px; font-weight: 600; line-height: 1.2; }
     .topbar-sub { color: rgba(255,255,255,.65); font-size: 11px; }
     .topbar-date { color: rgba(255,255,255,.8); font-size: 12px; text-align: right; line-height: 1.5; }
 
-    /* ── PAGES ── */
+    /* PAGES */
     .page { display: none; padding-bottom: 80px; }
     .page.active { display: block; }
 
-    /* ── BOTTOM NAV ── */
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 430px;
-      background: var(--white);
-      border-top: 1px solid var(--gray-100);
-      display: flex;
-      padding-bottom: env(safe-area-inset-bottom, 0);
-      z-index: 100;
-    }
-    .nav-btn {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 3px; padding: 10px 4px;
-      background: none; border: none; cursor: pointer;
-      color: var(--gray-400); font-size: 10px; font-family: inherit;
-      transition: color .15s;
-    }
+    /* BOTTOM NAV */
+    .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--white); border-top: 1px solid var(--gray-100); display: flex; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
+    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 10px 4px; background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 10px; font-family: inherit; transition: color .15s; }
     .nav-btn.active { color: var(--blue-600); }
     .nav-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* ── HOME PAGE ── */
-    .agent-card {
-      margin: 16px;
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--gray-100);
-      overflow: hidden;
-    }
-    .agent-card-header {
-      background: var(--blue-700);
-      padding: 16px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .agent-avatar {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: rgba(255,255,255,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
-    }
+    /* HOME PAGE */
+    .agent-card { margin: 16px; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-100); overflow: hidden; }
+    .agent-card-header { background: var(--blue-700); padding: 16px; display: flex; align-items: center; gap: 12px; }
+    .agent-avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
     .agent-card-name { color: #fff; font-size: 16px; font-weight: 600; }
     .agent-card-role { color: rgba(255,255,255,.7); font-size: 12px; margin-top: 2px; }
     .agent-card-body { padding: 14px 16px; }
-    .info-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0; border-bottom: 1px solid var(--gray-50);
-    }
+    .info-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--gray-50); }
     .info-row:last-child { border-bottom: none; }
-    .info-icon {
-      width: 32px; height: 32px; border-radius: var(--radius-sm);
-      background: var(--blue-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
+    .info-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--blue-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .info-icon svg { width: 16px; height: 16px; fill: none; stroke: var(--blue-600); stroke-width: 2; stroke-linecap: round; }
     .info-label { font-size: 11px; color: var(--gray-400); }
     .info-value { font-size: 14px; color: var(--gray-900); font-weight: 500; margin-top: 1px; }
 
-    .status-banner {
-      margin: 0 16px 12px;
-      padding: 12px 14px;
-      border-radius: var(--radius-md);
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; font-weight: 500;
-    }
+    .status-banner { margin: 0 16px 12px; padding: 12px 14px; border-radius: var(--radius-md); display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
     .status-banner svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; flex-shrink: 0; }
     .status-banner.not-done { background: var(--amber-50); color: var(--amber-800); }
     .status-banner.done { background: var(--green-50); color: var(--green-800); }
     .status-banner.error { background: var(--red-50); color: var(--red-800); }
 
-    /* ── POINTAGE BTN ── */
+    /* POINTAGE BTN */
     .pointage-section { margin: 0 16px 16px; }
-    .btn-pointage {
-      width: 100%; padding: 16px;
-      background: var(--blue-700);
-      color: #fff; border: none; border-radius: var(--radius-lg);
-      font-size: 16px; font-weight: 600; font-family: inherit;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      cursor: pointer; transition: background .15s, transform .1s;
-      box-shadow: 0 2px 12px rgba(15, 76, 129, .3);
-    }
+    .btn-pointage { width: 100%; padding: 16px; background: var(--blue-700); color: #fff; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 600; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: background .15s, transform .1s; box-shadow: 0 2px 12px rgba(15, 76, 129, .3); }
     .btn-pointage:active { transform: scale(.98); }
     .btn-pointage:disabled { background: var(--gray-200); box-shadow: none; cursor: default; }
     .btn-pointage svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
-    .btn-secondary {
-      width: 100%; padding: 13px;
-      background: var(--white);
-      color: var(--blue-700); border: 1.5px solid var(--blue-100); border-radius: var(--radius-lg);
-      font-size: 14px; font-weight: 500; font-family: inherit;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      cursor: pointer; margin-top: 10px; transition: background .15s;
-    }
+    .btn-secondary { width: 100%; padding: 13px; background: var(--white); color: var(--blue-700); border: 1.5px solid var(--blue-100); border-radius: var(--radius-lg); font-size: 14px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-top: 10px; transition: background .15s; }
     .btn-secondary:active { background: var(--blue-50); }
     .btn-secondary svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 
-    /* ── GPS INDICATOR ── */
-    .gps-card {
-      margin: 0 16px 16px;
-      background: var(--white); border-radius: var(--radius-md);
-      border: 1px solid var(--gray-100);
-      padding: 12px 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .gps-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--gray-200); flex-shrink: 0;
-      transition: background .3s;
-    }
+    /* GPS */
+    .gps-card { margin: 0 16px 16px; background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+    .gps-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); flex-shrink: 0; transition: background .3s; }
     .gps-dot.acquiring { background: var(--amber-600); animation: pulse .8s ease-in-out infinite alternate; }
     .gps-dot.ok { background: var(--green-600); }
     .gps-dot.error { background: var(--red-600); }
@@ -222,327 +136,140 @@
     .gps-value { font-size: 13px; color: var(--gray-900); font-weight: 500; margin-top: 1px; }
     .gps-accuracy { font-size: 11px; color: var(--gray-400); }
 
-    /* ── SECTION TITLE ── */
-    .section-title {
-      padding: 8px 16px 6px;
-      font-size: 12px; font-weight: 600; color: var(--gray-400);
-      letter-spacing: .6px; text-transform: uppercase;
-    }
+    .section-title { padding: 8px 16px 6px; font-size: 12px; font-weight: 600; color: var(--gray-400); letter-spacing: .6px; text-transform: uppercase; }
 
-    /* ── HISTORY PAGE ── */
-    .history-header {
-      margin: 14px 16px 10px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
+    /* HISTORY */
+    .history-header { margin: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; }
     .history-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
-    .month-nav {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--blue-700); font-weight: 500;
-    }
-    .month-nav button {
-      background: var(--blue-50); border: none; border-radius: var(--radius-sm);
-      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--blue-700);
-    }
+    .month-nav { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--blue-700); font-weight: 500; }
+    .month-nav button { background: var(--blue-50); border: none; border-radius: var(--radius-sm); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--blue-700); }
     .month-nav button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
-
-    .stats-row {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px;
-      margin: 0 16px 14px;
-    }
-    .stat-mini {
-      background: var(--white); border-radius: var(--radius-md);
-      border: 1px solid var(--gray-100);
-      padding: 10px 10px 8px; text-align: center;
-    }
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 0 16px 14px; }
+    .stat-mini { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); padding: 10px 10px 8px; text-align: center; }
     .stat-mini-val { font-size: 22px; font-weight: 700; }
     .stat-mini-lbl { font-size: 10px; color: var(--gray-400); margin-top: 1px; }
-
-    .calendar-grid {
-      margin: 0 16px 14px;
-      background: var(--white); border-radius: var(--radius-md);
-      border: 1px solid var(--gray-100); overflow: hidden;
-    }
-    .cal-days-header {
-      display: grid; grid-template-columns: repeat(7,1fr);
-      background: var(--gray-50); padding: 6px 4px;
-    }
+    .calendar-grid { margin: 0 16px 14px; background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); overflow: hidden; }
+    .cal-days-header { display: grid; grid-template-columns: repeat(7,1fr); background: var(--gray-50); padding: 6px 4px; }
     .cal-day-name { font-size: 10px; color: var(--gray-400); text-align: center; font-weight: 600; }
-    .cal-grid {
-      display: grid; grid-template-columns: repeat(7,1fr);
-      gap: 2px; padding: 6px 4px 8px;
-    }
-    .cal-cell {
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; font-size: 11px; color: var(--gray-600); font-weight: 500;
-      cursor: pointer; position: relative;
-    }
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; padding: 6px 4px 8px; }
+    .cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 11px; color: var(--gray-600); font-weight: 500; cursor: pointer; position: relative; }
     .cal-cell.empty { cursor: default; }
     .cal-cell.present { background: var(--green-50); color: var(--green-800); }
     .cal-cell.absent { background: var(--red-50); color: var(--red-800); }
     .cal-cell.retard { background: var(--amber-50); color: var(--amber-800); }
     .cal-cell.today { font-weight: 700; outline: 2px solid var(--blue-400); }
     .cal-cell.future { color: var(--gray-200); cursor: default; }
-
     .history-list { margin: 0 16px; }
-    .history-item {
-      background: var(--white); border-radius: var(--radius-md);
-      border: 1px solid var(--gray-100);
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .history-date-box {
-      min-width: 42px; text-align: center;
-      background: var(--blue-50); border-radius: var(--radius-sm);
-      padding: 6px 4px;
-    }
+    .history-item { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+    .history-date-box { min-width: 42px; text-align: center; background: var(--blue-50); border-radius: var(--radius-sm); padding: 6px 4px; }
     .date-day { font-size: 18px; font-weight: 700; color: var(--blue-700); line-height: 1; }
     .date-month { font-size: 9px; color: var(--blue-400); text-transform: uppercase; font-weight: 600; margin-top: 1px; }
     .history-detail { flex: 1; }
     .history-agency { font-size: 13px; font-weight: 600; color: var(--gray-900); }
     .history-times { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
-    .badge {
-      font-size: 11px; font-weight: 600; padding: 4px 9px;
-      border-radius: 20px; white-space: nowrap;
-    }
+    .badge { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 20px; white-space: nowrap; }
     .badge-ok { background: var(--green-50); color: var(--green-800); }
     .badge-late { background: var(--amber-50); color: var(--amber-800); }
     .badge-absent { background: var(--red-50); color: var(--red-800); }
 
-    /* ── PROFILE PAGE ── */
-    .profile-hero {
-      background: var(--blue-700);
-      padding: 24px 16px 28px;
-      text-align: center;
-    }
-    .profile-avatar {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: rgba(255,255,255,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; font-weight: 700; color: #fff;
-      margin: 0 auto 10px;
-      border: 3px solid rgba(255,255,255,.3);
-    }
+    /* PROFILE */
+    .profile-hero { background: var(--blue-700); padding: 24px 16px 28px; text-align: center; }
+    .profile-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #fff; margin: 0 auto 10px; border: 3px solid rgba(255,255,255,.3); }
     .profile-name { color: #fff; font-size: 20px; font-weight: 700; }
     .profile-role { color: rgba(255,255,255,.7); font-size: 13px; margin-top: 3px; }
     .profile-id { color: rgba(255,255,255,.5); font-size: 11px; margin-top: 4px; }
-
     .profile-section { margin: 14px 16px; }
-    .profile-card {
-      background: var(--white); border-radius: var(--radius-md);
-      border: 1px solid var(--gray-100); overflow: hidden;
-    }
-    .profile-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 14px; border-bottom: 1px solid var(--gray-50);
-    }
+    .profile-card { background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--gray-100); overflow: hidden; }
+    .profile-row { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-bottom: 1px solid var(--gray-50); }
     .profile-row:last-child { border-bottom: none; }
-    .profile-row-icon {
-      width: 34px; height: 34px; border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
+    .profile-row-icon { width: 34px; height: 34px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .profile-row-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
     .profile-row-label { font-size: 11px; color: var(--gray-400); }
     .profile-row-value { font-size: 14px; color: var(--gray-900); font-weight: 500; margin-top: 1px; }
-    .profile-row-chevron { margin-left: auto; }
-    .profile-row-chevron svg { width: 16px; height: 16px; fill: none; stroke: var(--gray-200); stroke-width: 2; stroke-linecap: round; }
     .performance-bars { margin-top: 4px; }
     .perf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
     .perf-label { font-size: 12px; color: var(--gray-600); width: 80px; flex-shrink: 0; }
     .perf-track { flex: 1; height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
     .perf-bar { height: 100%; border-radius: 3px; background: var(--blue-600); }
     .perf-val { font-size: 12px; color: var(--gray-600); width: 30px; text-align: right; }
-
-    .btn-logout {
-      width: 100%; padding: 14px;
-      background: var(--red-50); color: var(--red-800);
-      border: 1px solid var(--red-200); border-radius: var(--radius-md);
-      font-size: 14px; font-weight: 600; font-family: inherit;
-      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
-    }
+    .btn-logout { width: 100%; padding: 14px; background: var(--red-50); color: var(--red-800); border: 1px solid var(--red-200); border-radius: var(--radius-md); font-size: 14px; font-weight: 600; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
     .btn-logout svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
 
-    /* ── MODAL / OVERLAY ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.5);
-      z-index: 200; display: flex; align-items: flex-end; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity .2s;
-    }
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-      width: 100%; max-width: 430px;
-      padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0));
-      transform: translateY(100%); transition: transform .25s cubic-bezier(.4,0,.2,1);
-    }
+    .modal { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; width: 100%; max-width: 430px; padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0)); transform: translateY(100%); transition: transform .25s cubic-bezier(.4,0,.2,1); }
     .modal-overlay.open .modal { transform: translateY(0); }
     .modal-handle { width: 40px; height: 4px; background: var(--gray-100); border-radius: 2px; margin: 0 auto 16px; }
     .modal-title { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
     .modal-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 20px; }
-    .modal-gps-map {
-      height: 160px; background: var(--blue-50); border-radius: var(--radius-md);
-      border: 1px solid var(--blue-100); margin-bottom: 16px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
+    .modal-gps-map { height: 160px; background: var(--blue-50); border-radius: var(--radius-md); border: 1px solid var(--blue-100); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .map-circle { position: absolute; border-radius: 50%; opacity: .25; }
-    .map-center-dot {
-      width: 14px; height: 14px; border-radius: 50%;
-      background: var(--blue-600); border: 2px solid #fff;
-      box-shadow: 0 0 0 4px rgba(56,138,221,.3);
-      position: relative; z-index: 2;
-    }
+    .map-center-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--blue-600); border: 2px solid #fff; box-shadow: 0 0 0 4px rgba(56,138,221,.3); position: relative; z-index: 2; }
     .modal-confirm-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .modal-confirm-icon {
-      width: 40px; height: 40px; border-radius: var(--radius-md);
-      background: var(--green-50); display: flex; align-items: center; justify-content: center;
-    }
+    .modal-confirm-icon { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--green-50); display: flex; align-items: center; justify-content: center; }
     .modal-confirm-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--green-600); stroke-width: 2.2; stroke-linecap: round; }
     .modal-confirm-label { font-size: 12px; color: var(--gray-400); }
     .modal-confirm-value { font-size: 14px; font-weight: 600; color: var(--gray-900); }
     .modal-note { font-size: 12px; color: var(--gray-400); background: var(--gray-50); padding: 10px 12px; border-radius: var(--radius-sm); margin-bottom: 16px; }
     .modal-note strong { color: var(--gray-600); }
-    .btn-confirm {
-      width: 100%; padding: 16px; background: var(--green-600); color: #fff;
-      border: none; border-radius: var(--radius-lg);
-      font-size: 16px; font-weight: 700; font-family: inherit;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      cursor: pointer; transition: background .15s; margin-bottom: 10px;
-    }
+    .btn-confirm { width: 100%; padding: 16px; background: var(--green-600); color: #fff; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 700; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background .15s; margin-bottom: 10px; }
     .btn-confirm:active { background: var(--green-800); }
     .btn-confirm svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
-    .btn-cancel {
-      width: 100%; padding: 13px; background: none;
-      color: var(--gray-600); border: 1px solid var(--gray-100); border-radius: var(--radius-lg);
-      font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer;
-    }
+    .btn-cancel { width: 100%; padding: 13px; background: none; color: var(--gray-600); border: 1px solid var(--gray-100); border-radius: var(--radius-lg); font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer; }
 
-    /* ── SUCCESS MODAL ── */
-    .success-icon {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: var(--green-50); border: 2px solid var(--green-200);
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;
-    }
+    /* SUCCESS */
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--green-50); border: 2px solid var(--green-200); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
     .success-icon svg { width: 32px; height: 32px; fill: none; stroke: var(--green-600); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
     .success-title { font-size: 20px; font-weight: 700; color: var(--gray-900); text-align: center; }
     .success-sub { font-size: 13px; color: var(--gray-400); text-align: center; margin: 6px 0 20px; }
-    .success-detail {
-      background: var(--green-50); border-radius: var(--radius-md);
-      padding: 14px; margin-bottom: 16px;
-    }
+    .success-detail { background: var(--green-50); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; }
     .success-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 13px; }
     .success-row .key { color: var(--gray-400); }
     .success-row .val { font-weight: 600; color: var(--green-800); }
 
-    .distance-banner {
-      margin: 0 16px 12px;
-      padding: 12px 14px;
-      border-radius: var(--radius-md);
-      font-size: 13px; line-height: 1.5;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    }
-    .distance-banner.dans-perimetre {
-      background: var(--green-50); color: var(--green-800);
-      border: 1px solid var(--green-200);
-    }
-    .distance-banner.hors-perimetre {
-      background: var(--amber-50); color: var(--amber-800);
-      border: 1px solid var(--amber-200);
-    }
-    .distance-banner.hors-perimetre-force {
-      background: var(--red-50); color: var(--red-800);
-      border: 1px solid var(--red-200);
-    }
-    .btn-forcer {
-      background: var(--amber-600); color: #fff;
-      border: none; border-radius: var(--radius-sm);
-      padding: 6px 12px; font-size: 12px; font-weight: 600;
-      cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0;
-    }
+    /* DISTANCE BANNER */
+    .distance-banner { margin: 0 16px 12px; padding: 12px 14px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.5; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .distance-banner.dans-perimetre { background: var(--green-50); color: var(--green-800); border: 1px solid var(--green-200); }
+    .distance-banner.hors-perimetre { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-200); }
+    .distance-banner.hors-perimetre-force { background: var(--red-50); color: var(--red-800); border: 1px solid var(--red-200); }
+    .btn-forcer { background: var(--amber-600); color: #fff; border: none; border-radius: var(--radius-sm); padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
 
-    /* ── LOGIN SCREEN ── */
-    #page-login {
-      min-height: 100vh; display: flex; flex-direction: column;
-      background: var(--blue-700);
-    }
-    .login-hero {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 40px 24px 24px;
-    }
-    .login-logo {
-      width: 72px; height: 72px; border-radius: 20px;
-      background: rgba(255,255,255,.15);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 14px;
-    }
+    /* LOGIN */
+    #page-login { min-height: 100vh; display: flex; flex-direction: column; background: var(--blue-700); }
+    .login-hero { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px 24px; }
+    .login-logo { width: 72px; height: 72px; border-radius: 20px; background: rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
     .login-logo svg { width: 38px; height: 38px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
     .login-brand { color: #fff; font-size: 24px; font-weight: 700; letter-spacing: .5px; }
     .login-sub { color: rgba(255,255,255,.65); font-size: 13px; margin-top: 4px; margin-bottom: 32px; }
-    .login-card {
-      background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-      padding: 28px 24px calc(32px + env(safe-area-inset-bottom, 0));
-    }
+    .login-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 28px 24px calc(32px + env(safe-area-inset-bottom, 0)); }
     .login-title { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
     .login-desc { font-size: 13px; color: var(--gray-400); margin-bottom: 24px; }
     .input-group { margin-bottom: 16px; }
     .input-label { font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: .4px; }
-    .input-field {
-      width: 100%; padding: 13px 14px;
-      background: var(--gray-50); border: 1.5px solid var(--gray-100);
-      border-radius: var(--radius-md); font-size: 15px; font-family: inherit;
-      color: var(--gray-900); outline: none; transition: border-color .15s;
-    }
+    .input-field { width: 100%; padding: 13px 14px; background: var(--gray-50); border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); font-size: 15px; font-family: inherit; color: var(--gray-900); outline: none; transition: border-color .15s; }
     .input-field:focus { border-color: var(--blue-400); background: var(--white); }
     .pin-row { display: flex; gap: 10px; justify-content: center; margin: 8px 0 20px; }
-    .pin-dot {
-      width: 48px; height: 56px;
-      background: var(--gray-50); border: 1.5px solid var(--gray-100);
-      border-radius: var(--radius-md); font-size: 22px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--blue-700); transition: all .15s;
-    }
+    .pin-dot { width: 48px; height: 56px; background: var(--gray-50); border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--blue-700); transition: all .15s; }
     .pin-dot.filled { background: var(--blue-50); border-color: var(--blue-400); }
     .pin-dot.active { border-color: var(--blue-600); box-shadow: 0 0 0 3px rgba(56,138,221,.2); }
     .numpad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
-    .numpad-btn {
-      background: var(--gray-50); border: 1px solid var(--gray-100);
-      border-radius: var(--radius-md); padding: 16px 8px;
-      font-size: 20px; font-weight: 600; color: var(--gray-900);
-      cursor: pointer; font-family: inherit; transition: background .1s;
-      display: flex; flex-direction: column; align-items: center; gap: 1px;
-    }
+    .numpad-btn { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 16px 8px; font-size: 20px; font-weight: 600; color: var(--gray-900); cursor: pointer; font-family: inherit; transition: background .1s; display: flex; flex-direction: column; align-items: center; gap: 1px; }
     .numpad-btn:active { background: var(--blue-50); border-color: var(--blue-200); }
     .numpad-btn .sub { font-size: 9px; color: var(--gray-400); font-weight: 400; letter-spacing: .5px; }
     .numpad-btn.del { background: var(--gray-100); }
     .numpad-btn.del svg { width: 20px; height: 20px; fill: none; stroke: var(--gray-600); stroke-width: 2; stroke-linecap: round; }
-    .login-error {
-      background: var(--red-50); color: var(--red-800);
-      border: 1px solid var(--red-200); border-radius: var(--radius-md);
-      padding: 10px 14px; font-size: 13px; margin-bottom: 14px; display: none;
-    }
-    .btn-login {
-      width: 100%; padding: 15px; background: var(--blue-700); color: #fff;
-      border: none; border-radius: var(--radius-lg);
-      font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer;
-      transition: background .15s;
-    }
+    .login-error { background: var(--red-50); color: var(--red-800); border: 1px solid var(--red-200); border-radius: var(--radius-md); padding: 10px 14px; font-size: 13px; margin-bottom: 14px; display: none; }
+    .btn-login { width: 100%; padding: 15px; background: var(--blue-700); color: #fff; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; transition: background .15s; }
     .btn-login:disabled { background: var(--gray-200); cursor: default; }
 
-    .toast {
-      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--gray-900); color: #fff;
-      padding: 10px 18px; border-radius: 20px; font-size: 13px;
-      opacity: 0; pointer-events: none; transition: all .25s; white-space: nowrap; z-index: 300;
-    }
+    .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--gray-900); color: #fff; padding: 10px 18px; border-radius: 20px; font-size: 13px; opacity: 0; pointer-events: none; transition: all .25s; white-space: nowrap; z-index: 300; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
 
-
-<!-- ══ PAGE: LOGIN ══ -->
+<!-- PAGE LOGIN -->
 <div id="page-login" style="position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;background:var(--blue-700);">
   <div class="login-hero">
     <div class="login-logo">
@@ -612,46 +339,39 @@
     </div>
     <div>
       <div class="topbar-title">NITA Pointage</div>
-      <div class="topbar-sub">Agent terrain · Lomé</div>
+      <div class="topbar-sub" id="topbar-sub">Agent terrain · Lomé</div>
     </div>
   </div>
   <div class="topbar-date" id="topbar-date"></div>
 </div>
 
-<!-- ══ PAGE: ACCUEIL ══ -->
+<!-- PAGE ACCUEIL -->
 <div id="page-home" class="page active">
-
   <div class="agent-card">
     <div class="agent-card-header">
-      <div class="agent-avatar" id="agent-avatar">IG</div>
+      <div class="agent-avatar" id="agent-avatar">--</div>
       <div>
-        <div class="agent-card-name" id="agent-name">Ibrahim Guero</div>
-        <div class="agent-card-role" id="agent-role">Agent commercial · NITA</div>
+        <div class="agent-card-name" id="agent-name">—</div>
+        <div class="agent-card-role" id="agent-role">—</div>
       </div>
     </div>
     <div class="agent-card-body">
       <div class="info-row">
-        <div class="info-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </div>
+        <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div>
           <div class="info-label">Agence assignée</div>
-          <div class="info-value" id="agent-agency">Agence Adetikopé</div>
+          <div class="info-value" id="agent-agency">—</div>
         </div>
       </div>
       <div class="info-row">
-        <div class="info-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
+        <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
         <div>
           <div class="info-label">Date du jour</div>
           <div class="info-value" id="today-date">—</div>
         </div>
       </div>
       <div class="info-row">
-        <div class="info-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
+        <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-label">Heure d'ouverture</div>
           <div class="info-value">08h00 – 18h00</div>
@@ -687,40 +407,23 @@
       Pointer la sortie
     </button>
   </div>
-
 </div>
 
-<!-- ══ PAGE: HISTORIQUE ══ -->
+<!-- PAGE HISTORIQUE -->
 <div id="page-history" class="page">
-
   <div class="history-header">
     <div class="history-title">Mon historique</div>
     <div class="month-nav">
-      <button onclick="changeMonth(-1)">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
+      <button onclick="changeMonth(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
       <span id="month-label">Juin 2026</span>
-      <button onclick="changeMonth(1)">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      <button onclick="changeMonth(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
   </div>
-
   <div class="stats-row">
-    <div class="stat-mini">
-      <div class="stat-mini-val" style="color:var(--green-600)">17</div>
-      <div class="stat-mini-lbl">Présences</div>
-    </div>
-    <div class="stat-mini">
-      <div class="stat-mini-val" style="color:var(--amber-600)">2</div>
-      <div class="stat-mini-lbl">Retards</div>
-    </div>
-    <div class="stat-mini">
-      <div class="stat-mini-val" style="color:var(--red-600)">1</div>
-      <div class="stat-mini-lbl">Absences</div>
-    </div>
+    <div class="stat-mini"><div class="stat-mini-val" style="color:var(--green-600)">17</div><div class="stat-mini-lbl">Présences</div></div>
+    <div class="stat-mini"><div class="stat-mini-val" style="color:var(--amber-600)">2</div><div class="stat-mini-lbl">Retards</div></div>
+    <div class="stat-mini"><div class="stat-mini-val" style="color:var(--red-600)">1</div><div class="stat-mini-lbl">Absences</div></div>
   </div>
-
   <div class="calendar-grid">
     <div class="cal-days-header">
       <div class="cal-day-name">Lu</div><div class="cal-day-name">Ma</div>
@@ -730,21 +433,18 @@
     </div>
     <div class="cal-grid" id="cal-grid"></div>
   </div>
-
   <div class="section-title">Derniers pointages</div>
   <div class="history-list" id="history-list"></div>
-
 </div>
 
-<!-- ══ PAGE: PROFIL ══ -->
+<!-- PAGE PROFIL -->
 <div id="page-profile" class="page">
   <div class="profile-hero">
-    <div class="profile-avatar" id="profile-avatar">IG</div>
-    <div class="profile-name" id="profile-name">Ibrahim Guero</div>
-    <div class="profile-role" id="profile-role">Agent commercial · Adetikopé</div>
-    <div class="profile-id">ID Agent : NITA-TG-0047</div>
+    <div class="profile-avatar" id="profile-avatar">--</div>
+    <div class="profile-name" id="profile-name">—</div>
+    <div class="profile-role" id="profile-role">—</div>
+    <div class="profile-id" id="profile-id">ID Agent : —</div>
   </div>
-
   <div class="profile-section">
     <div class="section-title" style="padding:0 0 8px">Informations</div>
     <div class="profile-card">
@@ -752,9 +452,9 @@
         <div class="profile-row-icon" style="background:var(--blue-50)">
           <svg style="stroke:var(--blue-600)" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div class="flex-1">
+        <div>
           <div class="profile-row-label">Nom complet</div>
-          <div class="profile-row-value">Ibrahim Guero</div>
+          <div class="profile-row-value" id="profile-nom-complet">—</div>
         </div>
       </div>
       <div class="profile-row">
@@ -763,7 +463,7 @@
         </div>
         <div>
           <div class="profile-row-label">Agence</div>
-          <div class="profile-row-value">Agence Adetikopé</div>
+          <div class="profile-row-value" id="profile-agence">—</div>
         </div>
       </div>
       <div class="profile-row">
@@ -786,32 +486,18 @@
       </div>
     </div>
   </div>
-
   <div class="profile-section">
     <div class="section-title" style="padding:0 0 8px">Performance — juin 2026</div>
     <div class="profile-card" style="padding:14px">
       <div class="performance-bars">
-        <div class="perf-row">
-          <div class="perf-label">Ponctualité</div>
-          <div class="perf-track"><div class="perf-bar" style="width:89%;background:var(--green-600)"></div></div>
-          <div class="perf-val">89%</div>
-        </div>
-        <div class="perf-row">
-          <div class="perf-label">Présence</div>
-          <div class="perf-track"><div class="perf-bar" style="width:95%;background:var(--blue-600)"></div></div>
-          <div class="perf-val">95%</div>
-        </div>
-        <div class="perf-row">
-          <div class="perf-label">Transactions</div>
-          <div class="perf-track"><div class="perf-bar" style="width:76%;background:var(--amber-600)"></div></div>
-          <div class="perf-val">76%</div>
-        </div>
+        <div class="perf-row"><div class="perf-label">Ponctualité</div><div class="perf-track"><div class="perf-bar" style="width:89%;background:var(--green-600)"></div></div><div class="perf-val">89%</div></div>
+        <div class="perf-row"><div class="perf-label">Présence</div><div class="perf-track"><div class="perf-bar" style="width:95%;background:var(--blue-600)"></div></div><div class="perf-val">95%</div></div>
+        <div class="perf-row"><div class="perf-label">Transactions</div><div class="perf-track"><div class="perf-bar" style="width:76%;background:var(--amber-600)"></div></div><div class="perf-val">76%</div></div>
       </div>
     </div>
   </div>
-
   <div class="profile-section">
-    <button class="btn-logout" onclick="localStorage.removeItem('nita_session'); document.getElementById('page-login').style.display='flex'; document.getElementById('input-id').value=''; document.getElementById('login-step-id').style.display='block'; document.getElementById('login-step-pin').style.display='none'; showToast('Déconnexion effectuée')">
+    <button class="btn-logout" onclick="deconnecter()">
       <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Se déconnecter
     </button>
@@ -834,7 +520,7 @@
   </button>
 </div>
 
-<!-- ══ MODAL POINTAGE ══ -->
+<!-- MODAL POINTAGE -->
 <div class="modal-overlay" id="modal-pointage">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -842,7 +528,7 @@
   </div>
 </div>
 
-<!-- ══ MODAL SUCCESS ══ -->
+<!-- MODAL SUCCESS -->
 <div class="modal-overlay" id="modal-success">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -854,108 +540,90 @@
 <div class="toast" id="toast"></div>
 
 <script>
-
-// ── BASE DE DONNÉES AGENTS NITA TOGO ──
+// ── AGENTS DB — vrais PIN depuis Feuille 2 ──
 const AGENTS_DB = {
-  'NTG001': { nom: 'Seyni Hamza',                  agence: 'Agence RTV',          tel: '+22871642814',   poste: 'Agent',          pin: '1234', initiales: 'SH' },
-  'NTG002': { nom: 'Moussa Moumouni Aminou',        agence: 'Agence RTV',          tel: '+22879097573',   poste: 'Agent',          pin: '1234', initiales: 'MM' },
-  'NTG003': { nom: 'Kamalou Adamou',                agence: 'Agence RTV',          tel: '+22890006014',   poste: 'Chef d\'agence', pin: '1234', initiales: 'KA' },
-  'NTG004': { nom: 'Hannatou',                      agence: 'Agence Plage',        tel: '+22892024302',   poste: 'Agent',          pin: '1234', initiales: 'HN' },
-  'NTG005': { nom: 'Hassana',                       agence: 'Agence Plage',        tel: '+22893619246',   poste: 'Agent',          pin: '1234', initiales: 'HS' },
-  'NTG006': { nom: 'Moubarak',                      agence: 'Agence Plage',        tel: '+22792737403',   poste: 'Agent',          pin: '1234', initiales: 'MB' },
-  'NTG007': { nom: 'Aziz',                          agence: 'Agence Plage',        tel: '+22891137299',   poste: 'Chef d\'agence', pin: '1234', initiales: 'AZ' },
-  'NTG008': { nom: 'Boubacar',                      agence: 'Agence EMA',          tel: '+22892117725',   poste: 'Agent',          pin: '1234', initiales: 'BB' },
-  'NTG009': { nom: 'Fourera',                       agence: 'Agence EMA',          tel: '+22870741664',   poste: 'Agent',          pin: '1234', initiales: 'FR' },
-  'NTG010': { nom: 'Ahmed',                         agence: 'Agence STM',          tel: '+22893431021',   poste: 'Agent',          pin: '1234', initiales: 'AH' },
-  'NTG011': { nom: 'Azim',                          agence: 'Agence STM',          tel: '+22891080371',   poste: 'Agent',          pin: '1234', initiales: 'AI' },
-  'NTG012': { nom: 'Tidjani Oumarou',               agence: 'Agence Hollando',     tel: '+22870474098',   poste: 'Chef d\'agence', pin: '1234', initiales: 'TO' },
-  'NTG013': { nom: 'Adamou Kouboura',               agence: 'Agence Hollando',     tel: '+22891374386',   poste: 'Agent',          pin: '1234', initiales: 'AK' },
-  'NTG014': { nom: 'Saidou Hamza',                  agence: 'Agence Nikafou',      tel: '+22892703282',   poste: 'Agent',          pin: '1234', initiales: 'SA' },
-  'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',      tel: '+22891842445',   poste: 'Agent',          pin: '1234', initiales: 'SJ' },
-  'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',     tel: '+22871479159',   poste: 'Agent',          pin: '1234', initiales: 'MF' },
-  'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',     tel: '+22890268403',   poste: 'Chef d\'agence', pin: '1234', initiales: 'AM' },
-  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marche', tel: '+22870671498',   poste: 'Agent',          pin: '1234', initiales: 'AS' },
-  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marche', tel: '+22893187601',   poste: 'Agent',          pin: '1234', initiales: 'AA' },
-  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marche', tel: '+22890820012',   poste: 'Chef d\'agence', pin: '1234', initiales: 'TA' },
-  'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',        tel: '+22892083942',   poste: 'Agent',          pin: '1234', initiales: 'AL' },
-  'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa 2', tel: '+22892337057',   poste: 'Chef d\'agence', pin: '1234', initiales: 'HP' },
-  'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa 2', tel: '',               poste: 'Agent',          pin: '1234', initiales: 'RC' },
-  'NTG024': { nom: 'Alhousseini',                   agence: 'Agence Zoro Bar',     tel: '+22891591276',   poste: 'Agent',          pin: '1234', initiales: 'AL' },
-  'NTG025': { nom: 'Saddam Moubarak',               agence: 'Agence Hedzranawoe',  tel: '+22893141050',   poste: 'Agent',          pin: '1234', initiales: 'SM' },
-  'NTG026': { nom: 'Hawa',                          agence: 'Agence Hedzranawoe',  tel: '+22890587372',   poste: 'Agent',          pin: '1234', initiales: 'HW' },
-  'NTG027': { nom: 'Chebou Yacouba',                agence: 'Agence Zongo',        tel: '+22890560308',   poste: 'Chef d\'agence', pin: '1234', initiales: 'CY' },
-  'NTG028': { nom: 'Bilali',                        agence: 'Agence Zongo',        tel: '+2287055075',    poste: 'Agent',          pin: '1234', initiales: 'BL' },
-  'NTG029': { nom: 'Ikpindi',                       agence: 'Agence Zongo',        tel: '+22890004428',   poste: 'Agent',          pin: '1234', initiales: 'IK' },
-  'NTG030': { nom: 'Garba Hassana',                 agence: 'Agence Zongo 2',      tel: '+22892635400',   poste: 'Agent',          pin: '1234', initiales: 'GH' },
-  'NTG031': { nom: 'Bolmiati',                      agence: 'Agence Adetikope',    tel: '+22892853209',   poste: 'Agent',          pin: '1234', initiales: 'BO' },
-  'NTG032': { nom: 'Arouna Djamaloudine',           agence: 'Agence Adidogome',    tel: '+22893910169',   poste: 'Agent',          pin: '1234', initiales: 'AD' },
-  'NTG033': { nom: 'Oumarou Adamou Barkire',        agence: 'Agence Ganame',       tel: '+22893803683',   poste: 'Agent',          pin: '1234', initiales: 'OA' },
-  'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',        tel: '+22782423215',   poste: 'Agent',          pin: '1234', initiales: 'AW' },
+  'NTG001': { nom: 'Seyni Hamza',                  agence: 'Agence RTV',                    poste: 'Agent',          pin: '6547', initiales: 'SH' },
+  'NTG002': { nom: 'Moussa Moumouni Aminou',        agence: 'Agence RTV',                    poste: 'Agent',          pin: '4578', initiales: 'MM' },
+  'NTG003': { nom: 'Kamalou Adamou',                agence: 'Agence RTV',                    poste: "Chef d'agence",  pin: '3458', initiales: 'KA' },
+  'NTG004': { nom: 'Hannatou',                      agence: 'Agence Plage',                  poste: 'Agent',          pin: '4786', initiales: 'HN' },
+  'NTG005': { nom: 'Hassana',                       agence: 'Agence Plage',                  poste: 'Agent',          pin: '2145', initiales: 'HS' },
+  'NTG006': { nom: 'Moubarak',                      agence: 'Agence Plage',                  poste: 'Agent',          pin: '3214', initiales: 'MB' },
+  'NTG007': { nom: 'Aziz',                          agence: 'Agence Plage',                  poste: "Chef d'agence",  pin: '1456', initiales: 'AZ' },
+  'NTG008': { nom: 'Boubacar',                      agence: 'Agence EMA',                    poste: 'Agent',          pin: '7854', initiales: 'BB' },
+  'NTG009': { nom: 'Fourera',                       agence: 'Agence EMA',                    poste: 'Agent',          pin: '3258', initiales: 'FR' },
+  'NTG010': { nom: 'Ahmed',                         agence: 'Agence STM',                    poste: 'Agent',          pin: '4521', initiales: 'AH' },
+  'NTG011': { nom: 'Azim',                          agence: 'Agence STM',                    poste: 'Agent',          pin: '9863', initiales: 'AI' },
+  'NTG012': { nom: 'Tidjani Oumarou',               agence: 'Agence Dekon 1',                poste: "Chef d'agence",  pin: '2365', initiales: 'TO' },
+  'NTG013': { nom: 'Adamou Kouboura',               agence: 'Agence Dekon 1',                poste: 'Agent',          pin: '5478', initiales: 'AK' },
+  'NTG014': { nom: 'Saidou Hamza',                  agence: 'Agence Dekon 2',                poste: 'Agent',          pin: '6432', initiales: 'SH' },
+  'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',                poste: 'Agent',          pin: '6590', initiales: 'SJ' },
+  'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',               poste: 'Agent',          pin: '2590', initiales: 'MF' },
+  'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',               poste: "Chef d'agence",  pin: '3455', initiales: 'AM' },
+  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pin: '4498', initiales: 'AS' },
+  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pin: '1255', initiales: 'AA' },
+  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marché (Assigamé)', poste: "Chef d'agence", pin: '3211', initiales: 'TA' },
+  'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',                  poste: 'Agent',          pin: '2211', initiales: 'AL' },
+  'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa',             poste: "Chef d'agence",  pin: '4455', initiales: 'HP' },
+  'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa',             poste: 'Agent',          pin: '6655', initiales: 'RC' },
+  'NTG024': { nom: 'Alhousseini',                   agence: 'Agence Zoro Bar',               poste: 'Agent',          pin: '3388', initiales: 'AL' },
+  'NTG025': { nom: 'Saddam Moubarak',               agence: 'Agence Hedzranawoe',            poste: 'Agent',          pin: '4466', initiales: 'SM' },
+  'NTG026': { nom: 'Hawa',                          agence: 'Agence Hedzranawoe',            poste: 'Agent',          pin: '3344', initiales: 'HW' },
+  'NTG027': { nom: 'Chebou Yacouba',                agence: 'Agence Zongo 1',                poste: "Chef d'agence",  pin: '4556', initiales: 'CY' },
+  'NTG028': { nom: 'Bilali',                        agence: 'Agence Zongo 1',                poste: 'Agent',          pin: '6554', initiales: 'BL' },
+  'NTG029': { nom: 'Ikpindi',                       agence: 'Agence Zongo 1',                poste: 'Agent',          pin: '7890', initiales: 'IK' },
+  'NTG030': { nom: 'Garba Hassana',                 agence: 'Agence Zongo 2',                poste: 'Agent',          pin: '4499', initiales: 'GH' },
+  'NTG031': { nom: 'Bolmiati',                      agence: 'Agence Adetikope',              poste: 'Agent',          pin: '7788', initiales: 'BO' },
+  'NTG032': { nom: 'Arouna Djamaloudine',           agence: 'Agence Adidogome',              poste: 'Agent',          pin: '8899', initiales: 'AD' },
+  'NTG033': { nom: 'Oumarou Adamou Barkire',        agence: 'Agence Ganame',                 poste: 'Agent',          pin: '6644', initiales: 'OA' },
+  'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',                  poste: 'Agent',          pin: '1155', initiales: 'AW' },
 };
 
-// ── AGENCES NITA TOGO ──
+// ── AGENCES ──
 const AGENCES = {
-  'Agence RTV':          { lat: 6.12857, lng: 1.23636, rayon: 150 },
-  'Agence Plage':        { lat: 6.12790, lng: 1.23627, rayon: 150 },
-  'Agence Nikafou':      { lat: 6.15982, lng: 1.23389, rayon: 150 },
-  'Agence Zongo 2':      { lat: 6.25389, lng: 1.21175, rayon: 150 },
-  'Agence Agoe Nyive':   { lat: 6.22585, lng: 1.20443, rayon: 150 },
-  'Agence Adetikope':    { lat: 6.32092, lng: 1.21753, rayon: 150 },
-  'Agence EMA':          { lat: 6.13281, lng: 1.23396, rayon: 150 },
-  'Agence Aflao':        { lat: 6.11314, lng: 1.19662, rayon: 150 },
-  'Agence Hedzranawoe':  { lat: 6.18519, lng: 1.24163, rayon: 150 },
-  'Agence 3STV':         { lat: 6.13385, lng: 1.22448, rayon: 150 },
-  'Agence Hollando':     { lat: 6.12541, lng: 1.22938, rayon: 150 },
-  'Agence Atakpame':     { lat: 7.52605, lng: 1.12851, rayon: 200 },
-  'Agence Zongo':        { lat: 6.25281, lng: 1.20871, rayon: 150 },
-  'Agence Grand Marche': { lat: 6.12577, lng: 1.22369, rayon: 150 },
-  'Agence Akodessewa 2': { lat: 6.15464, lng: 1.26737, rayon: 150 },
-  'Agence Zoro Bar':     { lat: 6.16218, lng: 1.28402, rayon: 150 },
-  'Agence Ganame':       { lat: 6.15988, lng: 1.19567, rayon: 150 },
-  'Agence STM':          { lat: 6.13272, lng: 1.24578, rayon: 150 },
-  'Agence Assigame':     { lat: 6.12577, lng: 1.22369, rayon: 150 },
-  'Agence Ramco':        { lat: 6.15183, lng: 1.21790, rayon: 150 },
-  'Agence Adidogome':    { lat: 6.20053, lng: 1.14836, rayon: 150 },
+  'Agence RTV':                    { lat: 6.12857, lng: 1.23636, rayon: 150 },
+  'Agence Plage':                  { lat: 6.12790, lng: 1.23627, rayon: 150 },
+  'Agence Nikafou':                { lat: 6.15982, lng: 1.23389, rayon: 150 },
+  'Agence Zongo 2':                { lat: 6.25389, lng: 1.21175, rayon: 150 },
+  'Agence Agoe Nyive':             { lat: 6.22585, lng: 1.20443, rayon: 150 },
+  'Agence Adetikope':              { lat: 6.32092, lng: 1.21753, rayon: 150 },
+  'Agence EMA':                    { lat: 6.13281, lng: 1.23396, rayon: 150 },
+  'Agence Aflao':                  { lat: 6.11314, lng: 1.19662, rayon: 150 },
+  'Agence Hedzranawoe':            { lat: 6.18519, lng: 1.24163, rayon: 150 },
+  'Agence 3STV':                   { lat: 6.13385, lng: 1.22448, rayon: 150 },
+  'Agence Hollando':               { lat: 6.12541, lng: 1.22938, rayon: 150 },
+  'Agence Zongo 1':                { lat: 6.25281, lng: 1.20871, rayon: 150 },
+  'Agence Grand Marché (Assigamé)':{ lat: 6.12577, lng: 1.22369, rayon: 150 },
+  'Agence Akodessewa':             { lat: 6.15464, lng: 1.26737, rayon: 150 },
+  'Agence Zoro Bar':               { lat: 6.16218, lng: 1.28402, rayon: 150 },
+  'Agence Ganame':                 { lat: 6.15988, lng: 1.19567, rayon: 150 },
+  'Agence STM':                    { lat: 6.13272, lng: 1.24578, rayon: 150 },
+  'Agence Ramco':                  { lat: 6.15183, lng: 1.21790, rayon: 150 },
+  'Agence Adidogome':              { lat: 6.20053, lng: 1.14836, rayon: 150 },
+  'Agence Dekon 1':                { lat: 6.14200, lng: 1.22100, rayon: 150 },
+  'Agence Dekon 2':                { lat: 6.14500, lng: 1.22300, rayon: 150 },
 };
 
-// ── AGENTS PAR AGENCE ──
-const AGENTS = {
-  'Ibrahim Guero':     'Agence Adetikope',
-  'Hassan Boubacar':   'Agence Zongo',
-  'Moussa Issa':       'Agence Grand Marche',
-  'Fatima Alassane':   'Agence Hedzranawoe',
-  'Kofi Agbeko':       'Agence 3STV',
-  'Awa Traore':        'Agence Ganame',
-  'Djamal Ouedraogo':  'Agence Agoe Nyive',
-  'Aminata Sow':       'Agence RTV',
-  'Yacouba Coulibaly': 'Agence EMA',
-  'Mariam Keita':      'Agence Nikafou',
-  'Boureima Sawadogo': 'Agence Aflao',
-  'Ramatou Diallo':    'Agence Zoro Bar',
-  'Issaka Zongo':      'Agence Hollando',
-  'Nana Ouattara':     'Agence Akodessewa 2',
-  'Seydou Compaore':   'Agence Zongo 2',
-  'Fanta Diabate':     'Agence STM',
+// ── ÉTAT ──
+const state = {
+  entree: null, sortie: null,
+  gpsLat: null, gpsLng: null, gpsAccuracy: null,
+  currentModal: null,
+  agentNom: '', agenceNom: '', distanceAgence: null,
 };
 
-// ── CALCUL DISTANCE (Haversine) ──
+// ── CALCUL DISTANCE ──
 function calculerDistance(lat1, lng1, lat2, lng2) {
   const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
-            Math.sin(dLng/2) * Math.sin(dLng/2);
-  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+  const dLat = (lat2-lat1)*Math.PI/180;
+  const dLng = (lng2-lng1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
 }
 
 function getStatutPerimetre() {
   const agence = AGENCES[state.agenceNom];
   if (!agence || !state.gpsLat) return null;
-  const dist = calculerDistance(
-    parseFloat(state.gpsLat), parseFloat(state.gpsLng),
-    agence.lat, agence.lng
-  );
+  const dist = calculerDistance(parseFloat(state.gpsLat), parseFloat(state.gpsLng), agence.lat, agence.lng);
   return { distance: dist, dansPerimetre: dist <= agence.rayon, rayon: agence.rayon };
 }
 
@@ -987,21 +655,6 @@ function forcerPointage() {
   }
 }
 
-// ── STATE ──
-const state = {
-  entree: null,
-  sortie: null,
-  gpsLat: null,
-  gpsLng: null,
-  gpsAccuracy: null,
-  currentModal: null,
-  agentNom: 'Ibrahim Guero',
-  agenceNom: 'Agence Adetikope',
-  distanceAgence: null,
-  forcerHorsZone: false,
-};
-
-
 // ── LOGIN ──
 let pinCurrent = '';
 let loginAgent = null;
@@ -1015,8 +668,7 @@ function validerID() {
   }
   document.getElementById('error-id').style.display = 'none';
   loginAgent = { id, ...agent };
-  const prenom = agent.nom.split(' ')[0];
-  document.getElementById('login-prenom').textContent = prenom;
+  document.getElementById('login-prenom').textContent = agent.nom.split(' ')[0];
   document.getElementById('login-step-id').style.display = 'none';
   document.getElementById('login-step-pin').style.display = 'block';
   pinCurrent = '';
@@ -1039,12 +691,9 @@ function updatePinDots() {
   for (let i = 0; i < 4; i++) {
     const dot = document.getElementById('pd' + i);
     if (i < pinCurrent.length) {
-      dot.textContent = '●';
-      dot.classList.add('filled');
-      dot.classList.remove('active');
+      dot.textContent = '●'; dot.classList.add('filled'); dot.classList.remove('active');
     } else {
-      dot.textContent = '';
-      dot.classList.remove('filled');
+      dot.textContent = ''; dot.classList.remove('filled');
       dot.classList.toggle('active', i === pinCurrent.length);
     }
   }
@@ -1053,37 +702,48 @@ function updatePinDots() {
 function validerPIN() {
   if (pinCurrent !== loginAgent.pin) {
     document.getElementById('error-pin').style.display = 'block';
-    pinCurrent = '';
-    updatePinDots();
+    pinCurrent = ''; updatePinDots();
     setTimeout(() => document.getElementById('error-pin').style.display = 'none', 2500);
     return;
   }
-  // Connexion réussie
-  state.agentNom = loginAgent.nom;
-  state.agenceNom = loginAgent.agence;
-  // Mettre à jour l'UI profil
-  const initiales = loginAgent.initiales;
-  const agence = loginAgent.agence;
-  ['agent-avatar','profile-avatar'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = initiales;
+  // Connexion réussie — mettre à jour tout l'UI
+  appliquerSession({
+    id: loginAgent.id,
+    nom: loginAgent.nom,
+    agence: loginAgent.agence,
+    initiales: loginAgent.initiales,
+    poste: loginAgent.poste
   });
-  ['agent-name','profile-name'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = loginAgent.nom;
-  });
-  const roleStr = loginAgent.poste + ' · NITA';
-  ['agent-role'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = roleStr;
-  });
-  document.getElementById('agent-agency').textContent = agence;
-  document.getElementById('profile-role').textContent = loginAgent.poste + ' · ' + agence;
-  // Sauvegarder session
-  localStorage.setItem('nita_session', JSON.stringify({ id: loginAgent.id, nom: loginAgent.nom, agence, initiales, poste: loginAgent.poste }));
-  // Fermer login
+  localStorage.setItem('nita_session', JSON.stringify({
+    id: loginAgent.id, nom: loginAgent.nom, agence: loginAgent.agence,
+    initiales: loginAgent.initiales, poste: loginAgent.poste
+  }));
   document.getElementById('page-login').style.display = 'none';
   showToast('Bienvenue, ' + loginAgent.nom.split(' ')[0] + ' !');
+}
+
+function appliquerSession(s) {
+  state.agentNom = s.nom;
+  state.agenceNom = s.agence;
+  // Avatar
+  ['agent-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.initiales; });
+  // Nom
+  ['agent-name','profile-name','profile-nom-complet'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.nom; });
+  // Rôle
+  const el = document.getElementById('agent-role');
+  if (el) el.textContent = s.poste + ' · NITA';
+  const pr = document.getElementById('profile-role');
+  if (pr) pr.textContent = s.poste + ' · ' + s.agence;
+  // Agence
+  ['agent-agency','profile-agence'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.agence; });
+  // ID
+  const pid = document.getElementById('profile-id');
+  if (pid) pid.textContent = 'ID Agent : ' + s.id;
+  // Topbar sous-titre
+  const ts = document.getElementById('topbar-sub');
+  if (ts) ts.textContent = s.agence;
+  // Mettre à jour bannière distance
+  updateDistanceBanner();
 }
 
 function retourID() {
@@ -1092,19 +752,30 @@ function retourID() {
   pinCurrent = '';
 }
 
-// Vérifier session existante au lancement
+function deconnecter() {
+  localStorage.removeItem('nita_session');
+  state.agentNom = ''; state.agenceNom = '';
+  state.entree = null; state.sortie = null;
+  // Remettre login
+  const pl = document.getElementById('page-login');
+  pl.style.display = 'flex';
+  document.getElementById('input-id').value = '';
+  document.getElementById('login-step-id').style.display = 'block';
+  document.getElementById('login-step-pin').style.display = 'none';
+  // Reset boutons pointage
+  document.getElementById('btn-entree').style.display = 'flex';
+  document.getElementById('btn-sortie').style.display = 'none';
+  const banner = document.getElementById('status-banner');
+  banner.className = 'status-banner not-done';
+  document.getElementById('status-text').textContent = 'Pointage d\'entrée non effectué';
+  showToast('Déconnexion effectuée');
+}
+
 function checkSession() {
   const session = localStorage.getItem('nita_session');
   if (session) {
     try {
-      const s = JSON.parse(session);
-      state.agentNom = s.nom;
-      state.agenceNom = s.agence;
-      ['agent-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.initiales; });
-      ['agent-name','profile-name'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.nom; });
-      document.getElementById('agent-role').textContent = s.poste + ' · NITA';
-      document.getElementById('agent-agency').textContent = s.agence;
-      document.getElementById('profile-role').textContent = s.poste + ' · ' + s.agence;
+      appliquerSession(JSON.parse(session));
       document.getElementById('page-login').style.display = 'none';
     } catch(e) { localStorage.removeItem('nita_session'); }
   }
@@ -1126,8 +797,7 @@ function renderDate() {
   const opts = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
   const dateStr = now.toLocaleDateString('fr-FR', opts);
   document.getElementById('today-date').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-  const topOpts = { weekday:'short', day:'numeric', month:'short' };
-  const top = now.toLocaleDateString('fr-FR', topOpts);
+  const top = now.toLocaleDateString('fr-FR', { weekday:'short', day:'numeric', month:'short' });
   const timeStr = now.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
   document.getElementById('topbar-date').innerHTML = top + '<br>' + timeStr;
   setTimeout(renderDate, 10000);
@@ -1135,33 +805,22 @@ function renderDate() {
 
 // ── GPS ──
 function initGPS() {
-  if (!navigator.geolocation) {
-    setGPS('error', 'GPS non disponible', '');
-    return;
-  }
+  if (!navigator.geolocation) { setGPS('error','GPS non disponible',''); return; }
   navigator.geolocation.watchPosition(
     pos => {
       state.gpsLat = pos.coords.latitude.toFixed(5);
       state.gpsLng = pos.coords.longitude.toFixed(5);
       state.gpsAccuracy = Math.round(pos.coords.accuracy);
-      setGPS('ok', `${state.gpsLat}°N, ${state.gpsLng}°E`, `Précision : ±${state.gpsAccuracy} m`);
+      setGPS('ok', state.gpsLat+'°N, '+state.gpsLng+'°E', 'Précision : ±'+state.gpsAccuracy+' m');
       updateDistanceBanner();
     },
-    () => setGPS('error', 'Accès GPS refusé', 'Autoriser la localisation'),
+    () => setGPS('error','Accès GPS refusé','Autoriser la localisation'),
     { enableHighAccuracy: true, timeout: 10000 }
   );
-  // Simulate for demo
-  setTimeout(() => {
-    if (!state.gpsLat) {
-      state.gpsLat = '6.13748'; state.gpsLng = '1.21227'; state.gpsAccuracy = 8;
-      setGPS('ok', `6.13748°N, 1.21227°E`, `Précision : ±8 m`);
-    }
-  }, 2200);
 }
 
 function setGPS(status, value, accuracy) {
-  const dot = document.getElementById('gps-dot');
-  dot.className = 'gps-dot ' + status;
+  document.getElementById('gps-dot').className = 'gps-dot ' + status;
   document.getElementById('gps-value').textContent = value;
   document.getElementById('gps-accuracy').textContent = accuracy;
 }
@@ -1179,9 +838,10 @@ function openModal(type) {
   state.currentModal = type;
   const now = new Date();
   const timeStr = now.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-  const isLate = type === 'entree' && now.getHours() >= 8 && now.getMinutes() > 0;
+  const isLate = type === 'entree' && (now.getHours() > 8 || (now.getHours() === 8 && now.getMinutes() > 0));
   const label = type === 'entree' ? 'Entrée' : 'Sortie';
-  const coords = state.gpsLat ? `${state.gpsLat}°N, ${state.gpsLng}°E` : '6.13748°N, 1.21227°E';
+  const coords = state.gpsLat ? state.gpsLat+'°N, '+state.gpsLng+'°E' : 'GPS non disponible';
+  const agenceLabel = state.agenceNom || '—';
 
   document.getElementById('modal-content-pointage').innerHTML = `
     <div class="modal-title">Confirmer le pointage</div>
@@ -1192,25 +852,15 @@ function openModal(type) {
       <div class="map-center-dot"></div>
     </div>
     <div class="modal-confirm-row">
-      <div class="modal-confirm-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <div>
-        <div class="modal-confirm-label">Heure de pointage</div>
-        <div class="modal-confirm-value">${timeStr}</div>
-      </div>
+      <div class="modal-confirm-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div><div class="modal-confirm-label">Heure de pointage</div><div class="modal-confirm-value">${timeStr}</div></div>
     </div>
     <div class="modal-confirm-row">
-      <div class="modal-confirm-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-      </div>
-      <div>
-        <div class="modal-confirm-label">Coordonnées GPS</div>
-        <div class="modal-confirm-value">${coords} · ±${state.gpsAccuracy||8}m</div>
-      </div>
+      <div class="modal-confirm-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
+      <div><div class="modal-confirm-label">Coordonnées GPS</div><div class="modal-confirm-value">${coords} · ±${state.gpsAccuracy||'—'}m</div></div>
     </div>
     <div class="modal-note">
-      <strong>Agence Adetikopé</strong> — Votre position sera enregistrée et transmise au superviseur.
+      <strong>${agenceLabel}</strong> — Votre position sera enregistrée et transmise au superviseur.
       ${isLate ? '<br><span style="color:var(--amber-800)">⚠ Pointage après 08h00, un retard sera signalé.</span>' : ''}
     </div>
     <button class="btn-confirm" onclick="confirmerPointage('${type}','${timeStr}')">
@@ -1227,91 +877,69 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyEGYOboIEvJOy7J-j8hQM7
 async function confirmerPointage(type, timeStr) {
   closeModal('modal-pointage');
   state[type] = timeStr;
-
-  // Mise à jour UI immédiate
   if (type === 'entree') {
     const banner = document.getElementById('status-banner');
     banner.className = 'status-banner done';
-    document.getElementById('status-text').textContent = `Entrée pointée à ${timeStr}`;
+    document.getElementById('status-text').textContent = 'Entrée pointée à ' + timeStr;
     banner.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
     document.getElementById('btn-entree').style.display = 'none';
     document.getElementById('btn-sortie').style.display = 'flex';
   } else {
     const banner = document.getElementById('status-banner');
     banner.className = 'status-banner done';
-    document.getElementById('status-text').textContent = `Journée complète : ${state.entree} → ${state.sortie}`;
+    document.getElementById('status-text').textContent = 'Journée complète : ' + state.entree + ' → ' + state.sortie;
     document.getElementById('btn-sortie').style.display = 'none';
   }
-
-  // Envoi vers Google Sheets
   const now = new Date();
   const payload = {
     date: now.toLocaleDateString('fr-FR'),
-    agent: document.getElementById('agent-name').textContent,
-    agence: document.getElementById('agent-agency').textContent,
+    agent: state.agentNom,
+    agence: state.agenceNom,
     type: type === 'entree' ? 'Entrée' : 'Sortie',
     heure: timeStr,
-    lat: state.gpsLat || '6.13748',
-    lng: state.gpsLng || '1.21227',
-    precision: state.gpsAccuracy || 8,
-    statut: type === 'entree'
-      ? (now.getHours() >= 8 && now.getMinutes() > 0 ? 'Retard' : 'A l\'heure')
-      : 'Sortie normale',
+    lat: state.gpsLat || '',
+    lng: state.gpsLng || '',
+    precision: state.gpsAccuracy || '',
+    statut: type === 'entree' ? (now.getHours() > 8 || (now.getHours()===8 && now.getMinutes()>0) ? 'Retard' : 'A l\'heure') : 'Sortie normale',
     distance_agence: state.distanceAgence ? state.distanceAgence + ' m' : 'N/A',
     dans_perimetre: getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A'
   };
-
   try {
-    await fetch(API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
     showToast('✓ Pointage synchronisé avec Google Sheets');
-  } catch (err) {
-    // Sauvegarde locale si hors ligne
+  } catch(err) {
     const queue = JSON.parse(localStorage.getItem('nita_queue') || '[]');
     queue.push(payload);
     localStorage.setItem('nita_queue', JSON.stringify(queue));
     showToast('Hors ligne — pointage mis en file d\'attente');
   }
-
   showSuccess(type, timeStr);
 }
 
-// Synchroniser les pointages en attente au retour du réseau
 window.addEventListener('online', async () => {
   const queue = JSON.parse(localStorage.getItem('nita_queue') || '[]');
-  if (queue.length === 0) return;
+  if (!queue.length) return;
   for (const payload of queue) {
-    try {
-      await fetch(API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    } catch (e) { return; }
+    try { await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) }); }
+    catch(e) { return; }
   }
   localStorage.removeItem('nita_queue');
-  showToast(`✓ ${queue.length} pointage(s) synchronisé(s)`);
+  showToast('✓ ' + queue.length + ' pointage(s) synchronisé(s)');
 });
 
 function showSuccess(type, timeStr) {
   const label = type === 'entree' ? 'Entrée' : 'Sortie';
+  const statut = getStatutPerimetre();
   document.getElementById('modal-content-success').innerHTML = `
-    <div class="success-icon">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+    <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="success-title">Pointage enregistré !</div>
     <div class="success-sub">Votre ${label.toLowerCase()} a été transmise au superviseur.</div>
     <div class="success-detail">
       <div class="success-row"><span class="key">Type</span><span class="val">Pointage ${label}</span></div>
       <div class="success-row"><span class="key">Heure</span><span class="val">${timeStr}</span></div>
-      <div class="success-row"><span class="key">Agence</span><span class="val">Adetikopé</span></div>
-      <div class="success-row"><span class="key">GPS</span><span class="val">${state.gpsLat||'6.13748'}°N · ±${state.gpsAccuracy||8}m</span></div>
-      <div class="success-row"><span class="key">Statut</span><span class="val" style="color:var(--green-600)">✓ Dans le périmètre</span></div>
+      <div class="success-row"><span class="key">Agence</span><span class="val">${state.agenceNom}</span></div>
+      <div class="success-row"><span class="key">GPS</span><span class="val">${state.gpsLat||'—'}°N · ±${state.gpsAccuracy||'—'}m</span></div>
+      <div class="success-row"><span class="key">Statut</span><span class="val" style="color:var(--green-600)">${statut && statut.dansPerimetre ? '✓ Dans le périmètre' : '⚠ Hors périmètre'}</span></div>
     </div>
     <button class="btn-confirm" onclick="closeModal('modal-success')">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1321,20 +949,16 @@ function showSuccess(type, timeStr) {
   setTimeout(() => document.getElementById('modal-success').classList.add('open'), 300);
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ── CALENDAR ──
+// ── CALENDRIER ──
 const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 let viewMonth = 5; let viewYear = 2026;
-
 const mockData = {
   '2026-06-01':'present','2026-06-02':'present','2026-06-03':'present','2026-06-04':'present','2026-06-05':'present',
   '2026-06-08':'present','2026-06-09':'retard','2026-06-10':'present','2026-06-11':'present','2026-06-12':'absent',
   '2026-06-15':'present','2026-06-16':'present','2026-06-17':'retard','2026-06-18':'present'
 };
-
 function renderCalendar() {
   document.getElementById('month-label').textContent = months[viewMonth] + ' ' + viewYear;
   const grid = document.getElementById('cal-grid');
@@ -1343,31 +967,26 @@ function renderCalendar() {
   const offset = first === 0 ? 6 : first - 1;
   const days = new Date(viewYear, viewMonth+1, 0).getDate();
   const today = new Date();
-
-  for (let i=0; i<offset; i++) {
-    const d = document.createElement('div');
-    d.className = 'cal-cell empty'; grid.appendChild(d);
-  }
+  for (let i=0; i<offset; i++) { const d=document.createElement('div'); d.className='cal-cell empty'; grid.appendChild(d); }
   for (let d=1; d<=days; d++) {
     const cell = document.createElement('div');
-    const key = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const key = viewYear+'-'+String(viewMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const isToday = d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
     const isFuture = new Date(viewYear, viewMonth, d) > today;
     const status = mockData[key];
-    cell.className = 'cal-cell' + (status?' '+status:'') + (isToday?' today':'') + (isFuture?' future':'');
+    cell.className = 'cal-cell'+(status?' '+status:'')+(isToday?' today':'')+(isFuture?' future':'');
     cell.textContent = d;
     grid.appendChild(cell);
   }
 }
-
 function changeMonth(dir) {
   viewMonth += dir;
-  if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-  if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+  if (viewMonth < 0) { viewMonth=11; viewYear--; }
+  if (viewMonth > 11) { viewMonth=0; viewYear++; }
   renderCalendar();
 }
 
-// ── HISTORY LIST ──
+// ── HISTORIQUE ──
 const historyData = [
   {day:'18',month:'Juin',agency:'Agence Adetikopé',entree:'07h48',sortie:'18h02',status:'present'},
   {day:'17',month:'Juin',agency:'Agence Adetikopé',entree:'08h22',sortie:'18h05',status:'retard'},
@@ -1378,18 +997,11 @@ const historyData = [
 ];
 const badgeTxt = {present:'Présent',retard:'En retard',absent:'Absent'};
 const badgeCls = {present:'badge-ok',retard:'badge-late',absent:'badge-absent'};
-
 function renderHistory() {
   document.getElementById('history-list').innerHTML = historyData.map(h => `
     <div class="history-item">
-      <div class="history-date-box">
-        <div class="date-day">${h.day}</div>
-        <div class="date-month">${h.month}</div>
-      </div>
-      <div class="history-detail">
-        <div class="history-agency">${h.agency}</div>
-        <div class="history-times">Entrée ${h.entree} · Sortie ${h.sortie}</div>
-      </div>
+      <div class="history-date-box"><div class="date-day">${h.day}</div><div class="date-month">${h.month}</div></div>
+      <div class="history-detail"><div class="history-agency">${h.agency}</div><div class="history-times">Entrée ${h.entree} · Sortie ${h.sortie}</div></div>
       <span class="badge ${badgeCls[h.status]}">${badgeTxt[h.status]}</span>
     </div>
   `).join('');
@@ -1403,9 +1015,7 @@ function showToast(msg) {
 }
 
 // ── SERVICE WORKER ──
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 </body>
 </html>
