@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NITA Togo — Dashboard Direction 2026</title>
+<style>
+:root {
+  --blue-900:#042C53;--blue-700:#0F4C81;--blue-600:#185FA5;--blue-400:#378ADD;--blue-50:#E6F1FB;
+  --green-700:#2D6A0A;--green-600:#3B6D11;--green-50:#EAF3DE;--green-200:#C0DD97;
+  --amber-700:#7A4508;--amber-600:#854F0B;--amber-50:#FAEEDA;--amber-200:#FAC775;
+  --red-700:#8B2020;--red-600:#A32D2D;--red-50:#FCEBEB;--red-200:#F7C1C1;
+  --gray-900:#2C2C2A;--gray-600:#5F5E5A;--gray-400:#888780;--gray-100:#D3D1C7;--gray-50:#F1EFE8;
+  --white:#fff;
+  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f4f8;color:var(--gray-900);min-height:100vh;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,var(--blue-900),var(--blue-700));padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.header-left{display:flex;align-items:center;gap:14px;}
+.header-logo{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.header-logo svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;}
+.header-title{color:#fff;font-size:20px;font-weight:700;}
+.header-sub{color:rgba(255,255,255,.65);font-size:12px;margin-top:2px;}
+.header-date{color:rgba(255,255,255,.8);font-size:12px;text-align:right;}
+.badge-live{background:var(--green-600);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.5px;}
+
+/* TABS */
+.tabs{background:var(--white);border-bottom:1px solid var(--gray-100);display:flex;padding:0 24px;overflow-x:auto;}
+.tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--gray-400);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;}
+.tab.active{color:var(--blue-600);border-bottom-color:var(--blue-600);}
+.tab:hover{color:var(--blue-700);}
+
+/* CONTENT */
+.content{padding:20px 24px;max-width:1200px;margin:0 auto;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* SECTION TITLE */
+.section-title{font-size:11px;font-weight:700;color:var(--gray-400);letter-spacing:.8px;text-transform:uppercase;margin:20px 0 10px;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;}
+.kpi-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-100);padding:16px;position:relative;overflow:hidden;}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi-card.blue::before{background:var(--blue-600);}
+.kpi-card.green::before{background:var(--green-600);}
+.kpi-card.amber::before{background:var(--amber-600);}
+.kpi-card.red::before{background:var(--red-600);}
+.kpi-label{font-size:11px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;}
+.kpi-sub{font-size:11px;color:var(--gray-400);margin-top:4px;}
+.kpi-trend{font-size:11px;font-weight:600;margin-top:6px;}
+.kpi-trend.up{color:var(--green-600);}
+.kpi-trend.down{color:var(--red-600);}
+.kpi-trend.neutral{color:var(--amber-600);}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:20px;}
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-100);padding:18px;}
+.card-title{font-size:14px;font-weight:700;color:var(--gray-900);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.card-title svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+
+/* PROGRESS BARS */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.prog-label{font-size:12px;color:var(--gray-600);width:160px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prog-track{flex:1;height:8px;background:var(--gray-100);border-radius:4px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:4px;transition:width .5s;}
+.prog-val{font-size:12px;font-weight:600;color:var(--gray-900);width:40px;text-align:right;}
+.prog-target{font-size:10px;color:var(--gray-400);width:50px;text-align:right;}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{background:var(--gray-50);padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--gray-100);}
+td{padding:10px 12px;border-bottom:1px solid var(--gray-50);color:var(--gray-900);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--gray-50);}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-green{background:var(--green-50);color:var(--green-700);}
+.badge-amber{background:var(--amber-50);color:var(--amber-700);}
+.badge-red{background:var(--red-50);color:var(--red-700);}
+.badge-blue{background:var(--blue-50);color:var(--blue-600);}
+
+/* ACTION ITEMS */
+.action-list{display:flex;flex-direction:column;gap:10px;}
+.action-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);border-left:3px solid var(--blue-400);}
+.action-item.urgent{border-left-color:var(--red-600);background:var(--red-50);}
+.action-item.done{border-left-color:var(--green-600);background:var(--green-50);}
+.action-item.warning{border-left-color:var(--amber-600);background:var(--amber-50);}
+.action-num{width:28px;height:28px;border-radius:50%;background:var(--blue-600);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.action-item.urgent .action-num{background:var(--red-600);}
+.action-item.done .action-num{background:var(--green-600);}
+.action-item.warning .action-num{background:var(--amber-600);}
+.action-title{font-size:13px;font-weight:600;color:var(--gray-900);}
+.action-sub{font-size:11px;color:var(--gray-600);margin-top:2px;}
+.action-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+
+/* ALERT BOX */
+.alert{padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:12px;font-size:13px;display:flex;gap:10px;align-items:flex-start;}
+.alert.red{background:var(--red-50);color:var(--red-700);border:1px solid var(--red-200);}
+.alert.green{background:var(--green-50);color:var(--green-700);border:1px solid var(--green-200);}
+.alert.amber{background:var(--amber-50);color:var(--amber-700);border:1px solid var(--amber-200);}
+
+/* POINTAGE SECTION */
+.pointage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.pointage-card{background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--gray-100);}
+.pointage-agence{font-size:12px;font-weight:700;color:var(--gray-900);}
+.pointage-stat{font-size:11px;color:var(--gray-400);margin-top:4px;}
+.pointage-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
+.dot-green{background:var(--green-600);}
+.dot-amber{background:var(--amber-600);}
+.dot-red{background:var(--red-600);}
+
+/* LOADING */
+.loading{text-align:center;padding:40px;color:var(--gray-400);font-size:13px;}
+.spinner{width:24px;height:24px;border:2px solid var(--gray-100);border-top-color:var(--blue-600);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* REFRESH BTN */
+.btn-refresh{background:var(--blue-50);color:var(--blue-600);border:1px solid var(--blue-100);border-radius:var(--radius-sm);padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;}
+.btn-refresh svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .header{padding:14px 16px;}
+  .content{padding:14px 16px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .tabs{padding:0 12px;}
+  .tab{padding:12px 14px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+    </div>
+    <div>
+      <div class="header-title">NITA Togo — Dashboard Direction</div>
+      <div class="header-sub">Plan d'Action Commercial 2026 · Suivi Terrain Agents</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="badge-live">● LIVE</span>
+    <div class="header-date" id="header-date"></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('synthese',this)">📊 Synthèse</div>
+  <div class="tab" onclick="switchTab('terrain',this)">📍 Terrain & Pointage</div>
+  <div class="tab" onclick="switchTab('pac',this)">🎯 Plan d'Action</div>
+  <div class="tab" onclick="switchTab('agences',this)">🏢 Agences</div>
+  <div class="tab" onclick="switchTab('clients',this)">👥 Clients CRM</div>
+</div>
+
+<div class="content">
+
+<!-- ═══ TAB SYNTHÈSE ═══ -->
+<div class="tab-panel active" id="tab-synthese">
+
+  <div class="section-title">Vue globale — Indicateurs clés</div>
+  <div class="kpi-grid">
+    <div class="kpi-card blue">
+      <div class="kpi-label">Clients actifs MyNITA</div>
+      <div class="kpi-val" style="color:var(--blue-600)">9 047</div>
+      <div class="kpi-sub">Base totale Togo</div>
+      <div class="kpi-trend up">↑ 86.4% à Lomé</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Taux d'occupation</div>
+      <div class="kpi-val" style="color:var(--green-600)">74.5%</div>
+      <div class="kpi-sub">Objectif : ≥ 80%</div>
+      <div class="kpi-trend neutral">→ 5.5 pts à combler</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Clients à risque</div>
+      <div class="kpi-val" style="color:var(--amber-600)">559</div>
+      <div class="kpi-sub">A réactiver en urgence</div>
+      <div class="kpi-trend down">⚠ Campagne Win-Back active</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Agences faibles</div>
+      <div class="kpi-val" style="color:var(--red-600)">14</div>
+      <div class="kpi-sub">Sous 50% d'occupation</div>
+      <div class="kpi-trend neutral">→ Objectif : ≤ 7 (Sept. 2026)</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Adoption Airtime Niger</div>
+      <div class="kpi-val" style="color:var(--blue-600)">23.7%</div>
+      <div class="kpi-sub">Objectif : 50%</div>
+      <div class="kpi-trend down">↑ 6 904 clients sans Airtime</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Agences top (>100%)</div>
+      <div class="kpi-val" style="color:var(--green-600)">10</div>
+      <div class="kpi-sub">Sur 38 agences</div>
+      <div class="kpi-trend up">✓ À maintenir</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Frais médian 90j</div>
+      <div class="kpi-val" style="color:var(--amber-600)">3 670</div>
+      <div class="kpi-sub">FCFA — Objectif : 4 400</div>
+      <div class="kpi-trend neutral">→ +20% visé</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Agents terrain</div>
+      <div class="kpi-val" id="kpi-agents-total" style="color:var(--blue-600)">34</div>
+      <div class="kpi-sub">Sur 19 agences Lomé</div>
+      <div class="kpi-trend neutral" id="kpi-agents-sub">Chargement...</div>
+    </div>
+  </div>
+
+  <!-- ALERTES -->
+  <div class="section-title">Alertes du jour</div>
+  <div id="alertes-container">
+    <div class="alert amber">⚠ <span>559 clients à risque — Campagne Win-Back P1 à lancer avant fin juillet 2026</span></div>
+    <div class="alert red">🔴 <span>14 agences sous 50% d'occupation — Visites terrain prioritaires (P6)</span></div>
+    <div class="alert green">✅ <span>10 agences dépassent 100% d'occupation — GANAME 197.2% · RAMCO 125.2% · HOLLANDO 115.8%</span></div>
+  </div>
+
+  <!-- OBJECTIFS PAC -->
+  <div class="section-title">Avancement objectifs PAC 2026</div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-title" style="color:var(--blue-600)">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        KPIs Stratégiques
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Taux occupation global</div>
+        <div class="prog-track"><div class="prog-bar" style="width:74.5%;background:var(--blue-600)"></div></div>
+        <div class="prog-val">74.5%</div>
+        <div class="prog-target">→80%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Adoption Airtime Niger</div>
+        <div class="prog-track"><div class="prog-bar" style="width:47.4%;background:var(--amber-600)"></div></div>
+        <div class="prog-val">23.7%</div>
+        <div class="prog-target">→50%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Clients fidèles</div>
+        <div class="prog-track"><div class="prog-bar" style="width:50.8%;background:var(--green-600)"></div></div>
+        <div class="prog-val">50.8%</div>
+        <div class="prog-target">→60%</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Agences > 100%</div>
+        <div class="prog-track"><div class="prog-bar" style="width:26.3%;background:var(--green-600)"></div></div>
+        <div class="prog-val">10/38</div>
+        <div class="prog-target">→15</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Clients hors Lomé</div>
+        <div class="prog-track"><div class="prog-bar" style="width:75.5%;background:var(--blue-400)"></div></div>
+        <div class="prog-val">13.6%</div>
+        <div class="prog-target">→18%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="color:var(--green-600)">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Segmentation RFM clients
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Champions (19%)</div>
+        <div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div>
+        <div class="prog-val">1 706</div>
+        <div class="prog-target">✓</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Fidèles (21.3%)</div>
+        <div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div>
+        <div class="prog-val">1 931</div>
+        <div class="prog-target">✓</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">Nouveaux (10.4%)</div>
+        <div class="prog-track"><div class="prog-bar" style="width:33%;background:var(--amber-600)"></div></div>
+        <div class="prog-val">942</div>
+        <div class="prog-target">→Fidèle</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">A ne pas perdre</div>
+        <div class="prog-track"><div class="prog-bar" style="width:60%;background:var(--amber-600)"></div></div>
+        <div class="prog-val">713</div>
+        <div class="prog-target">→600</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-label">A risque + Dormants</div>
+        <div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--red-600)"></div></div>
+        <div class="prog-val">559</div>
+        <div class="prog-target">→280</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POINTAGE TEMPS RÉEL -->
+  <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>Présence terrain aujourd'hui</span>
+    <button class="btn-refresh" onclick="chargerPointagesAujourdhui()">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+      Actualiser
+    </button>
+  </div>
+  <div id="pointage-container">
+    <div class="loading"><div class="spinner"></div>Chargement des pointages...</div>
+  </div>
+
+</div>
+
+<!-- ═══ TAB TERRAIN ═══ -->
+<div class="tab-panel" id="tab-terrain">
+  <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>Pointages du jour — Tous les agents</span>
+    <button class="btn-refresh" onclick="chargerPointagesDetail()">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+      Actualiser
+    </button>
+  </div>
+
+  <div class="kpi-grid" style="margin-bottom:16px;">
+    <div class="kpi-card green">
+      <div class="kpi-label">Présents aujourd'hui</div>
+      <div class="kpi-val" id="stat-presents" style="color:var(--green-600)">—</div>
+      <div class="kpi-sub">Agents pointés entrée</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Retards</div>
+      <div class="kpi-val" id="stat-retards" style="color:var(--amber-600)">—</div>
+      <div class="kpi-sub">Après 07h00</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Absents</div>
+      <div class="kpi-val" id="stat-absents" style="color:var(--red-600)">—</div>
+      <div class="kpi-sub">Pas encore pointés</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Hors périmètre</div>
+      <div class="kpi-val" id="stat-hors" style="color:var(--blue-600)">—</div>
+      <div class="kpi-sub">Pointage forcé</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+      Journal de pointage
+    </div>
+    <div id="terrain-table-container">
+      <div class="loading"><div class="spinner"></div>Chargement...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB PLAN D'ACTION ═══ -->
+<div class="tab-panel" id="tab-pac">
+
+  <div class="section-title">11 Actions — 5 Blocs · PAC Commercial 2026</div>
+
+  <div class="alert amber">⏰ <strong>URGENT (&lt; 2 semaines) :</strong> Blocs 1 — Win-Back 559 clients + Rétention 713 clients VIP</div>
+
+  <div class="section-title">Bloc 1 — Réactivation Win-Back & Rétention [URGENT]</div>
+  <div class="action-list">
+    <div class="action-item urgent">
+      <div class="action-num">P1</div>
+      <div>
+        <div class="action-title">Win-Back — Réactivation 559 clients inactifs</div>
+        <div class="action-sub">Appel nominatif + WhatsApp personnalisé · Agents commerciaux A & B</div>
+        <div class="action-meta">
+          <span class="badge badge-red">Objectif : 280 réactivés</span>
+          <span class="badge badge-amber">KPI : Taux réactivation</span>
+          <span class="badge badge-blue">Échéance : Juil. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item urgent">
+      <div class="action-num">P2</div>
+      <div>
+        <div class="action-title">Rétention VIP — Protection 713 clients "A ne pas perdre"</div>
+        <div class="action-sub">Appels de courtoisie bimensuels + WhatsApp · Adjoint RC pilotage CRM</div>
+        <div class="action-meta">
+          <span class="badge badge-red">Objectif : ≥ 600 actifs</span>
+          <span class="badge badge-amber">KPI : J+30/J+60/J+90</span>
+          <span class="badge badge-blue">Échéance : Août 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Bloc 2 — Education client & Services Niger [30-60 jours]</div>
+  <div class="action-list">
+    <div class="action-item warning">
+      <div class="action-num">P3</div>
+      <div>
+        <div class="action-title">Déploiement Airtime Niger — 6 904 clients non utilisateurs</div>
+        <div class="action-sub">TikTok géociblé · WhatsApp tutoriel · Démo agence · Affiche A2 + Flyer A5</div>
+        <div class="action-meta">
+          <span class="badge badge-amber">23.7% → 50%</span>
+          <span class="badge badge-blue">Campagne 60 jours</span>
+          <span class="badge badge-blue">Échéance : Sept. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item warning">
+      <div class="action-num">P4</div>
+      <div>
+        <div class="action-title">Activation Factures Niger — NIGELEC / SEEN / Cash Power</div>
+        <div class="action-sub">1 640 Champions + Fidèles · WhatsApp ciblé · Démo agence</div>
+        <div class="action-meta">
+          <span class="badge badge-amber">+200 activations</span>
+          <span class="badge badge-blue">Campagne 30 jours</span>
+          <span class="badge badge-blue">Échéance : Juil. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">P5</div>
+      <div>
+        <div class="action-title">Education MyNITA — Montée en valeur Fidèles + Loyalistes</div>
+        <div class="action-sub">1 563 clients · WhatsApp pédagogique · Guide MyNITA A4</div>
+        <div class="action-meta">
+          <span class="badge badge-green">3 670 → 4 400 FCFA médian</span>
+          <span class="badge badge-blue">Formation mensuelle</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Bloc 3 — Performance & Redressement Agences [1-3 mois]</div>
+  <div class="action-list">
+    <div class="action-item urgent">
+      <div class="action-num">P6</div>
+      <div>
+        <div class="action-title">Redressement 14 agences faibles (&lt; 50%)</div>
+        <div class="action-sub">PAGALA 6.5% · GUERIN-KOUKA 6.6% · BADOU 10.2% · MANGO 11.8% + 10 autres</div>
+        <div class="action-meta">
+          <span class="badge badge-red">7 agences → 50% en 3 mois</span>
+          <span class="badge badge-blue">Visite terrain mensuelle</span>
+          <span class="badge badge-blue">Échéance : Sept. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item warning">
+      <div class="action-num">P7</div>
+      <div>
+        <div class="action-title">Élévation 5 agences "A améliorer" (50-70%)</div>
+        <div class="action-sub">SOKODE 55.1% · 3STV 63.9% · EMA 65.1% · RTV 68% · ATAKPAME 69.8%</div>
+        <div class="action-meta">
+          <span class="badge badge-amber">Toutes → 70% en 2 mois</span>
+          <span class="badge badge-blue">Formation + Supervision</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item done">
+      <div class="action-num">P8</div>
+      <div>
+        <div class="action-title">Protection 10 agences Top (&gt; 100%)</div>
+        <div class="action-sub">GANAME 197.2% · RAMCO 125.2% · HOLLANDO 115.8% · AGOE-NYIVE 115.8% · ZONGO 108.1%</div>
+        <div class="action-meta">
+          <span class="badge badge-green">Maintenir 10/10 agences</span>
+          <span class="badge badge-blue">Suivi trimestriel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Bloc 4 — Développement Terrain & Conquête [3 mois]</div>
+  <div class="action-list">
+    <div class="action-item">
+      <div class="action-num">P9</div>
+      <div>
+        <div class="action-title">Missions terrain — Kara · Dapaong · Atakpamé</div>
+        <div class="action-sub">1 133 clients hors Lomé · 1 mission/mois/ville · Agents A & B</div>
+        <div class="action-meta">
+          <span class="badge badge-blue">+265 clients (+30%)</span>
+          <span class="badge badge-blue">Échéance : Déc. 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">P10</div>
+      <div>
+        <div class="action-title">Accompagnement 1ère prise en main MyNITA</div>
+        <div class="action-sub">Nouveau (942) + Prometteur (671) = 1 613 clients · Suivi CRM J+30/60/90</div>
+        <div class="action-meta">
+          <span class="badge badge-blue">484 nouveaux Fidèles en 90j</span>
+          <span class="badge badge-green">Continu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Bloc 5 — Pilotage & Reporting [Mensuel]</div>
+  <div class="action-list">
+    <div class="action-item done">
+      <div class="action-num">P11</div>
+      <div>
+        <div class="action-title">Reporting mensuel PAC + Tableau de bord</div>
+        <div class="action-sub">Rapport remis à la Direction avant le 5 du mois · Adjoint RC responsable</div>
+        <div class="action-meta">
+          <span class="badge badge-green">Dashboard actif ✓</span>
+          <span class="badge badge-blue">Mensuel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB AGENCES ═══ -->
+<div class="tab-panel" id="tab-agences">
+  <div class="section-title">Performance des 38 agences NITA Togo</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card green"><div class="kpi-label">Top > 100%</div><div class="kpi-val" style="color:var(--green-600)">10</div><div class="kpi-sub">Objectif atteint</div></div>
+    <div class="kpi-card blue"><div class="kpi-label">Bonne 70-100%</div><div class="kpi-val" style="color:var(--blue-600)">9</div><div class="kpi-sub">En bonne voie</div></div>
+    <div class="kpi-card amber"><div class="kpi-label">A améliorer 50-70%</div><div class="kpi-val" style="color:var(--amber-600)">5</div><div class="kpi-sub">Formation prioritaire</div></div>
+    <div class="kpi-card red"><div class="kpi-label">Faibles < 50%</div><div class="kpi-val" style="color:var(--red-600)">14</div><div class="kpi-sub">Intervention urgente</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--green-600)">
+      <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      Agences Top — Objectif atteint (> 100%)
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Agence</th><th>Taux occupation</th><th>Statut PAC</th></tr>
+        <tr><td>GANAME</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div><div class="prog-val">197.2%</div></div></td><td><span class="badge badge-green">✓ P8 Protéger</span></td></tr>
+        <tr><td>LOME RAMCO</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div><div class="prog-val">125.2%</div></div></td><td><span class="badge badge-green">✓ P8 Protéger</span></td></tr>
+        <tr><td>HOLLANDO</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div><div class="prog-val">115.8%</div></div></td><td><span class="badge badge-green">✓ P8 Protéger</span></td></tr>
+        <tr><td>AGOE-NYIVE</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div><div class="prog-val">115.8%</div></div></td><td><span class="badge badge-green">✓ P8 Protéger</span></td></tr>
+        <tr><td>ZONGO</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:100%;background:var(--green-600)"></div></div><div class="prog-val">108.1%</div></div></td><td><span class="badge badge-green">✓ P8 Protéger</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title" style="color:var(--amber-600)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Agences à améliorer (50-70%) — Action P7
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Agence</th><th>Taux occupation</th><th>Action PAC</th></tr>
+        <tr><td>SOKODE</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:55.1%;background:var(--amber-600)"></div></div><div class="prog-val">55.1%</div></div></td><td><span class="badge badge-amber">P7 Formation</span></td></tr>
+        <tr><td>LOME 3STV</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:63.9%;background:var(--amber-600)"></div></div><div class="prog-val">63.9%</div></div></td><td><span class="badge badge-amber">P7 Formation</span></td></tr>
+        <tr><td>LOME EMA</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:65.1%;background:var(--amber-600)"></div></div><div class="prog-val">65.1%</div></div></td><td><span class="badge badge-amber">P7 Formation</span></td></tr>
+        <tr><td>LOME RTV</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:68%;background:var(--amber-600)"></div></div><div class="prog-val">68.0%</div></div></td><td><span class="badge badge-amber">P7 Formation</span></td></tr>
+        <tr><td>ATAKPAME</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:69.8%;background:var(--amber-600)"></div></div><div class="prog-val">69.8%</div></div></td><td><span class="badge badge-amber">P7 Formation</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title" style="color:var(--red-600)">
+      <svg viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Agences faibles (< 50%) — Action P6 PRIORITAIRE
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Agence</th><th>Taux occupation</th><th>Priorité</th></tr>
+        <tr><td>PAGALA</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:6.5%;background:var(--red-600)"></div></div><div class="prog-val">6.5%</div></div></td><td><span class="badge badge-red">🔴 Critique</span></td></tr>
+        <tr><td>GUERIN-KOUKA</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:6.6%;background:var(--red-600)"></div></div><div class="prog-val">6.6%</div></div></td><td><span class="badge badge-red">🔴 Critique</span></td></tr>
+        <tr><td>BADOU</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:10.2%;background:var(--red-600)"></div></div><div class="prog-val">10.2%</div></div></td><td><span class="badge badge-red">🔴 Critique</span></td></tr>
+        <tr><td>MANGO</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:11.8%;background:var(--red-600)"></div></div><div class="prog-val">11.8%</div></div></td><td><span class="badge badge-red">🔴 Critique</span></td></tr>
+        <tr><td>KPELE</td><td><div class="prog-row" style="margin:0"><div class="prog-track"><div class="prog-bar" style="width:12%;background:var(--red-600)"></div></div><div class="prog-val">12.0%</div></div></td><td><span class="badge badge-red">🔴 Critique</span></td></tr>
+        <tr><td colspan="3" style="color:var(--gray-400);font-style:italic;text-align:center;">+ 9 autres agences — Données PAC complet</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB CLIENTS ═══ -->
+<div class="tab-panel" id="tab-clients">
+  <div class="section-title">Segmentation RFM — 9 047 clients MyNITA</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card green"><div class="kpi-label">Clients fidèles</div><div class="kpi-val" style="color:var(--green-600)">4 595</div><div class="kpi-sub">Champions + Fidèles — 50.8%</div></div>
+    <div class="kpi-card blue"><div class="kpi-label">En transition</div><div class="kpi-val" style="color:var(--blue-600)">2 594</div><div class="kpi-sub">Nouveau + Prometteur + Attention</div></div>
+    <div class="kpi-card red"><div class="kpi-label">A risque</div><div class="kpi-val" style="color:var(--red-600)">1 830</div><div class="kpi-sub">A ne pas perdre + Hibernant + Dormant</div></div>
+    <div class="kpi-card amber"><div class="kpi-label">Réactivation urgente</div><div class="kpi-val" style="color:var(--amber-600)">559</div><div class="kpi-sub">A risque + Dormant valeur</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Détail segmentation RFM
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Segment</th><th>Clients</th><th>Part base</th><th>Groupe</th><th>Action PAC</th></tr>
+        <tr><td><strong>Champion</strong></td><td>1 706</td><td>19.0%</td><td><span class="badge badge-green">Fidèle</span></td><td><span class="badge badge-blue">P8 Protéger</span></td></tr>
+        <tr><td><strong>Fidèle</strong></td><td>1 931</td><td>21.3%</td><td><span class="badge badge-green">Fidèle</span></td><td><span class="badge badge-blue">P5 Monter valeur</span></td></tr>
+        <tr><td><strong>Loyaliste</strong></td><td>986</td><td>10.9%</td><td><span class="badge badge-green">Fidèle</span></td><td><span class="badge badge-blue">P5 Éduquer</span></td></tr>
+        <tr><td><strong>Nouveau</strong></td><td>942</td><td>10.4%</td><td><span class="badge badge-blue">Transition</span></td><td><span class="badge badge-blue">P10 Onboarding</span></td></tr>
+        <tr><td><strong>Besoin d'attention</strong></td><td>981</td><td>10.8%</td><td><span class="badge badge-blue">Transition</span></td><td><span class="badge badge-amber">P3 Airtime</span></td></tr>
+        <tr><td><strong>Prometteur</strong></td><td>671</td><td>7.4%</td><td><span class="badge badge-blue">Transition</span></td><td><span class="badge badge-blue">P10 Convertir</span></td></tr>
+        <tr><td><strong>A ne pas perdre</strong></td><td>713</td><td>7.9%</td><td><span class="badge badge-amber">A risque</span></td><td><span class="badge badge-red">P2 Rétention VIP</span></td></tr>
+        <tr><td><strong>Hibernant</strong></td><td>558</td><td>6.2%</td><td><span class="badge badge-amber">A risque</span></td><td><span class="badge badge-red">P1 Win-Back</span></td></tr>
+        <tr><td><strong>A risque</strong></td><td>289</td><td>3.2%</td><td><span class="badge badge-red">A risque</span></td><td><span class="badge badge-red">P1 Win-Back urgent</span></td></tr>
+        <tr><td><strong>Dormant valeur</strong></td><td>270</td><td>3.0%</td><td><span class="badge badge-red">A risque</span></td><td><span class="badge badge-red">P1 Win-Back urgent</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="cards-grid" style="margin-top:16px;">
+    <div class="card">
+      <div class="card-title" style="color:var(--amber-600)">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Canaux de communication PAC
+      </div>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:10px;">
+        <div style="padding:10px;background:var(--green-50);border-radius:8px;">
+          <div style="font-weight:700;color:var(--green-700)">📞 Appel téléphonique</div>
+          <div style="color:var(--gray-600);margin-top:3px;">P1 Win-Back · P2 Rétention VIP<br>Contact nominatif personnalisé</div>
+        </div>
+        <div style="padding:10px;background:var(--green-50);border-radius:8px;">
+          <div style="font-weight:700;color:var(--green-700)">💬 WhatsApp Business</div>
+          <div style="color:var(--gray-600);margin-top:3px;">P1 à P5 · P9 · P10<br>Tutoriels Airtime/Factures/MyNITA</div>
+        </div>
+        <div style="padding:10px;background:var(--blue-50);border-radius:8px;">
+          <div style="font-weight:700;color:var(--blue-600)">🎵 TikTok géociblé</div>
+          <div style="color:var(--gray-600);margin-top:3px;">P3 · P8 · P9<br>Lomé, Kara, Dapaong — 30-60s</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--blue-600)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Supports visuels agences (38)
+      </div>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-50);">
+          <span>Affiche A2 — Transfert Niger</span><span class="badge badge-red">Priorité 1</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-50);">
+          <span>Affiche A2 — Airtime Niger</span><span class="badge badge-red">Priorité 1</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-50);">
+          <span>Affiche A2 — Factures Niger</span><span class="badge badge-red">Priorité 1</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-50);">
+          <span>Affiche A3 — Pourquoi NITA ?</span><span class="badge badge-amber">Priorité 2</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-50);">
+          <span>Flyers A5 — Airtime / Factures</span><span class="badge badge-amber">Priorité 2</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+          <span>Flyer A6 — Missions terrain</span><span class="badge badge-blue">Planifié</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<script>
+// ── DATE ──
+function updateDate() {
+  const now = new Date();
+  document.getElementById('header-date').innerHTML =
+    now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) +
+    '<br>' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  setTimeout(updateDate, 30000);
+}
+updateDate();
+
+// ── TABS ──
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'terrain') chargerPointagesDetail();
+}
+
+// ── DONNÉES GOOGLE SHEETS POINTAGE ──
+const SHEETS_ID   = '1wLoG54kth5RtJvgL7aXmjHU7F6smAR-r-OvGgucUZOw';
+const SHEET_NAME  = 'Feuille 1';
+
+async function fetchPointages() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  const res  = await fetch(url);
+  const text = await res.text();
+  const json = JSON.parse(text.substring(47, text.length - 2));
+  return json.table.rows.map(r => r.c.map(c => c ? (c.f || c.v || '') : ''));
+}
+
+// ── POINTAGES AUJOURD'HUI — SYNTHÈSE ──
+async function chargerPointagesAujourdhui() {
+  const container = document.getElementById('pointage-container');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div>Chargement...</div>';
+  try {
+    const rows  = await fetchPointages();
+    const today = new Date().toLocaleDateString('fr-FR');
+    const lignes = rows.filter(r => r[0] === today);
+
+    // Regrouper par agence
+    const parAgence = {};
+    lignes.forEach(r => {
+      const agence = r[2];
+      const type   = r[3];
+      const statut = r[8];
+      if (!parAgence[agence]) parAgence[agence] = { presents:0, retards:0, horsZone:0 };
+      if (type === 'Entrée') {
+        parAgence[agence].presents++;
+        if (statut === 'Retard') parAgence[agence].retards++;
+        if (r[10] === 'Non - Hors zone') parAgence[agence].horsZone++;
+      }
+    });
+
+    const agences = Object.keys(parAgence);
+    if (agences.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">Aucun pointage enregistré aujourd\'hui.</div>';
+      return;
+    }
+
+    container.innerHTML = `<div class="pointage-grid">${agences.map(a => `
+      <div class="pointage-card">
+        <div class="pointage-agence">${a}</div>
+        <div class="pointage-stat">
+          <span class="pointage-dot dot-green"></span>${parAgence[a].presents} présent(s)
+          ${parAgence[a].retards > 0 ? `· <span class="pointage-dot dot-amber"></span>${parAgence[a].retards} retard(s)` : ''}
+          ${parAgence[a].horsZone > 0 ? `· <span class="pointage-dot dot-red"></span>${parAgence[a].horsZone} hors zone` : ''}
+        </div>
+      </div>`).join('')}
+    </div>`;
+
+    // Alertes dynamiques
+    const totalRetards = lignes.filter(r => r[3]==='Entrée' && r[8]==='Retard').length;
+    if (totalRetards > 0) {
+      document.getElementById('alertes-container').insertAdjacentHTML('afterbegin',
+        `<div class="alert red">🔴 <span>${totalRetards} retard(s) enregistré(s) aujourd'hui</span></div>`
+      );
+    }
+  } catch(e) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--red-700);font-size:13px">⚠ Impossible de charger les pointages. Vérifiez la connexion.</div>';
+  }
+}
+
+// ── POINTAGES DETAIL — TAB TERRAIN ──
+async function chargerPointagesDetail() {
+  const container = document.getElementById('terrain-table-container');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div>Chargement...</div>';
+  try {
+    const rows  = await fetchPointages();
+    const today = new Date().toLocaleDateString('fr-FR');
+    const lignes = rows.filter(r => r[0] === today).reverse();
+
+    // Stats
+    const entrees    = lignes.filter(r => r[3] === 'Entrée');
+    const retards    = entrees.filter(r => r[8] === 'Retard');
+    const horsZone   = entrees.filter(r => r[10] === 'Non - Hors zone');
+    const agencesVues = [...new Set(entrees.map(r => r[2]))];
+
+    document.getElementById('stat-presents').textContent  = entrees.length;
+    document.getElementById('stat-retards').textContent   = retards.length;
+    document.getElementById('stat-absents').textContent   = Math.max(0, 34 - agencesVues.length);
+    document.getElementById('stat-hors').textContent      = horsZone.length;
+
+    // KPI agents synthèse
+    document.getElementById('kpi-agents-sub').textContent = entrees.length + ' pointages aujourd\'hui';
+
+    if (lignes.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">Aucun pointage enregistré aujourd\'hui.</div>';
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <tr><th>Heure</th><th>Agent</th><th>Agence</th><th>Type</th><th>GPS Précision</th><th>Distance</th><th>Statut</th></tr>
+          ${lignes.slice(0,50).map(r => `
+            <tr>
+              <td>${r[4]}</td>
+              <td><strong>${r[1]}</strong></td>
+              <td>${r[2]}</td>
+              <td>${r[3] === 'Entrée' ? '🟢 Entrée' : '🔵 Sortie'}</td>
+              <td>±${r[7]} m</td>
+              <td>${r[9] || '—'}</td>
+              <td>${getBadgeStatut(r[8], r[10])}</td>
+            </tr>`).join('')}
+        </table>
+      </div>`;
+  } catch(e) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--red-700);font-size:13px">⚠ Impossible de charger les données terrain.</div>';
+  }
+}
+
+function getBadgeStatut(statut, perimetre) {
+  if (statut === 'A l\'heure') return '<span class="badge badge-green">✓ A l\'heure</span>';
+  if (statut === 'Retard')     return '<span class="badge badge-amber">⚠ Retard</span>';
+  if (statut === 'Absent')     return '<span class="badge badge-red">✗ Absent</span>';
+  if (perimetre === 'Non - Hors zone') return '<span class="badge badge-red">📍 Hors zone</span>';
+  return '<span class="badge badge-blue">' + (statut||'—') + '</span>';
+}
+
+// ── INIT ──
+chargerPointagesAujourdhui();
+</script>
+</body>
+</html>
