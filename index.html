@@ -487,7 +487,7 @@
     </div>
   </div>
   <div class="profile-section">
-    <div class="section-title" style="padding:0 0 8px">Performance — juin 2026</div>
+    <div class="section-title" style="padding:0 0 8px" data-perf>Performance — juin 2026</div>
     <div class="profile-card" style="padding:14px">
       <div class="performance-bars">
         <div class="perf-row"><div class="perf-label">Ponctualité</div><div class="perf-track"><div class="perf-bar" style="width:89%;background:var(--green-600)"></div></div><div class="perf-val">89%</div></div>
@@ -753,6 +753,11 @@ function appliquerSession(s) {
   if (elProfHoraire) elProfHoraire.textContent = horaireStr;
   // Mettre à jour bannière distance
   updateDistanceBanner();
+  // Charger données réelles calendrier, historique et performance
+  setTimeout(() => {
+    chargerDonneesCalendrier();
+    chargerHistorique();
+  }, 300);
 }
 
 function retourID() {
@@ -797,7 +802,7 @@ setTimeout(() => {
   initGPS();
   renderDate();
   renderCalendar();
-  renderHistory();
+  // renderHistory chargée dynamiquement après login via appliquerSession
 }, 1800);
 
 // ── DATE / TIME ──
@@ -840,7 +845,8 @@ function goPage(name, btn) {
   document.getElementById('page-' + name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  if (name === 'history') chargerHistorique();
+  if (name === 'history') { chargerHistorique(); chargerDonneesCalendrier(); }
+  if (name === 'profile')  calculerPerformance();
 }
 
 // ── MODAL POINTAGE ──
@@ -883,7 +889,7 @@ function openModal(type) {
   document.getElementById('modal-pointage').classList.add('open');
 }
 
-const API_URL = "https://script.google.com/macros/s/AKfycbykimfDGyO1GijNuCig35g2O01W3KotwrdtbWefH-afkFLPhDVHabnYdPHMMEAPxjWF/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyEGYOboIEvJOy7J-j8hQM7mHt8NzlQxmFwZDbR5xyCpGKcyxGrmymKOV7AKqe-cTtW/exec";
 
 async function confirmerPointage(type, timeStr) {
   closeModal('modal-pointage');
@@ -962,147 +968,194 @@ function showSuccess(type, timeStr) {
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ── CALENDRIER ──
+// ── CALENDRIER RÉEL ──
 const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-let viewMonth = 5; let viewYear = 2026;
-// mockData supprimé — données réelles depuis Google Sheets
+let viewMonth = new Date().getMonth();
+let viewYear  = new Date().getFullYear();
+let calData   = {};
+
+const SHEETS_ID  = '1wLoG54kth5RtJvgL7aXmjHU7F6smAR-r-OvGgucUZOw';
+const SHEET_NAME = 'Feuille 1';
+
+async function chargerDonneesCalendrier() {
+  if (!state.agentNom) return;
+  try {
+    const url  = 'https://docs.google.com/spreadsheets/d/' + SHEETS_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
+    const res  = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47, text.length - 2));
+    const rows = json.table.rows;
+    calData = {};
+    rows
+      .map(r => r.c.map(c => c ? (c.f || c.v || '') : ''))
+      .filter(r => r[1] && r[1].toString().trim().toLowerCase() === state.agentNom.trim().toLowerCase() && r[3] === 'Entree')
+      .forEach(r => {
+        const parts = r[0].toString().split('/');
+        if (parts.length === 3) {
+          const key = parts[2] + '-' + parts[1].padStart(2,'0') + '-' + parts[0].padStart(2,'0');
+          const s   = (r[8] || '').toLowerCase();
+          calData[key] = s.includes('retard') ? 'retard' : s.includes('absent') ? 'absent' : 'present';
+        }
+      });
+    renderCalendar();
+    calculerPerformance();
+  } catch(e) {
+    console.error('Erreur calendrier:', e);
+    renderCalendar();
+  }
+}
+
 function renderCalendar() {
   document.getElementById('month-label').textContent = months[viewMonth] + ' ' + viewYear;
-  const grid = document.getElementById('cal-grid');
+  const grid   = document.getElementById('cal-grid');
   grid.innerHTML = '';
-  const first = new Date(viewYear, viewMonth, 1).getDay();
+  const first  = new Date(viewYear, viewMonth, 1).getDay();
   const offset = first === 0 ? 6 : first - 1;
-  const days = new Date(viewYear, viewMonth+1, 0).getDate();
-  const today = new Date();
+  const days   = new Date(viewYear, viewMonth+1, 0).getDate();
+  const today  = new Date();
   for (let i=0; i<offset; i++) { const d=document.createElement('div'); d.className='cal-cell empty'; grid.appendChild(d); }
   for (let d=1; d<=days; d++) {
-    const cell = document.createElement('div');
-    const key = viewYear+'-'+String(viewMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    const isToday = d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
+    const cell     = document.createElement('div');
+    const key      = viewYear+'-'+String(viewMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const isToday  = d===today.getDate() && viewMonth===today.getMonth() && viewYear===today.getFullYear();
     const isFuture = new Date(viewYear, viewMonth, d) > today;
-    const calSource = window._calDataReel || {};
-    const status = calSource[key];
+    const status   = calData[key];
     cell.className = 'cal-cell'+(status?' '+status:'')+(isToday?' today':'')+(isFuture?' future':'');
     cell.textContent = d;
     grid.appendChild(cell);
   }
+  const keysMonth = Object.keys(calData).filter(k => k.startsWith(viewYear+'-'+String(viewMonth+1).padStart(2,'0')));
+  const nbPresent = keysMonth.filter(k => calData[k]==='present').length;
+  const nbRetard  = keysMonth.filter(k => calData[k]==='retard').length;
+  const nbAbsent  = keysMonth.filter(k => calData[k]==='absent').length;
+  const statsEls  = document.querySelectorAll('.stat-mini-val');
+  if (statsEls[0]) statsEls[0].textContent = nbPresent;
+  if (statsEls[1]) statsEls[1].textContent = nbRetard;
+  if (statsEls[2]) statsEls[2].textContent = nbAbsent;
 }
+
 function changeMonth(dir) {
   viewMonth += dir;
-  if (viewMonth < 0) { viewMonth=11; viewYear--; }
-  if (viewMonth > 11) { viewMonth=0; viewYear++; }
+  if (viewMonth < 0)  { viewMonth=11; viewYear--; }
+  if (viewMonth > 11) { viewMonth=0;  viewYear++; }
   renderCalendar();
+}
+
+// ── PERFORMANCE CALCULÉE RÉELLE ──
+async function calculerPerformance() {
+  if (!state.agentNom) return;
+  try {
+    const url  = 'https://docs.google.com/spreadsheets/d/' + SHEETS_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
+    const res  = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47, text.length - 2));
+    const rows = json.table.rows;
+    const now   = new Date();
+    const mois  = String(now.getMonth()+1).padStart(2,'0');
+    const annee = String(now.getFullYear());
+    const entrees = rows
+      .map(r => r.c.map(c => c ? (c.f || c.v || '') : ''))
+      .filter(r => {
+        if (!r[1] || r[3] !== 'Entree') return false;
+        if (r[1].toString().trim().toLowerCase() !== state.agentNom.trim().toLowerCase()) return false;
+        const parts = r[0].toString().split('/');
+        return parts.length === 3 && parts[1].padStart(2,'0') === mois && parts[2] === annee;
+      });
+    let joursOuvrables = 0;
+    for (let d=1; d<=now.getDate(); d++) {
+      const jour = new Date(now.getFullYear(), now.getMonth(), d).getDay();
+      if (jour !== 0) joursOuvrables++;
+    }
+    const nbPresence   = entrees.length;
+    const nbRetards    = entrees.filter(r => (r[8]||'').toLowerCase().includes('retard')).length;
+    const nbALheure    = nbPresence - nbRetards;
+    const tauxPresence = joursOuvrables > 0 ? Math.round((nbPresence / joursOuvrables) * 100) : 0;
+    const tauxPonct    = nbPresence > 0 ? Math.round((nbALheure / nbPresence) * 100) : 0;
+    const bars = document.querySelectorAll('.perf-bar');
+    const vals = document.querySelectorAll('.perf-val');
+    if (bars[0] && vals[0]) {
+      bars[0].style.width = tauxPonct + '%';
+      bars[0].style.background = tauxPonct >= 80 ? 'var(--green-600)' : tauxPonct >= 60 ? 'var(--amber-600)' : 'var(--red-600)';
+      vals[0].textContent = tauxPonct + '%';
+    }
+    if (bars[1] && vals[1]) {
+      bars[1].style.width = Math.min(tauxPresence, 100) + '%';
+      bars[1].style.background = tauxPresence >= 80 ? 'var(--blue-600)' : tauxPresence >= 60 ? 'var(--amber-600)' : 'var(--red-600)';
+      vals[1].textContent = Math.min(tauxPresence, 100) + '%';
+    }
+    if (bars[2] && vals[2]) {
+      const tauxTrans = Math.min(Math.round((nbPresence / Math.max(joursOuvrables,1)) * 100), 100);
+      bars[2].style.width = tauxTrans + '%';
+      vals[2].textContent = tauxTrans + '%';
+    }
+    const titrePerf = document.querySelector('[data-perf]');
+    if (titrePerf) titrePerf.textContent = 'Performance — ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  } catch(e) { console.error('Erreur performance:', e); }
 }
 
 // ── HISTORIQUE RÉEL DEPUIS GOOGLE SHEETS ──
 const badgeTxt = {present:'Présent', retard:'En retard', absent:'Absent'};
-const badgeCls  = {present:'badge-ok', retard:'badge-late', absent:'badge-absent'};
-const SHEET_ID  = '1wLoG54kth5RtJvgL7aXmjHU7F6smAR-r-OvGgucUZOw';
-const MONTHS_FR = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const badgeCls = {present:'badge-ok', retard:'badge-late', absent:'badge-absent'};
 
 async function chargerHistorique() {
-  const list = document.getElementById('history-list');
-  list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">⏳ Chargement…</div>';
-
+  const listEl = document.getElementById('history-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">⏳ Chargement…</div>';
+  if (!state.agentNom) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">Connectez-vous pour voir votre historique.</div>'; return; }
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Feuille%201`;
+    const url  = 'https://docs.google.com/spreadsheets/d/' + SHEETS_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
     const res  = await fetch(url);
-    const txt  = await res.text();
-    const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\((.*?)\);/s)[1]);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47, text.length - 2));
     const rows = json.table.rows;
-
-    // Filtrer par agent connecté
-    const agentRows = rows.filter(r => {
-      const nom = r.c[1]?.v || '';
-      return nom.toLowerCase().trim() === state.agentNom.toLowerCase().trim();
-    });
-
-    if (!agentRows.length) {
-      list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">Aucun pointage trouvé pour votre compte.</div>';
-      updateCalendrierReel({});
+    const agentNom = state.agentNom;
+    const lignes = rows
+      .map(r => r.c.map(c => c ? (c.f || c.v || '') : ''))
+      .filter(r => r[1] && r[1].toString().trim().toLowerCase() === agentNom.trim().toLowerCase());
+    if (lignes.length === 0) {
+      listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">Aucun pointage enregistré.</div>';
       return;
     }
-
-    // Grouper par date (entrée + sortie)
-    const byDate = {};
-    agentRows.forEach(r => {
-      const dateRaw = r.c[0]?.v || '';
-      const type    = r.c[3]?.v || '';
-      const heure   = r.c[4]?.v || '—';
-      const statut  = r.c[8]?.v || '';
-      // Normaliser la date
-      let dateKey = dateRaw;
-      if (dateRaw.match(/^Date\(/)) {
-        const parts = dateRaw.match(/Date\((\d+),(\d+),(\d+)\)/);
-        if (parts) {
-          const d = new Date(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]));
-          dateKey = d.toLocaleDateString('fr-FR');
-        }
-      }
-      if (!byDate[dateKey]) byDate[dateKey] = { date: dateKey, entree: '—', sortie: '—', statut: '' };
-      if (type === 'Entrée') { byDate[dateKey].entree = heure; byDate[dateKey].statut = statut; }
-      if (type === 'Sortie') byDate[dateKey].sortie = heure;
+    const parDate = {};
+    lignes.forEach(r => {
+      const date   = r[0];
+      const type   = r[3];
+      const heure  = r[4];
+      const statut = r[8];
+      if (!parDate[date]) parDate[date] = { date, entree:'—', sortie:'—', statut: statut || '' };
+      if (type === 'Entrée' || type === 'Entree') { parDate[date].entree = heure; parDate[date].statut = statut; }
+      if (type === 'Sortie') parDate[date].sortie = heure;
     });
-
-    // Trier par date décroissante
-    const sorted = Object.values(byDate).sort((a, b) => {
-      const parse = s => { const p=s.split('/'); return new Date(p[2],p[1]-1,p[0]); };
-      return parse(b.date) - parse(a.date);
-    }).slice(0, 10);
-
-    // Construire le calendrier
-    const calData = {};
-    sorted.forEach(item => {
-      const p = item.date.split('/');
-      if (p.length === 3) {
-        const key = p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');
-        const s = item.statut.toLowerCase();
-        calData[key] = s.includes('retard') ? 'retard' : s.includes('absent') ? 'absent' : 'present';
-      }
-    });
-    updateCalendrierReel(calData);
-
-    // Afficher la liste
-    list.innerHTML = sorted.map(item => {
-      const p = item.date.split('/');
-      const day = p[0] || '—';
-      const mon = p[1] ? MONTHS_FR[parseInt(p[1])-1] : '—';
-      const s = item.statut.toLowerCase();
-      const statusKey = s.includes('retard') ? 'retard' : s.includes('absent') ? 'absent' : 'present';
-      return `
-        <div class="history-item">
-          <div class="history-date-box">
-            <div class="date-day">${day}</div>
-            <div class="date-month">${mon}</div>
-          </div>
-          <div class="history-detail">
-            <div class="history-agency">${state.agenceNom}</div>
-            <div class="history-times">Entrée ${item.entree} · Sortie ${item.sortie}</div>
-          </div>
-          <span class="badge ${badgeCls[statusKey]}">${badgeTxt[statusKey]}</span>
-        </div>`;
+    const moisFr = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+    const jours  = Object.values(parDate).reverse().slice(0, 10);
+    listEl.innerHTML = jours.map(j => {
+      const parts   = j.date.split('/');
+      const day     = parts[0] || '—';
+      const mois    = parts[1] ? moisFr[parseInt(parts[1]) - 1] : '—';
+      const s       = (j.statut||'').toLowerCase();
+      let statusKey = 'present';
+      if (s.includes('retard')) statusKey = 'retard';
+      if (s.includes('absent')) statusKey = 'absent';
+      return '<div class="history-item">' +
+        '<div class="history-date-box"><div class="date-day">' + day + '</div><div class="date-month">' + mois + '</div></div>' +
+        '<div class="history-detail"><div class="history-agency">' + state.agenceNom + '</div>' +
+        '<div class="history-times">Entrée ' + j.entree + ' · Sortie ' + j.sortie + '</div></div>' +
+        '<span class="badge ' + badgeCls[statusKey] + '">' + badgeTxt[statusKey] + '</span>' +
+        '</div>';
     }).join('');
-
-    // Mettre à jour les stats
-    const total   = sorted.length;
-    const retards = sorted.filter(i => i.statut.toLowerCase().includes('retard')).length;
-    const absents = sorted.filter(i => i.statut.toLowerCase().includes('absent')).length;
-    const presents = total - retards - absents;
-    const statVals = document.querySelectorAll('.stat-mini-val');
-    if (statVals[0]) statVals[0].textContent = presents;
-    if (statVals[1]) statVals[1].textContent = retards;
-    if (statVals[2]) statVals[2].textContent = absents;
-
+    // Stats
+    const statsEls = document.querySelectorAll('.stat-mini-val');
+    const ce_mois  = Object.values(parDate).filter(j => {
+      const parts = j.date.split('/');
+      return parts.length === 3 && parseInt(parts[1]) === (viewMonth+1) && parseInt(parts[2]) === viewYear;
+    });
+    if (statsEls[0]) statsEls[0].textContent = ce_mois.filter(j => !(j.statut||'').toLowerCase().includes('retard') && !(j.statut||'').toLowerCase().includes('absent')).length;
+    if (statsEls[1]) statsEls[1].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('retard')).length;
+    if (statsEls[2]) statsEls[2].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('absent')).length;
   } catch(err) {
-    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>';
-    console.error('Historique:', err);
+    listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>';
+    console.error('Erreur historique:', err);
   }
-}
-
-// Calendrier mis à jour avec données réelles
-function updateCalendrierReel(calData) {
-  window._calDataReel = calData;
-  renderCalendar();
 }
 
 function renderHistory() {
