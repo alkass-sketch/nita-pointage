@@ -803,8 +803,15 @@ setTimeout(() => {
   renderDate();
   renderCalendar();
   // renderHistory chargée dynamiquement après login via appliquerSession
-document.getElementById('splash').classList.add('hidden');
-}, 1800);
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hidden');
+    checkSession();
+    initGPS();
+    renderDate();
+    renderCalendar();
+  }, 1800);
+});
 
 // ── DATE / TIME ──
 function renderDate() {
