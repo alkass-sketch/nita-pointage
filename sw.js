@@ -28,7 +28,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
   // Toujours réseau pour les appels API (ex: Google Sheets, backend)
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.startsWith('/api/') || url.hostname.includes('script.google.com')) {
     event.respondWith(
       fetch(event.request).catch(() =>
         new Response(JSON.stringify({ error: 'Hors ligne. Pointage mis en file d\'attente.' }), {
