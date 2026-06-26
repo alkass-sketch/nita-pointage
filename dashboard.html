@@ -715,7 +715,7 @@ async function chargerPointagesAujourdhui() {
       const type   = r[3];
       const statut = r[8];
       if (!parAgence[agence]) parAgence[agence] = { presents:0, retards:0, horsZone:0 };
-      if (type === 'Entrée') {
+      if (type === 'Entrée' || type === 'Entree') {
         parAgence[agence].presents++;
         if (statut === 'Retard') parAgence[agence].retards++;
         if (r[10] === 'Non - Hors zone') parAgence[agence].horsZone++;
@@ -761,8 +761,8 @@ async function chargerPointagesDetail() {
     const lignes = rows.filter(r => r[0] === today).reverse();
 
     // Stats
-    const entrees    = lignes.filter(r => r[3] === 'Entrée');
-    const retards    = entrees.filter(r => r[8] === 'Retard');
+    const entrees    = lignes.filter(r => r[3] === 'Entrée' || r[3] === 'Entree');
+    const retards    = entrees.filter(r => (r[8]||'').toLowerCase().includes('retard'));
     const horsZone   = entrees.filter(r => r[10] === 'Non - Hors zone');
     const agencesVues = [...new Set(entrees.map(r => r[2]))];
 
@@ -810,6 +810,7 @@ function getBadgeStatut(statut, perimetre) {
 
 // ── INIT ──
 chargerPointagesAujourdhui();
+setInterval(chargerPointagesAujourdhui, 5 * 60 * 1000); // Auto-refresh toutes les 5 min
 </script>
 </body>
 </html>
