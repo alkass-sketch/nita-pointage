@@ -886,7 +886,7 @@ function openModal(type) {
     </div>
     <div class="modal-note">
       <strong>${agenceLabel}</strong> — Votre position sera enregistrée et transmise au superviseur.
-      ${isLate ? '<br><span style="color:var(--amber-800)">⚠ Pointage après 08h00, un retard sera signalé.</span>' : ''}
+      ${isLate ? '<br><span style="color:var(--amber-800)">⚠ Pointage après 07h00, un retard sera signalé.</span>' : ''}
     </div>
     <button class="btn-confirm" onclick="confirmerPointage('${type}','${timeStr}')">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1161,7 +1161,7 @@ async function chargerHistorique() {
     if (statsEls[1]) statsEls[1].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('retard')).length;
     if (statsEls[2]) statsEls[2].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('absent')).length;
   } catch(err) {
-    listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>';
+    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>`;
     console.error('Erreur historique:', err);
   }
 }
