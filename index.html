@@ -540,42 +540,55 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── AGENTS DB — vrais PIN depuis Feuille 2 ──
+// ── AGENTS DB — PINs stockés en SHA-256(sel+pin), jamais en clair ──
+// Pour changer le PIN d'un agent, générer le hash dans un terminal :
+//   Linux/Mac : echo -n "NITA2026NOUVEAUPIN" | sha256sum
+//   Windows   : echo -n "NITA2026NOUVEAUPIN" | sha256sum  (Git Bash)
+// Remplacer ensuite la valeur pinHash de l'agent concerné.
+// Exemple — PIN 1234 : echo -n "NITA20261234" | sha256sum
+const PIN_SALT = 'NITA2026';
+
+async function hashPin(pin) {
+  const data = new TextEncoder().encode(PIN_SALT + pin);
+  const buf  = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
 const AGENTS_DB = {
-  'NTG001': { nom: 'Seyni Hamza',                  agence: 'Agence RTV',                    poste: 'Agent',          pin: '6547', initiales: 'SH' },
-  'NTG002': { nom: 'Moussa Moumouni Aminou',        agence: 'Agence RTV',                    poste: 'Agent',          pin: '4578', initiales: 'MM' },
-  'NTG003': { nom: 'Kamalou Adamou',                agence: 'Agence RTV',                    poste: "Chef d'agence",  pin: '3458', initiales: 'KA' },
-  'NTG004': { nom: 'Hannatou',                      agence: 'Agence Plage',                  poste: 'Agent',          pin: '4786', initiales: 'HN' },
-  'NTG005': { nom: 'Hassana',                       agence: 'Agence Plage',                  poste: 'Agent',          pin: '2145', initiales: 'HS' },
-  'NTG006': { nom: 'Moubarak',                      agence: 'Agence Plage',                  poste: 'Agent',          pin: '3214', initiales: 'MB' },
-  'NTG007': { nom: 'Aziz',                          agence: 'Agence Plage',                  poste: "Chef d'agence",  pin: '1456', initiales: 'AZ' },
-  'NTG008': { nom: 'Boubacar',                      agence: 'Agence EMA',                    poste: 'Agent',          pin: '7854', initiales: 'BB' },
-  'NTG009': { nom: 'Fourera',                       agence: 'Agence EMA',                    poste: 'Agent',          pin: '3258', initiales: 'FR' },
-  'NTG010': { nom: 'Ahmed',                         agence: 'Agence STM',                    poste: 'Agent',          pin: '4521', initiales: 'AH' },
-  'NTG011': { nom: 'Azim',                          agence: 'Agence STM',                    poste: 'Agent',          pin: '9863', initiales: 'AI' },
-  'NTG012': { nom: 'Tidjani Oumarou',               agence: 'Agence Dekon 1',                poste: "Chef d'agence",  pin: '2365', initiales: 'TO' },
-  'NTG013': { nom: 'Adamou Kouboura',               agence: 'Agence Dekon 1',                poste: 'Agent',          pin: '5478', initiales: 'AK' },
-  'NTG014': { nom: 'Saidou Hamza',                  agence: 'Agence Dekon 2',                poste: 'Agent',          pin: '6432', initiales: 'SH' },
-  'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',                poste: 'Agent',          pin: '6590', initiales: 'SJ' },
-  'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',               poste: 'Agent',          pin: '2590', initiales: 'MF' },
-  'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',               poste: "Chef d'agence",  pin: '3455', initiales: 'AM' },
-  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pin: '4498', initiales: 'AS' },
-  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pin: '1255', initiales: 'AA' },
-  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marché (Assigamé)', poste: "Chef d'agence", pin: '3211', initiales: 'TA' },
-  'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',                  poste: 'Agent',          pin: '2211', initiales: 'AL' },
-  'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa',             poste: "Chef d'agence",  pin: '4455', initiales: 'HP' },
-  'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa',             poste: 'Agent',          pin: '6655', initiales: 'RC' },
-  'NTG024': { nom: 'Alhousseini',                   agence: 'Agence Zoro Bar',               poste: 'Agent',          pin: '3388', initiales: 'AL' },
-  'NTG025': { nom: 'Saddam Moubarak',               agence: 'Agence Hedzranawoe',            poste: 'Agent',          pin: '4466', initiales: 'SM' },
-  'NTG026': { nom: 'Hawa',                          agence: 'Agence Hedzranawoe',            poste: 'Agent',          pin: '3344', initiales: 'HW' },
-  'NTG027': { nom: 'Chebou Yacouba',                agence: 'Agence Zongo 1',                poste: "Chef d'agence",  pin: '4556', initiales: 'CY' },
-  'NTG028': { nom: 'Bilali',                        agence: 'Agence Zongo 1',                poste: 'Agent',          pin: '6554', initiales: 'BL' },
-  'NTG029': { nom: 'Ikpindi',                       agence: 'Agence Zongo 1',                poste: 'Agent',          pin: '7890', initiales: 'IK' },
-  'NTG030': { nom: 'Garba Hassana',                 agence: 'Agence Zongo 2',                poste: 'Agent',          pin: '4499', initiales: 'GH' },
-  'NTG031': { nom: 'Bolmiati',                      agence: 'Agence Adetikope',              poste: 'Agent',          pin: '7788', initiales: 'BO' },
-  'NTG032': { nom: 'Arouna Djamaloudine',           agence: 'Agence Adidogome',              poste: 'Agent',          pin: '8899', initiales: 'AD' },
-  'NTG033': { nom: 'Oumarou Adamou Barkire',        agence: 'Agence Ganame',                 poste: 'Agent',          pin: '6644', initiales: 'OA' },
-  'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',                  poste: 'Agent',          pin: '1155', initiales: 'AW' },
+  'NTG001': { nom: 'Seyni Hamza',                  agence: 'Agence RTV',                    poste: 'Agent',          pinHash: 'c936116793d79aeb2442cbf9625d00a95fe0790b6af9df524ec9dc8234c8a9f9', initiales: 'SH' },
+  'NTG002': { nom: 'Moussa Moumouni Aminou',        agence: 'Agence RTV',                    poste: 'Agent',          pinHash: 'a568b0ffc9c848b3f62f8154a680d30937aa413caced31da7220bc863e8029b8', initiales: 'MM' },
+  'NTG003': { nom: 'Kamalou Adamou',                agence: 'Agence RTV',                    poste: "Chef d'agence",  pinHash: '5e66f1b6de7ae8592ead859528243247c416bbf2907205b2ee82f75997a13643', initiales: 'KA' },
+  'NTG004': { nom: 'Hannatou',                      agence: 'Agence Plage',                  poste: 'Agent',          pinHash: 'e6627b5f7e30b530433f6ea4abe8044d105f37879ba100d77e0ecfdaa4153d1c', initiales: 'HN' },
+  'NTG005': { nom: 'Hassana',                       agence: 'Agence Plage',                  poste: 'Agent',          pinHash: 'd255bb80ec841fe89184870ae37c9640d0d537dc7b8337b97c8986a30771c5c8', initiales: 'HS' },
+  'NTG006': { nom: 'Moubarak',                      agence: 'Agence Plage',                  poste: 'Agent',          pinHash: '982b4a864e72dadd3e653546df7f90f5993a60a2085032865a9585c9c3a6851e', initiales: 'MB' },
+  'NTG007': { nom: 'Aziz',                          agence: 'Agence Plage',                  poste: "Chef d'agence",  pinHash: '5538b5d541365ebde0299145624c9d648eae4832cad39f4b6fbdcd13e0f3657a', initiales: 'AZ' },
+  'NTG008': { nom: 'Boubacar',                      agence: 'Agence EMA',                    poste: 'Agent',          pinHash: 'fe719883c1ee82f43f8437e9a769bfcb5232d54dc973edda05065e46e4d47504', initiales: 'BB' },
+  'NTG009': { nom: 'Fourera',                       agence: 'Agence EMA',                    poste: 'Agent',          pinHash: '8e06ca1a61828e942377b9e64e972810e59bf9673679e33966f0f3d6774b1ed1', initiales: 'FR' },
+  'NTG010': { nom: 'Ahmed',                         agence: 'Agence STM',                    poste: 'Agent',          pinHash: 'de68fc72b459a302ca836982de9be05b748d5f3bd18ff025773bd42f2587ca39', initiales: 'AH' },
+  'NTG011': { nom: 'Azim',                          agence: 'Agence STM',                    poste: 'Agent',          pinHash: '0d458b32cd75a799b0cde8b10a66a2645ec9ac00cf6ad52a3882d0ebaf3be865', initiales: 'AI' },
+  'NTG012': { nom: 'Tidjani Oumarou',               agence: 'Agence Dekon 1',                poste: "Chef d'agence",  pinHash: '7d6c771cb589b78f95d4a4d757f5f483664928237ce3fb9ba67013feecccb225', initiales: 'TO' },
+  'NTG013': { nom: 'Adamou Kouboura',               agence: 'Agence Dekon 1',                poste: 'Agent',          pinHash: '7014c93af2794bb75f488b3be0e958ce03ea81dfb20557d8dfbe4e92f903122a', initiales: 'AK' },
+  'NTG014': { nom: 'Saidou Hamza',                  agence: 'Agence Dekon 2',                poste: 'Agent',          pinHash: 'df638182d4fd4045e0b32bda55b6966842ca9c4d0909777ce1e26e6556ad2570', initiales: 'SH' },
+  'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',                poste: 'Agent',          pinHash: '2cda2f7609cbbd34a92bc6fe5d27e5ed92f99bbbcc13848514b14d2d82e2f805', initiales: 'SJ' },
+  'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',               poste: 'Agent',          pinHash: '74cc57c5ae91696242a76cf0cb0adb69d6889d258ab8a215b16de25f489ed9f4', initiales: 'MF' },
+  'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',               poste: "Chef d'agence",  pinHash: '4252f1fea6f3ef5e5a9bd874f54d73e9cb00fe1369cc08c43599726942894388', initiales: 'AM' },
+  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pinHash: '052bfc650ebe6f0d6f80c4b09f1399fbc6daf2216bb1da7049fc2c30b324e86f', initiales: 'AS' },
+  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pinHash: 'fcd4ecbb5e0df52d77e1698a85ddad3e4a87a50b62533cdb73a79e972e311a3a', initiales: 'AA' },
+  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marché (Assigamé)', poste: "Chef d'agence", pinHash: '4747e6be63d262ce099faa7f6ac8be7d50aac5017178a2e4e6409fa8c3b27a28', initiales: 'TA' },
+  'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',                  poste: 'Agent',          pinHash: '76b21cae3190c704f1885df031feaad149f322c9fc77c62fe605ab21fac0a280', initiales: 'AL' },
+  'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa',             poste: "Chef d'agence",  pinHash: '4c8e9e7e0b4d08598ac0c2e045d3e1c2f99a31b408778078ae607e61c4baa99d', initiales: 'HP' },
+  'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa',             poste: 'Agent',          pinHash: '9e08ab86f169f3908e3ffdd106018765a21aaaeb9f029ebd8756e1173c251f4d', initiales: 'RC' },
+  'NTG024': { nom: 'Alhousseini',                   agence: 'Agence Zoro Bar',               poste: 'Agent',          pinHash: 'bc2f28739b08e705bfe6eb2e389706e72b04541b1a3bc4563a95212814ab7551', initiales: 'AL' },
+  'NTG025': { nom: 'Saddam Moubarak',               agence: 'Agence Hedzranawoe',            poste: 'Agent',          pinHash: 'd194f8b2eb3a42595b37914347cf2ee4c3528a8681eafaa810e48e8b83639b1f', initiales: 'SM' },
+  'NTG026': { nom: 'Hawa',                          agence: 'Agence Hedzranawoe',            poste: 'Agent',          pinHash: '138488cc373215fdedf5676650050add8ad2d67213474f03ec416121ee5894f7', initiales: 'HW' },
+  'NTG027': { nom: 'Chebou Yacouba',                agence: 'Agence Zongo 1',                poste: "Chef d'agence",  pinHash: 'c93ccf6880313ea078df70e65c79174160c296e3081223e4a2820ae42ac2b221', initiales: 'CY' },
+  'NTG028': { nom: 'Bilali',                        agence: 'Agence Zongo 1',                poste: 'Agent',          pinHash: 'cd22a15a42dd41fd1ddd286197f4cb287280c18e8a4f1e692fa5266008b013a2', initiales: 'BL' },
+  'NTG029': { nom: 'Ikpindi',                       agence: 'Agence Zongo 1',                poste: 'Agent',          pinHash: '1e50328b91703c2a62c5e26cce09a26315f1b631406ddd415096ce87abe20296', initiales: 'IK' },
+  'NTG030': { nom: 'Garba Hassana',                 agence: 'Agence Zongo 2',                poste: 'Agent',          pinHash: '91bfeef762c04974d4ecfa2a268ffa1734a502a780cba33f3aad07dde6b18db1', initiales: 'GH' },
+  'NTG031': { nom: 'Bolmiati',                      agence: 'Agence Adetikope',              poste: 'Agent',          pinHash: '32ac72f6000f63143fe83f0f0c81d35559388257c00373484f8ac3073e24bd3a', initiales: 'BO' },
+  'NTG032': { nom: 'Arouna Djamaloudine',           agence: 'Agence Adidogome',              poste: 'Agent',          pinHash: 'c2105417c95444f5920fb2e95e5cf0bd00c915000f7da8f2913e141a16bc16ec', initiales: 'AD' },
+  'NTG033': { nom: 'Oumarou Adamou Barkire',        agence: 'Agence Ganame',                 poste: 'Agent',          pinHash: 'd9318f5d8683f28569f0834e6580c4d0d39aefc45bb3c230dcbc332cd34b59a6', initiales: 'OA' },
+  'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',                  poste: 'Agent',          pinHash: '7248da7ffc6be322892c10be792aa617a8616493e9e5d3b87897f6e0d561c732', initiales: 'AW' },
 };
 
 // ── AGENCES ──
@@ -700,8 +713,9 @@ function updatePinDots() {
   }
 }
 
-function validerPIN() {
-  if (pinCurrent !== loginAgent.pin) {
+async function validerPIN() {
+  const hash = await hashPin(pinCurrent);
+  if (hash !== loginAgent.pinHash) {
     document.getElementById('error-pin').style.display = 'block';
     pinCurrent = ''; updatePinDots();
     setTimeout(() => document.getElementById('error-pin').style.display = 'none', 2500);
@@ -796,13 +810,6 @@ function checkSession() {
 }
 
 // ── INIT ──
-setTimeout(() => {
-  document.getElementById('splash').classList.add('hidden');
-  checkSession();
-  initGPS();
-  renderDate();
-  renderCalendar();
-  // renderHistory chargée dynamiquement après login via appliquerSession
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').classList.add('hidden');
@@ -1179,6 +1186,82 @@ function showToast(msg) {
 
 // ── SERVICE WORKER ──
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
 </script>
 </body>
 </html>
