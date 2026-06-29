@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "nita-pointage",
+      "runtimeExecutable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "runtimeArgs": ["-ExecutionPolicy", "Bypass", "-NonInteractive", "-File", "C:\\Users\\LENOVO\\OneDrive - Niger transfert d'argent\\Documents\\GitHub\\nita-pointage\\serve.ps1", "5173", "C:\\Users\\LENOVO\\OneDrive - Niger transfert d'argent\\Documents\\GitHub\\nita-pointage"],
+      "port": 5173
+    }
+  ]
+}
