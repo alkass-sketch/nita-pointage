@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="NITA Pointage">
-  <meta name="description" content="Application de pointage géolocalisé des agents NITA Transfert d'Argent">
+  <meta name="description" content="Application de pointage gÃ©olocalisÃ© des agents NITA Transfert d'Argent">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <title>NITA Pointage</title>
@@ -276,7 +276,7 @@
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
     </div>
     <div class="login-brand">NITA Pointage</div>
-    <div class="login-sub">Transfert d'Argent · Togo</div>
+    <div class="login-sub">Transfert d'Argent Â· Togo</div>
   </div>
   <div class="login-card">
     <div id="login-step-id">
@@ -288,19 +288,19 @@
           oninput="this.value=this.value.toUpperCase()" maxlength="6"
           onkeydown="if(event.key==='Enter') validerID()">
       </div>
-      <div class="login-error" id="error-id">Identifiant non reconnu. Vérifiez votre ID.</div>
-      <button class="btn-login" onclick="validerID()">Continuer →</button>
+      <div class="login-error" id="error-id">Identifiant non reconnu. VÃ©rifiez votre ID.</div>
+      <button class="btn-login" onclick="validerID()">Continuer â</button>
     </div>
     <div id="login-step-pin" style="display:none">
-      <div class="login-title">Bonjour, <span id="login-prenom"></span> 👋</div>
-      <div class="login-desc">Entrez votre code PIN à 4 chiffres</div>
+      <div class="login-title">Bonjour, <span id="login-prenom"></span> ð</div>
+      <div class="login-desc">Entrez votre code PIN Ã  4 chiffres</div>
       <div class="pin-row">
         <div class="pin-dot" id="pd0"></div>
         <div class="pin-dot" id="pd1"></div>
         <div class="pin-dot" id="pd2"></div>
         <div class="pin-dot" id="pd3"></div>
       </div>
-      <div class="login-error" id="error-pin">Code PIN incorrect. Réessayez.</div>
+      <div class="login-error" id="error-pin">Code PIN incorrect. RÃ©essayez.</div>
       <div class="numpad">
         <button class="numpad-btn" onclick="pinInput('1')">1<span class="sub"></span></button>
         <button class="numpad-btn" onclick="pinInput('2')">2<span class="sub">ABC</span></button>
@@ -311,7 +311,7 @@
         <button class="numpad-btn" onclick="pinInput('7')">7<span class="sub">PQRS</span></button>
         <button class="numpad-btn" onclick="pinInput('8')">8<span class="sub">TUV</span></button>
         <button class="numpad-btn" onclick="pinInput('9')">9<span class="sub">WXYZ</span></button>
-        <button class="numpad-btn" onclick="retourID()" style="font-size:12px;color:var(--blue-700)">←<br>Retour</button>
+        <button class="numpad-btn" onclick="retourID()" style="font-size:12px;color:var(--blue-700)">â<br>Retour</button>
         <button class="numpad-btn" onclick="pinInput('0')">0</button>
         <button class="numpad-btn del" onclick="pinSuppr()">
           <svg viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
@@ -327,7 +327,7 @@
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
   </div>
   <div class="splash-name">NITA Pointage</div>
-  <div class="splash-sub">Transfert d'Argent · Togo</div>
+  <div class="splash-sub">Transfert d'Argent Â· Togo</div>
   <div class="splash-spinner"></div>
 </div>
 
@@ -339,7 +339,7 @@
     </div>
     <div>
       <div class="topbar-title">NITA Pointage</div>
-      <div class="topbar-sub" id="topbar-sub">Agent terrain · Lomé</div>
+      <div class="topbar-sub" id="topbar-sub">Agent terrain Â· LomÃ©</div>
     </div>
   </div>
   <div class="topbar-date" id="topbar-date"></div>
@@ -351,47 +351,47 @@
     <div class="agent-card-header">
       <div class="agent-avatar" id="agent-avatar">--</div>
       <div>
-        <div class="agent-card-name" id="agent-name">—</div>
-        <div class="agent-card-role" id="agent-role">—</div>
+        <div class="agent-card-name" id="agent-name">â</div>
+        <div class="agent-card-role" id="agent-role">â</div>
       </div>
     </div>
     <div class="agent-card-body">
       <div class="info-row">
         <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div>
-          <div class="info-label">Agence assignée</div>
-          <div class="info-value" id="agent-agency">—</div>
+          <div class="info-label">Agence assignÃ©e</div>
+          <div class="info-value" id="agent-agency">â</div>
         </div>
       </div>
       <div class="info-row">
         <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
         <div>
           <div class="info-label">Date du jour</div>
-          <div class="info-value" id="today-date">—</div>
+          <div class="info-value" id="today-date">â</div>
         </div>
       </div>
       <div class="info-row">
         <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <div class="info-label">Heure d'ouverture</div>
-          <div class="info-value" id="agent-horaire">07h00 – 17h30</div>
+          <div class="info-value" id="agent-horaire">07h00 â 17h30</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="distance-banner" class="distance-banner hors-perimetre"><span>📡 Localisation en cours…</span></div>
+  <div id="distance-banner" class="distance-banner hors-perimetre"><span>ð¡ Localisation en coursâ¦</span></div>
 
   <div id="status-banner" class="status-banner not-done">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    <span id="status-text">Pointage d'entrée non effectué</span>
+    <span id="status-text">Pointage d'entrÃ©e non effectuÃ©</span>
   </div>
 
   <div class="gps-card">
     <div class="gps-dot acquiring" id="gps-dot"></div>
     <div class="gps-text">
       <div class="gps-label">Localisation GPS</div>
-      <div class="gps-value" id="gps-value">Acquisition en cours…</div>
+      <div class="gps-value" id="gps-value">Acquisition en coursâ¦</div>
       <div class="gps-accuracy" id="gps-accuracy"></div>
     </div>
     <svg id="gps-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gray-200)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 2"/><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/></svg>
@@ -400,7 +400,7 @@
   <div class="pointage-section">
     <button class="btn-pointage" id="btn-entree" onclick="openModal('entree')">
       <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-      Pointer l'entrée
+      Pointer l'entrÃ©e
     </button>
     <button class="btn-secondary" id="btn-sortie" onclick="openModal('sortie')" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -420,7 +420,7 @@
     </div>
   </div>
   <div class="stats-row">
-    <div class="stat-mini"><div class="stat-mini-val" style="color:var(--green-600)">17</div><div class="stat-mini-lbl">Présences</div></div>
+    <div class="stat-mini"><div class="stat-mini-val" style="color:var(--green-600)">17</div><div class="stat-mini-lbl">PrÃ©sences</div></div>
     <div class="stat-mini"><div class="stat-mini-val" style="color:var(--amber-600)">2</div><div class="stat-mini-lbl">Retards</div></div>
     <div class="stat-mini"><div class="stat-mini-val" style="color:var(--red-600)">1</div><div class="stat-mini-lbl">Absences</div></div>
   </div>
@@ -441,9 +441,9 @@
 <div id="page-profile" class="page">
   <div class="profile-hero">
     <div class="profile-avatar" id="profile-avatar">--</div>
-    <div class="profile-name" id="profile-name">—</div>
-    <div class="profile-role" id="profile-role">—</div>
-    <div class="profile-id" id="profile-id">ID Agent : —</div>
+    <div class="profile-name" id="profile-name">â</div>
+    <div class="profile-role" id="profile-role">â</div>
+    <div class="profile-id" id="profile-id">ID Agent : â</div>
   </div>
   <div class="profile-section">
     <div class="section-title" style="padding:0 0 8px">Informations</div>
@@ -454,7 +454,7 @@
         </div>
         <div>
           <div class="profile-row-label">Nom complet</div>
-          <div class="profile-row-value" id="profile-nom-complet">—</div>
+          <div class="profile-row-value" id="profile-nom-complet">â</div>
         </div>
       </div>
       <div class="profile-row">
@@ -463,7 +463,7 @@
         </div>
         <div>
           <div class="profile-row-label">Agence</div>
-          <div class="profile-row-value" id="profile-agence">—</div>
+          <div class="profile-row-value" id="profile-agence">â</div>
         </div>
       </div>
       <div class="profile-row">
@@ -472,7 +472,7 @@
         </div>
         <div>
           <div class="profile-row-label">Horaires</div>
-          <div class="profile-row-value" id="profile-horaire">07h00 – 17h30</div>
+          <div class="profile-row-value" id="profile-horaire">07h00 â 17h30</div>
         </div>
       </div>
       <div class="profile-row">
@@ -487,11 +487,11 @@
     </div>
   </div>
   <div class="profile-section">
-    <div class="section-title" style="padding:0 0 8px" data-perf>Performance — juin 2026</div>
+    <div class="section-title" style="padding:0 0 8px" data-perf>Performance â juin 2026</div>
     <div class="profile-card" style="padding:14px">
       <div class="performance-bars">
-        <div class="perf-row"><div class="perf-label">Ponctualité</div><div class="perf-track"><div class="perf-bar" style="width:89%;background:var(--green-600)"></div></div><div class="perf-val">89%</div></div>
-        <div class="perf-row"><div class="perf-label">Présence</div><div class="perf-track"><div class="perf-bar" style="width:95%;background:var(--blue-600)"></div></div><div class="perf-val">95%</div></div>
+        <div class="perf-row"><div class="perf-label">PonctualitÃ©</div><div class="perf-track"><div class="perf-bar" style="width:89%;background:var(--green-600)"></div></div><div class="perf-val">89%</div></div>
+        <div class="perf-row"><div class="perf-label">PrÃ©sence</div><div class="perf-track"><div class="perf-bar" style="width:95%;background:var(--blue-600)"></div></div><div class="perf-val">95%</div></div>
         <div class="perf-row"><div class="perf-label">Transactions</div><div class="perf-track"><div class="perf-bar" style="width:76%;background:var(--amber-600)"></div></div><div class="perf-val">76%</div></div>
       </div>
     </div>
@@ -499,7 +499,7 @@
   <div class="profile-section">
     <button class="btn-logout" onclick="deconnecter()">
       <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Se déconnecter
+      Se dÃ©connecter
     </button>
   </div>
 </div>
@@ -540,12 +540,12 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── AGENTS DB — PINs stockés en SHA-256(sel+pin), jamais en clair ──
-// Pour changer le PIN d'un agent, générer le hash dans un terminal :
+// ââ AGENTS DB â PINs stockÃ©s en SHA-256(sel+pin), jamais en clair ââ
+// Pour changer le PIN d'un agent, gÃ©nÃ©rer le hash dans un terminal :
 //   Linux/Mac : echo -n "NITA2026NOUVEAUPIN" | sha256sum
 //   Windows   : echo -n "NITA2026NOUVEAUPIN" | sha256sum  (Git Bash)
-// Remplacer ensuite la valeur pinHash de l'agent concerné.
-// Exemple — PIN 1234 : echo -n "NITA20261234" | sha256sum
+// Remplacer ensuite la valeur pinHash de l'agent concernÃ©.
+// Exemple â PIN 1234 : echo -n "NITA20261234" | sha256sum
 const PIN_SALT = 'NITA2026';
 
 async function hashPin(pin) {
@@ -572,9 +572,9 @@ const AGENTS_DB = {
   'NTG015': { nom: 'Saidou Jada Alio',              agence: 'Agence Nikafou',                poste: 'Agent',          pinHash: '2cda2f7609cbbd34a92bc6fe5d27e5ed92f99bbbcc13848514b14d2d82e2f805', initiales: 'SJ' },
   'NTG016': { nom: 'Mamoudou Fatima',               agence: 'Agence Hollando',               poste: 'Agent',          pinHash: '74cc57c5ae91696242a76cf0cb0adb69d6889d258ab8a215b16de25f489ed9f4', initiales: 'MF' },
   'NTG017': { nom: 'Abdoul Malik Bawada',           agence: 'Agence Hollando',               poste: "Chef d'agence",  pinHash: '4252f1fea6f3ef5e5a9bd874f54d73e9cb00fe1369cc08c43599726942894388', initiales: 'AM' },
-  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pinHash: '052bfc650ebe6f0d6f80c4b09f1399fbc6daf2216bb1da7049fc2c30b324e86f', initiales: 'AS' },
-  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand Marché (Assigamé)', poste: 'Agent',         pinHash: 'fcd4ecbb5e0df52d77e1698a85ddad3e4a87a50b62533cdb73a79e972e311a3a', initiales: 'AA' },
-  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand Marché (Assigamé)', poste: "Chef d'agence", pinHash: '4747e6be63d262ce099faa7f6ac8be7d50aac5017178a2e4e6409fa8c3b27a28', initiales: 'TA' },
+  'NTG018': { nom: 'Angoh Soumaila Aliou',          agence: 'Agence Grand MarchÃ© (AssigamÃ©)', poste: 'Agent',         pinHash: '052bfc650ebe6f0d6f80c4b09f1399fbc6daf2216bb1da7049fc2c30b324e86f', initiales: 'AS' },
+  'NTG019': { nom: 'Abdourahmane Amadou Seydou',    agence: 'Agence Grand MarchÃ© (AssigamÃ©)', poste: 'Agent',         pinHash: 'fcd4ecbb5e0df52d77e1698a85ddad3e4a87a50b62533cdb73a79e972e311a3a', initiales: 'AA' },
+  'NTG020': { nom: 'Tilate Abdourazak',             agence: 'Agence Grand MarchÃ© (AssigamÃ©)', poste: "Chef d'agence", pinHash: '4747e6be63d262ce099faa7f6ac8be7d50aac5017178a2e4e6409fa8c3b27a28', initiales: 'TA' },
   'NTG021': { nom: 'Alio Mariam',                   agence: 'Agence Ramco',                  poste: 'Agent',          pinHash: '76b21cae3190c704f1885df031feaad149f322c9fc77c62fe605ab21fac0a280', initiales: 'AL' },
   'NTG022': { nom: 'Herve Palabe',                  agence: 'Agence Akodessewa',             poste: "Chef d'agence",  pinHash: '4c8e9e7e0b4d08598ac0c2e045d3e1c2f99a31b408778078ae607e61c4baa99d', initiales: 'HP' },
   'NTG023': { nom: 'Rachida',                       agence: 'Agence Akodessewa',             poste: 'Agent',          pinHash: '9e08ab86f169f3908e3ffdd106018765a21aaaeb9f029ebd8756e1173c251f4d', initiales: 'RC' },
@@ -591,41 +591,42 @@ const AGENTS_DB = {
   'NTG034': { nom: 'Abdoul Wahab Bassirou',         agence: 'Agence Aflao',                  poste: 'Agent',          pinHash: '7248da7ffc6be322892c10be792aa617a8616493e9e5d3b87897f6e0d561c732', initiales: 'AW' },
 };
 
-// ── AGENCES ──
+// ââ AGENCES ââ
 const AGENCES = {
-  'Agence RTV':                    { lat: 6.12857, lng: 1.23636, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Plage':                  { lat: 6.12790, lng: 1.23627, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Nikafou':                { lat: 6.15982, lng: 1.23389, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Zongo 2':                { lat: 6.25389, lng: 1.21175, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Agoe Nyive':             { lat: 6.22585, lng: 1.20443, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Adetikope':              { lat: 6.32092, lng: 1.21753, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence EMA':                    { lat: 6.13281, lng: 1.23396, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Aflao':                  { lat: 6.11314, lng: 1.19662, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Hedzranawoe':            { lat: 6.18519, lng: 1.24163, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence 3STV':                   { lat: 6.13385, lng: 1.22448, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Hollando':               { lat: 6.12541, lng: 1.22938, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Atakpame':               { lat: 7.52605, lng: 1.12851, rayon: 200, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Zongo 1':                { lat: 6.25281, lng: 1.20871, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Dim (7j/7)' },
-  'Agence Grand Marché (Assigamé)':{ lat: 6.12577, lng: 1.22369, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Akodessewa':             { lat: 6.15464, lng: 1.26737, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Zoro Bar':               { lat: 6.16218, lng: 1.28402, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Ganame':                 { lat: 6.15988, lng: 1.19567, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence STM':                    { lat: 6.13272, lng: 1.24578, rayon: 150, horaire: '24h/24 (rotation 07h–17h30 / 17h30–07h30)', jours: 'Lun – Dim (7j/7)' },
-  'Agence Ramco':                  { lat: 6.15183, lng: 1.21790, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Adidogome':              { lat: 6.20053, lng: 1.14836, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Dekon 1':                { lat: 6.14200, lng: 1.22100, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
-  'Agence Dekon 2':                { lat: 6.14500, lng: 1.22300, rayon: 150, horaire: '07h00 – 17h30', jours: 'Lun – Sam' },
+  'Agence RTV':                    { lat: 6.12857, lng: 1.23636, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Plage':                  { lat: 6.12790, lng: 1.23627, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Nikafou':                { lat: 6.15982, lng: 1.23389, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Zongo 2':                { lat: 6.25389, lng: 1.21175, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Agoe Nyive':             { lat: 6.22585, lng: 1.20443, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Adetikope':              { lat: 6.32092, lng: 1.21753, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence EMA':                    { lat: 6.13281, lng: 1.23396, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Aflao':                  { lat: 6.11314, lng: 1.19662, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Hedzranawoe':            { lat: 6.18519, lng: 1.24163, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence 3STV':                   { lat: 6.13385, lng: 1.22448, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Hollando':               { lat: 6.12541, lng: 1.22938, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Atakpame':               { lat: 7.52605, lng: 1.12851, rayon: 200, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Zongo 1':                { lat: 6.25281, lng: 1.20871, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Dim (7j/7)' },
+  'Agence Grand MarchÃ© (AssigamÃ©)':{ lat: 6.12577, lng: 1.22369, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Akodessewa':             { lat: 6.15464, lng: 1.26737, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Zoro Bar':               { lat: 6.16218, lng: 1.28402, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Ganame':                 { lat: 6.15988, lng: 1.19567, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence STM':                    { lat: 6.13272, lng: 1.24578, rayon: 150, horaire: '24h/24 (rotation 07hâ17h30 / 17h30â07h30)', jours: 'Lun â Dim (7j/7)' },
+  'Agence Ramco':                  { lat: 6.15183, lng: 1.21790, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Adidogome':              { lat: 6.20053, lng: 1.14836, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Dekon 1':                { lat: 6.14200, lng: 1.22100, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
+  'Agence Dekon 2':                { lat: 6.14500, lng: 1.22300, rayon: 150, horaire: '07h00 â 17h30', jours: 'Lun â Sam' },
 };
 
-// ── ÉTAT ──
+// ââ ÃTAT ââ
 const state = {
   entree: null, sortie: null,
   gpsLat: null, gpsLng: null, gpsAccuracy: null,
   currentModal: null,
   agentNom: '', agenceNom: '', distanceAgence: null,
+  forcageActif: false,
 };
 
-// ── CALCUL DISTANCE ──
+// ââ CALCUL DISTANCE ââ
 function calculerDistance(lat1, lng1, lat2, lng2) {
   const R = 6371000;
   const dLat = (lat2-lat1)*Math.PI/180;
@@ -649,27 +650,28 @@ function updateDistanceBanner() {
   if (!banner) return;
   if (statut.dansPerimetre) {
     banner.className = 'distance-banner dans-perimetre';
-    banner.innerHTML = '<span>📍 Dans le périmètre de votre agence (' + statut.distance + ' m)</span>';
+    banner.innerHTML = '<span>ð Dans le pÃ©rimÃ¨tre de votre agence (' + statut.distance + ' m)</span>';
     document.getElementById('btn-entree').disabled = false;
   } else {
     banner.className = 'distance-banner hors-perimetre';
     banner.innerHTML =
-      '<span>⚠ Vous êtes à <strong>' + statut.distance + ' m</strong> de votre agence.<br>Rapprochez-vous ou forcez le pointage hors zone.</span>' +
+      '<span>â  Vous Ãªtes Ã  <strong>' + statut.distance + ' m</strong> de votre agence.<br>Rapprochez-vous ou forcez le pointage hors zone.</span>' +
       '<button class="btn-forcer" onclick="forcerPointage()">Forcer</button>';
   }
 }
 
 function forcerPointage() {
-  showToast('Pointage hors périmètre autorisé');
+  showToast('Pointage hors pÃ©rimÃ¨tre autorisÃ©');
+  state.forcageActif = true;
   document.getElementById('btn-entree').disabled = false;
   const banner = document.getElementById('distance-banner');
   if (banner) {
     banner.className = 'distance-banner hors-perimetre-force';
-    banner.innerHTML = '<span>⚠ Pointage hors zone autorisé — ' + state.distanceAgence + " m de l'agence</span>";
+    banner.innerHTML = '<span>â  Pointage hors zone autorisÃ© â ' + state.distanceAgence + " m de l'agence</span>";
   }
 }
 
-// ── LOGIN ──
+// ââ LOGIN ââ
 let pinCurrent = '';
 let loginAgent = null;
 
@@ -705,7 +707,7 @@ function updatePinDots() {
   for (let i = 0; i < 4; i++) {
     const dot = document.getElementById('pd' + i);
     if (i < pinCurrent.length) {
-      dot.textContent = '●'; dot.classList.add('filled'); dot.classList.remove('active');
+      dot.textContent = 'â'; dot.classList.add('filled'); dot.classList.remove('active');
     } else {
       dot.textContent = ''; dot.classList.remove('filled');
       dot.classList.toggle('active', i === pinCurrent.length);
@@ -721,7 +723,7 @@ async function validerPIN() {
     setTimeout(() => document.getElementById('error-pin').style.display = 'none', 2500);
     return;
   }
-  // Connexion réussie — mettre à jour tout l'UI
+  // Connexion rÃ©ussie â mettre Ã  jour tout l'UI
   appliquerSession({
     id: loginAgent.id,
     nom: loginAgent.nom,
@@ -744,11 +746,11 @@ function appliquerSession(s) {
   ['agent-avatar','profile-avatar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.initiales; });
   // Nom
   ['agent-name','profile-name','profile-nom-complet'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.nom; });
-  // Rôle
+  // RÃ´le
   const el = document.getElementById('agent-role');
-  if (el) el.textContent = s.poste + ' · NITA';
+  if (el) el.textContent = s.poste + ' Â· NITA';
   const pr = document.getElementById('profile-role');
-  if (pr) pr.textContent = s.poste + ' · ' + s.agence;
+  if (pr) pr.textContent = s.poste + ' Â· ' + s.agence;
   // Agence
   ['agent-agency','profile-agence'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=s.agence; });
   // ID
@@ -759,15 +761,15 @@ function appliquerSession(s) {
   if (ts) ts.textContent = s.agence;
   // Horaire dynamique selon agence
   const agenceData = AGENCES[s.agence];
-  const horaireStr = agenceData ? agenceData.horaire : '07h00 – 17h30';
-  const joursStr = agenceData ? agenceData.jours : 'Lun – Sam';
+  const horaireStr = agenceData ? agenceData.horaire : '07h00 â 17h30';
+  const joursStr = agenceData ? agenceData.jours : 'Lun â Sam';
   const elHoraire = document.getElementById('agent-horaire');
   if (elHoraire) elHoraire.textContent = horaireStr;
   const elProfHoraire = document.getElementById('profile-horaire');
   if (elProfHoraire) elProfHoraire.textContent = horaireStr;
-  // Mettre à jour bannière distance
+  // Mettre Ã  jour banniÃ¨re distance
   updateDistanceBanner();
-  // Charger données réelles calendrier, historique et performance
+  // Charger donnÃ©es rÃ©elles calendrier, historique et performance
   setTimeout(() => {
     chargerDonneesCalendrier();
     chargerHistorique();
@@ -795,8 +797,8 @@ function deconnecter() {
   document.getElementById('btn-sortie').style.display = 'none';
   const banner = document.getElementById('status-banner');
   banner.className = 'status-banner not-done';
-  document.getElementById('status-text').textContent = 'Pointage d\'entrée non effectué';
-  showToast('Déconnexion effectuée');
+  document.getElementById('status-text').textContent = 'Pointage d\'entrÃ©e non effectuÃ©';
+  showToast('DÃ©connexion effectuÃ©e');
 }
 
 function checkSession() {
@@ -809,7 +811,7 @@ function checkSession() {
   }
 }
 
-// ── INIT ──
+// ââ INIT ââ
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').classList.add('hidden');
@@ -820,7 +822,7 @@ window.addEventListener('load', () => {
   }, 1800);
 });
 
-// ── DATE / TIME ──
+// ââ DATE / TIME ââ
 function renderDate() {
   const now = new Date();
   const opts = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
@@ -832,7 +834,7 @@ function renderDate() {
   setTimeout(renderDate, 10000);
 }
 
-// ── GPS ──
+// ââ GPS ââ
 function initGPS() {
   if (!navigator.geolocation) { setGPS('error','GPS non disponible',''); return; }
   navigator.geolocation.watchPosition(
@@ -840,10 +842,10 @@ function initGPS() {
       state.gpsLat = pos.coords.latitude.toFixed(5);
       state.gpsLng = pos.coords.longitude.toFixed(5);
       state.gpsAccuracy = Math.round(pos.coords.accuracy);
-      setGPS('ok', state.gpsLat+'°N, '+state.gpsLng+'°E', 'Précision : ±'+state.gpsAccuracy+' m');
+      setGPS('ok', state.gpsLat+'Â°N, '+state.gpsLng+'Â°E', 'PrÃ©cision : Â±'+state.gpsAccuracy+' m');
       updateDistanceBanner();
     },
-    () => setGPS('error','Accès GPS refusé','Autoriser la localisation'),
+    () => setGPS('error','AccÃ¨s GPS refusÃ©','Autoriser la localisation'),
     { enableHighAccuracy: true, timeout: 10000 }
   );
 }
@@ -854,7 +856,7 @@ function setGPS(status, value, accuracy) {
   document.getElementById('gps-accuracy').textContent = accuracy;
 }
 
-// ── NAVIGATION ──
+// ââ NAVIGATION ââ
 function goPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
@@ -864,20 +866,20 @@ function goPage(name, btn) {
   if (name === 'profile')  calculerPerformance();
 }
 
-// ── MODAL POINTAGE ──
+// ââ MODAL POINTAGE ââ
 function openModal(type) {
   state.currentModal = type;
   const now = new Date();
   const timeStr = now.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
   const agenceInfo = AGENCES[state.agenceNom];
   const isLate = type === 'entree' && (now.getHours() > 7 || (now.getHours() === 7 && now.getMinutes() > 0));
-  const label = type === 'entree' ? 'Entrée' : 'Sortie';
-  const coords = state.gpsLat ? state.gpsLat+'°N, '+state.gpsLng+'°E' : 'GPS non disponible';
-  const agenceLabel = state.agenceNom || '—';
+  const label = type === 'entree' ? 'EntrÃ©e' : 'Sortie';
+  const coords = state.gpsLat ? state.gpsLat+'Â°N, '+state.gpsLng+'Â°E' : 'GPS non disponible';
+  const agenceLabel = state.agenceNom || 'â';
 
   document.getElementById('modal-content-pointage').innerHTML = `
     <div class="modal-title">Confirmer le pointage</div>
-    <div class="modal-sub">${label} · ${now.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'})}</div>
+    <div class="modal-sub">${label} Â· ${now.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'})}</div>
     <div class="modal-gps-map">
       <div class="map-circle" style="width:120px;height:120px;background:var(--blue-100);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
       <div class="map-circle" style="width:60px;height:60px;background:var(--blue-200);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
@@ -889,11 +891,11 @@ function openModal(type) {
     </div>
     <div class="modal-confirm-row">
       <div class="modal-confirm-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
-      <div><div class="modal-confirm-label">Coordonnées GPS</div><div class="modal-confirm-value">${coords} · ±${state.gpsAccuracy||'—'}m</div></div>
+      <div><div class="modal-confirm-label">CoordonnÃ©es GPS</div><div class="modal-confirm-value">${coords} Â· Â±${state.gpsAccuracy||'â'}m</div></div>
     </div>
     <div class="modal-note">
-      <strong>${agenceLabel}</strong> — Votre position sera enregistrée et transmise au superviseur.
-      ${isLate ? '<br><span style="color:var(--amber-800)">⚠ Pointage après 07h00, un retard sera signalé.</span>' : ''}
+      <strong>${agenceLabel}</strong> â Votre position sera enregistrÃ©e et transmise au superviseur.
+      ${isLate ? '<br><span style="color:var(--amber-800)">â  Pointage aprÃ¨s 07h00, un retard sera signalÃ©.</span>' : ''}
     </div>
     <button class="btn-confirm" onclick="confirmerPointage('${type}','${timeStr}')">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -907,19 +909,20 @@ function openModal(type) {
 const API_URL = "https://nita-togo.app.n8n.cloud/webhook/nita-pointage";
 
 async function confirmerPointage(type, timeStr) {
+  if (!state.agentNom) { try { const _s = JSON.parse(localStorage.getItem('nita_session') || 'null'); if (_s) { state.agentNom = _s.nom || ''; state.agenceNom = _s.agence || ''; } } catch(e) {} }
   closeModal('modal-pointage');
   state[type] = timeStr;
   if (type === 'entree') {
     const banner = document.getElementById('status-banner');
     banner.className = 'status-banner done';
-    document.getElementById('status-text').textContent = 'Entrée pointée à ' + timeStr;
+    document.getElementById('status-text').textContent = 'EntrÃ©e pointÃ©e Ã  ' + timeStr;
     banner.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
     document.getElementById('btn-entree').style.display = 'none';
     document.getElementById('btn-sortie').style.display = 'flex';
   } else {
     const banner = document.getElementById('status-banner');
     banner.className = 'status-banner done';
-    document.getElementById('status-text').textContent = 'Journée complète : ' + state.entree + ' → ' + state.sortie;
+    document.getElementById('status-text').textContent = 'JournÃ©e complÃ¨te : ' + state.entree + ' â ' + state.sortie;
     document.getElementById('btn-sortie').style.display = 'none';
   }
   const now = new Date();
@@ -927,24 +930,26 @@ async function confirmerPointage(type, timeStr) {
     date: now.toLocaleDateString('fr-FR'),
     agent: state.agentNom,
     agence: state.agenceNom,
-    type: type === 'entree' ? 'Entrée' : 'Sortie',
+    type: type === 'entree' ? 'EntrÃ©e' : 'Sortie',
     heure: timeStr,
     lat: state.gpsLat || '',
     lng: state.gpsLng || '',
     precision: state.gpsAccuracy || '',
     statut: type === 'entree' ? (now.getHours() > 7 || (now.getHours()===7 && now.getMinutes()>0) ? 'Retard' : 'A l\'heure') : 'Sortie normale',
     distance_agence: state.distanceAgence ? state.distanceAgence + ' m' : 'N/A',
+    mode_pointage: state.forcageActif ? 'Forcé' : 'Normal',
     dans_perimetre: getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A'
   };
   try {
     await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-    showToast('✓ Pointage synchronisé avec Google Sheets');
+    showToast('â Pointage synchronisÃ© avec Google Sheets');
   } catch(err) {
     const queue = JSON.parse(localStorage.getItem('nita_queue') || '[]');
     queue.push(payload);
     localStorage.setItem('nita_queue', JSON.stringify(queue));
-    showToast('Hors ligne — pointage mis en file d\'attente');
+    showToast('Hors ligne â pointage mis en file d\'attente');
   }
+  state.forcageActif = false;
   showSuccess(type, timeStr);
 }
 
@@ -956,22 +961,22 @@ window.addEventListener('online', async () => {
     catch(e) { return; }
   }
   localStorage.removeItem('nita_queue');
-  showToast('✓ ' + queue.length + ' pointage(s) synchronisé(s)');
+  showToast('â ' + queue.length + ' pointage(s) synchronisÃ©(s)');
 });
 
 function showSuccess(type, timeStr) {
-  const label = type === 'entree' ? 'Entrée' : 'Sortie';
+  const label = type === 'entree' ? 'EntrÃ©e' : 'Sortie';
   const statut = getStatutPerimetre();
   document.getElementById('modal-content-success').innerHTML = `
     <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <div class="success-title">Pointage enregistré !</div>
-    <div class="success-sub">Votre ${label.toLowerCase()} a été transmise au superviseur.</div>
+    <div class="success-title">Pointage enregistrÃ© !</div>
+    <div class="success-sub">Votre ${label.toLowerCase()} a Ã©tÃ© transmise au superviseur.</div>
     <div class="success-detail">
       <div class="success-row"><span class="key">Type</span><span class="val">Pointage ${label}</span></div>
       <div class="success-row"><span class="key">Heure</span><span class="val">${timeStr}</span></div>
       <div class="success-row"><span class="key">Agence</span><span class="val">${state.agenceNom}</span></div>
-      <div class="success-row"><span class="key">GPS</span><span class="val">${state.gpsLat||'—'}°N · ±${state.gpsAccuracy||'—'}m</span></div>
-      <div class="success-row"><span class="key">Statut</span><span class="val" style="color:var(--green-600)">${statut && statut.dansPerimetre ? '✓ Dans le périmètre' : '⚠ Hors périmètre'}</span></div>
+      <div class="success-row"><span class="key">GPS</span><span class="val">${state.gpsLat||'â'}Â°N Â· Â±${state.gpsAccuracy||'â'}m</span></div>
+      <div class="success-row"><span class="key">Statut</span><span class="val" style="color:var(--green-600)">${statut && statut.dansPerimetre ? 'â Dans le pÃ©rimÃ¨tre' : 'â  Hors pÃ©rimÃ¨tre'}</span></div>
     </div>
     <button class="btn-confirm" onclick="closeModal('modal-success')">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -983,8 +988,8 @@ function showSuccess(type, timeStr) {
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ── CALENDRIER RÉEL ──
-const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+// ââ CALENDRIER RÃEL ââ
+const months = ['Janvier','FÃ©vrier','Mars','Avril','Mai','Juin','Juillet','AoÃ»t','Septembre','Octobre','Novembre','DÃ©cembre'];
 let viewMonth = new Date().getMonth();
 let viewYear  = new Date().getFullYear();
 let calData   = {};
@@ -1056,7 +1061,7 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
-// ── PERFORMANCE CALCULÉE RÉELLE ──
+// ââ PERFORMANCE CALCULÃE RÃELLE ââ
 async function calculerPerformance() {
   if (!state.agentNom) return;
   try {
@@ -1104,18 +1109,18 @@ async function calculerPerformance() {
       vals[2].textContent = tauxTrans + '%';
     }
     const titrePerf = document.querySelector('[data-perf]');
-    if (titrePerf) titrePerf.textContent = 'Performance — ' + months[now.getMonth()] + ' ' + now.getFullYear();
+    if (titrePerf) titrePerf.textContent = 'Performance â ' + months[now.getMonth()] + ' ' + now.getFullYear();
   } catch(e) { console.error('Erreur performance:', e); }
 }
 
-// ── HISTORIQUE RÉEL DEPUIS GOOGLE SHEETS ──
-const badgeTxt = {present:'Présent', retard:'En retard', absent:'Absent'};
+// ââ HISTORIQUE RÃEL DEPUIS GOOGLE SHEETS ââ
+const badgeTxt = {present:'PrÃ©sent', retard:'En retard', absent:'Absent'};
 const badgeCls = {present:'badge-ok', retard:'badge-late', absent:'badge-absent'};
 
 async function chargerHistorique() {
   const listEl = document.getElementById('history-list');
   if (!listEl) return;
-  listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">⏳ Chargement…</div>';
+  listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">â³ Chargementâ¦</div>';
   if (!state.agentNom) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray-400);font-size:13px">Connectez-vous pour voir votre historique.</div>'; return; }
   try {
     const url  = 'https://docs.google.com/spreadsheets/d/' + SHEETS_ID + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(SHEET_NAME);
@@ -1128,7 +1133,7 @@ async function chargerHistorique() {
       .map(r => r.c.map(c => c ? (c.f || c.v || '') : ''))
       .filter(r => r[1] && r[1].toString().trim().toLowerCase() === agentNom.trim().toLowerCase());
     if (lignes.length === 0) {
-      listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">Aucun pointage enregistré.</div>';
+      listEl.innerHTML = '<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:13px">Aucun pointage enregistrÃ©.</div>';
       return;
     }
     const parDate = {};
@@ -1137,16 +1142,16 @@ async function chargerHistorique() {
       const type   = r[3];
       const heure  = r[4];
       const statut = r[8];
-      if (!parDate[date]) parDate[date] = { date, entree:'—', sortie:'—', statut: statut || '' };
-      if (type === 'Entrée' || type === 'Entree') { parDate[date].entree = heure; parDate[date].statut = statut; }
+      if (!parDate[date]) parDate[date] = { date, entree:'â', sortie:'â', statut: statut || '' };
+      if (type === 'EntrÃ©e' || type === 'Entree') { parDate[date].entree = heure; parDate[date].statut = statut; }
       if (type === 'Sortie') parDate[date].sortie = heure;
     });
-    const moisFr = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+    const moisFr = ['Jan','FÃ©v','Mar','Avr','Mai','Juin','Juil','AoÃ»','Sep','Oct','Nov','DÃ©c'];
     const jours  = Object.values(parDate).reverse().slice(0, 10);
     listEl.innerHTML = jours.map(j => {
       const parts   = j.date.split('/');
-      const day     = parts[0] || '—';
-      const mois    = parts[1] ? moisFr[parseInt(parts[1]) - 1] : '—';
+      const day     = parts[0] || 'â';
+      const mois    = parts[1] ? moisFr[parseInt(parts[1]) - 1] : 'â';
       const s       = (j.statut||'').toLowerCase();
       let statusKey = 'present';
       if (s.includes('retard')) statusKey = 'retard';
@@ -1154,7 +1159,7 @@ async function chargerHistorique() {
       return '<div class="history-item">' +
         '<div class="history-date-box"><div class="date-day">' + day + '</div><div class="date-month">' + mois + '</div></div>' +
         '<div class="history-detail"><div class="history-agency">' + state.agenceNom + '</div>' +
-        '<div class="history-times">Entrée ' + j.entree + ' · Sortie ' + j.sortie + '</div></div>' +
+        '<div class="history-times">EntrÃ©e ' + j.entree + ' Â· Sortie ' + j.sortie + '</div></div>' +
         '<span class="badge ' + badgeCls[statusKey] + '">' + badgeTxt[statusKey] + '</span>' +
         '</div>';
     }).join('');
@@ -1168,7 +1173,7 @@ async function chargerHistorique() {
     if (statsEls[1]) statsEls[1].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('retard')).length;
     if (statsEls[2]) statsEls[2].textContent = ce_mois.filter(j => (j.statut||'').toLowerCase().includes('absent')).length;
   } catch(err) {
-    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">⚠ Impossible de charger l'historique. Vérifiez votre connexion.</div>`;
+    listEl.innerHTML = `<div style="text-align:center;padding:24px;color:var(--red-800);font-size:13px">â  Impossible de charger l'historique. VÃ©rifiez votre connexion.</div>`;
     console.error('Erreur historique:', err);
   }
 }
@@ -1177,14 +1182,14 @@ function renderHistory() {
   chargerHistorique();
 }
 
-// ── TOAST ──
+// ââ TOAST ââ
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ── SERVICE WORKER ──
+// ââ SERVICE WORKER ââ
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script>
 <!-- Code injected by live-server -->
