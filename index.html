@@ -714,9 +714,6 @@ function updatePinDots() {
 async function validerPIN() {
   const hash = await hashPin(pinCurrent);
   if (hash !== loginAgent.pinHash) {
-async function validerPIN() {
-  const hash = await hashPin(pinCurrent);
-  if (hash !== loginAgent.pinHash) {
     document.getElementById('error-pin').style.display = 'block';
     pinCurrent = ''; updatePinDots();
     setTimeout(() => document.getElementById('error-pin').style.display = 'none', 2500);
