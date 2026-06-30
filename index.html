@@ -645,14 +645,21 @@ function updateDistanceBanner() {
   const banner = document.getElementById('distance-banner');
   if (!banner) return;
   if (statut.dansPerimetre) {
+    state.forcageActif = false;
     banner.className = 'distance-banner dans-perimetre';
     banner.innerHTML = '<span>📍 Dans le périmètre de votre agence (' + statut.distance + ' m)</span>';
+    document.getElementById('btn-entree').disabled = false;
+  } else if (state.forcageActif) {
+    // Ne pas écraser l'état forcé si l'agent a déjà cliqué "Forcer"
+    banner.className = 'distance-banner hors-perimetre-force';
+    banner.innerHTML = '<span>⚠ Pointage hors zone autorisé — ' + statut.distance + " m de l'agence</span>";
     document.getElementById('btn-entree').disabled = false;
   } else {
     banner.className = 'distance-banner hors-perimetre';
     banner.innerHTML =
       '<span>⚠ Vous êtes à <strong>' + statut.distance + ' m</strong> de votre agence.<br>Rapprochez-vous ou forcez le pointage hors zone.</span>' +
       '<button class="btn-forcer" onclick="forcerPointage()">Forcer</button>';
+    document.getElementById('btn-entree').disabled = true;
   }
 }
 
@@ -939,8 +946,12 @@ async function confirmerPointage(type, timeStr) {
     statut: type === 'entree' ? (now.getHours() > 7 || (now.getHours()===7 && now.getMinutes()>0) ? 'Retard' : 'A l\'heure') : 'Sortie normale',
     distance_agence: state.distanceAgence ? state.distanceAgence + ' m' : 'N/A',
     mode_pointage: state.forcageActif ? 'Forcé' : 'Normal',
-    dans_perimetre: getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A'
+    dans_perimetre: state.forcageActif ? 'Non - Hors zone (Forcé)' : (getStatutPerimetre() ? (getStatutPerimetre().dansPerimetre ? 'Oui' : 'Non - Hors zone') : 'N/A')
   };
+  if (!payload.agent || !payload.agence) {
+    showToast('Erreur : données agent manquantes. Reconnectez-vous.');
+    return;
+  }
   try {
     await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
     showToast('✓ Pointage synchronisé avec Google Sheets');

@@ -1,4 +1,4 @@
-const CACHE = 'nita-v4';
+const CACHE = 'nita-v5';
 const SHELL = [
   './',
   './index.html',
